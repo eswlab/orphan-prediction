@@ -1,5 +1,6 @@
 #!/bin/bash
-#SBATCH -J case2
+#SBATCH -J transcripts
+#SBATCH -A its-hpc-condo-las
 #SBATCH -N 4
 #SBATCH --ntasks=64
 #SBATCH -t 24:00:00
@@ -14,5 +15,5 @@ module unuse /shared/software/GIF/modules
 module purge
 module load GIF/maker
 module rm perl/5.22.1
-/work/GIF/software/programs/mpich2/3.2/bin/mpiexec -n 64 /work/GIF/software/programs/maker/2.31.9/bin/maker -base case2 -fix_nucleotides
-maker_process.sh case2
+/work/GIF/software/programs/mpich2/3.2/bin/mpiexec -n 64 /work/GIF/software/programs/maker/2.31.9/bin/maker -base case7 -fix_nucleotides
+maker_process.sh case7

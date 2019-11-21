@@ -15,4 +15,4 @@ module purge
 module load GIF/maker
 module rm perl/5.22.1
 /work/GIF/software/programs/mpich2/3.2/bin/mpiexec -n 64 /work/GIF/software/programs/maker/2.31.9/bin/maker -base case1 -fix_nucleotides
-
+maker_process.sh case1
