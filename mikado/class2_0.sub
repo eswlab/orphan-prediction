@@ -1,0 +1,17 @@
+#!/bin/bash
+#SBATCH -N 1
+#SBATCH --ntasks-per-node=16
+#SBATCH -t 96:00:00
+#SBATCH -J class2_0
+#SBATCH -o class2_0.o%j
+#SBATCH -e class2_0.e%j
+#SBATCH --mail-user=arnstrm@gmail.com
+#SBATCH --mail-type=begin
+#SBATCH --mail-type=end
+cd $SLURM_SUBMIT_DIR
+ulimit -s unlimited
+module use /work/GIF/software/modules
+module load GIF/class2
+module load GIF2/samtools
+run_class.pl -a merged_better_and_best.bam -o merged_better_and_best.gtf -p 16 --verbose
+scontrol show job $SLURM_JOB_ID

@@ -1,0 +1,15 @@
+#!/bin/bash
+#PBS -l nodes=1:ppn=16
+#PBS -l walltime=168:00:00
+#PBS -N TIL01_genemark
+#PBS -o ${PBS_JOBNAME}.o${PBS_JOBID} -e ${PBS_JOBNAME}.e${PBS_JOBID}
+#PBS -m ae -M arnstrm@gmail.com
+cd $PBS_O_WORKDIR
+ulimit -s unlimited
+chmod g+rw ${PBS_JOBNAME}.[eo]${PBS_JOBID}
+module use /shared/software/GIF/modules
+module load GeneMark-ES
+GENOME="TAIR10_all_chr.fasta"
+gmes_petap.pl --ES --cores 16 --sequence $GENOME
+ssh condo "qstat -f ${PBS_JOBID} | head"
+
