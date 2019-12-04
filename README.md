@@ -1,2 +1,31 @@
-# orphan-prediction
-methods for orphan gene prediction paper optimization
+# Gene Prediction methods and datasets used
+
+All prediction scenarios are listed below. Please follow the respective links to find methods for that prediction scenario.
+
+
+| Title                                       | DatasetName                         | transcripts                                     | proteins                              | shortname                       | LongName                                                                          |
+|---------------------------------------------|-------------------------------------|-------------------------------------------------|---------------------------------------|---------------------------------|-----------------------------------------------------------------------------------|
+| Araport11                                   | NA                                  | NA                                              | NA                                    | AP11                            | Current version of A. thaliana annotation                                         |
+| MAKER-case1                                 | pooled                              | RNAseq assembled                                |                                       | Pool                            | Maker pooled dataset (assembled transcripts only)                                 |
+| MAKER-case2                                 | pooled                              | RNAseq assembled                                | phytozome cloesly related spp         | Pool+Phy                        | Maker pooled dataset (transcripts  and phytozome proteins)                        |
+| MAKER-case3                                 | Araport11                           | CDS from araport11                              |                                       | Annotated transcripts           | Maker using ARAPORT 11 transcripts as evidence                                    |
+| MAKER-case4                                 | Araport11                           | CDS from araport11                              | peptide from araport11                | Annotated transcripts+prots     | Maker using ARAPORT 11 transcripts and proteins as evidence                       |
+| MAKER-case5                                 | small                               | RNAseq assembled                                | translated from assembled transcripts | small+tran                      | Maker small dataset (assembled transcripts and its translated proteins)           |
+| MAKER-case6                                 | Pooled                              | RNAseq assembled                                | translated from assembled transcripts | Pool+tran                       | Maker pooled dataset (assembled transcripts and its translated proteins)          |
+| MAKER-Orph38                                |                                     | RNAseq assembled                               | translated from assembled transcripts | Maker-Special38                 | Maker with 38 RNAseq libraries (assembled transcripts and translated proteins)    |
+| Braker-S                                    | small                               | RNAseq aligned to genome                        |                                       | small-raw                       | Braker small dataset (raw RNA-Seq)                                                |
+| Braker-M                                    | medium                              | RNAseq aligned to genome                        |                                       | med-raw                         | Braker Medium dataset (raw RNA-Seq)                                               |
+| Braker-L                                    | large                               | RNAseq aligned to genome                        |                                       | large-raw                       | Braker Large dataset (raw RNA-Seq)                                                |
+| Braker-X                                    | pooled                              | RNAseq aligned to genome                        |                                       | pooled-raw                      | Braker pooled dataset (raw RNA-Seq)                                               |
+| Braker-ap11                                 | Araport11                           | CDS from araport11                              |                                       | actual                          | Braker predictions using ARAPORT11 actual CDS sequences                           |
+| Braker-Orph38                               | Filtered SRA dataset (38 libraries) | RNAseq aligned to genome                        |                                       | Braker-Special38                | Braker with 38 RNAseq libraries (raw RNAseq)                                      |
+| Mikiado-Orph38                              |                                     | RNAseq assembled                                | ORF predicted and translated          | Inference-special38             | Mikado with 38 RNAseq libraries                                                   |
+| Mikado-pooled                               |                                     | assembled transcripts using multiple assemblers | ORF predicted and translated          | inference-pooled                | Mikado using pooled dataset                                                       |
+| OrphanEnriched (Braker+Mikado)              |                                     | assembled transcripts using multiple assemblers | ORF predicted and translated          | Inference-special+Braker-pooled | Mikad with 38 RNAseq libraries + polished with BRAKER orphan enriched predictions |
+| OrphanEnriched (Maker+Mikado)               |                                     | assembled transcripts using multiple assemblers | ORF predicted and translated          | Inference-special+Maker-pooled  | Mikad with 38 RNAseq libraries + polished with Maker orphan enriched predictions  |
+| Braker \w Pooled + Mikado \w OrphanEnriched |                                     | assembled transcripts using multiple assemblers | ORF predicted and translated          | Inference-special+Maker-pooled  | Mikad with 38 RNAseq libraries + polished with BRAKER pooled predictions          |
+
+
+
+
+# Downloading SRA datasets
