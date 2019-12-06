@@ -112,7 +112,28 @@ Transcriptome assemblies, transdecoder predicted ORFs, BLAST XML files, Portcull
 	- [`runClass2.sh`](scripts/runClass2.sh)
 	- [`runCufflinks.sh`](scripts/runCufflinks.sh)
 	- [`runStringtie.sh`](scripts/runStringtie.sh)
-3. TransDecoder: [`runTransDecoder.sh`](scripts/runTransDecoder.sh)
 4. GFF file for Trinity transcritps: [`runGMAP_on_Trinity-gg.sh`](scripts/runGMAP_on_Trinity-gg.sh)
-5. PortCullis: [`runPortCullis.sh](scripts/runPortCullis.sh)
+5. PortCullis: [`runPortCullis.sh`](scripts/runPortCullis.sh)
+6. After these files, you will run the Mikado program to consolidate transcritps/gff3 files (using [`runMikado.sh`](scripts/runMikado.sh)). The other scripts needed for this to run are:
+	- TransDecoder: [`runTransDecoder.sh`](scripts/runTransDecoder.sh)
+	- BLAST: [`runBLASTx.sh`](scripts/runBLASTx.sh)
+
+
+## Running Phylostratr
+
+For running phylostratR program, you need predicted proteins from your gene-prediction method (input). 
+Once you have the input, run the [`runPhylostrarRa.sh`](scripts/runPhylostratR.sh). This will download the datasets, but will not run BLAST.
+Run Blast using [`runBLASTp.sh`](scripts/runBLASTp.sh) and proceed with formatting the BLAST results using [`format-BLAST-for-phylostratr.sh`](scripts/format-BLAST-for-phylostratr.sh).
+After which run the [`runPhylostratRb.sh`](scripts/runPhylostratRb.sh).
+
+
+## Comparing Predictions:
+
+Predictions were compared to Arabidopsis Araport11 predictions using Mikado compare using the [`runMikadoCompare.sh`](scripts/runMikadoCompare.sh).
+
+
+
+
+
+
 
