@@ -71,29 +71,28 @@ All prediction scenarios are listed below. Please follow the respective links to
 | Braker \w Pooled + Mikado \w OrphanEnriched |                                     | assembled transcripts using multiple assemblers | ORF predicted and translated          | Inference-special+Maker-pooled  | Mikad with 38 RNAseq libraries + polished with BRAKER pooled predictions          |
 
 
-## Preparing files for predictions
 
+## Files for MAKER
 
 Both MAKER and MIKADO requires many files in order to run the predictions. Following methods were used for generating them:
 
 
-### Files for MAKER
-#### GeneMark
+### GeneMark
 
 GeneMark was trained using [`genemark.sub`](scripts/genemark.sub) script. The output file `gmhmm.mod` was used with MAKER predictions.
 
 
-#### Trintiy assembly:
+### Trintiy assembly:
 
-For RNAseq dataset with single-end reads only, [`runTrinityS.sh`](scripts/runTrinityS.sh) was used. For all the other reads, [`runTrinity.sh`](scripts/runTrinity.sh was used.
+For RNAseq dataset with single-end reads only, [`runTrinityS.sh`](scripts/runTrinityS.sh) was used. For all the other reads, [`runTrinity.sh`](scripts/runTrinity.sh) was used.
 The generated assemblies were used as EST evidence for running MAKER
 
-#### TransDecoder Predicted proteins
+### TransDecoder Predicted proteins
 
 The trinity generated assemblies were used for ORF prediction and for generating translated proteins form the predicted ORFs using [`runTransDecoder.sh`](scripts/runTransDecoder.sh)
 
 
-#### Predicted proteins from closely related spp
+### Predicted proteins from closely related spp
 
 These proteins were downloaded from Phytozome website, using Globus and were combined to make 2 datasets as described above. The files generated are:
 
@@ -101,4 +100,19 @@ These proteins were downloaded from Phytozome website, using Globus and were com
 proteins_phytozome_selected10.fa.gz
 proteins_phytozome_arab_2.fa.gz
 ```
+
+## Preparing files for Mikado
+
+Transcriptome assemblies, transdecoder predicted ORFs, BLAST XML files, Portcullis files are required for Mikado and were generated as follows:
+
+
+1. RNAseq mapping: [`runHisat2.sh`](scripts/runHisat2.sh)
+2. Transcriptome assemblies:
+	- [`runTrinity-gg.sh`](scripts/runTrinity-gg.sh)
+	- [`runClass2.sh`](scripts/runClass2.sh)
+	- [`runCufflinks.sh`](scripts/runCufflinks.sh)
+	- [`runStringtie.sh`](scripts/runStringtie.sh)
+3. TransDecoder: [`runTransDecoder.sh`](scripts/runTransDecoder.sh)
+4. GFF file for Trinity transcritps: [`runGMAP_on_Trinity-gg.sh`](scripts/runGMAP_on_Trinity-gg.sh)
+5. PortCullis: [`runPortCullis.sh](scripts/runPortCullis.sh)
 
