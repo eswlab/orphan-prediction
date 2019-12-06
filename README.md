@@ -1,7 +1,39 @@
-# Gene Prediction methods and datasets used
+# Orphan gene prediction and optimization
+
+## Downloading datasets
+
+### SRA datasets
+
+Scripts for downloading various datasets from NCBI-SRA/GEO
+
+* [script](scripts/fetch-small-dataset-from-ncbi.sh) to download small dataset.
+* [script](scripts/fetch-medium-dataset-from-ncbi.sh) to download medium dataset.
+* [script](scripts/fetch-large-dataset-from-ncbi.sh) to download large dataset.
+* [script](scripts/create-pooled-dataset.sh) to create pooled dataset.
+* [script](scripts/create-pooled-dataset.sh) to download orphan enriched dataset.
+
+### Genomes
+
+```bash
+wget https://www.arabidopsis.org/download_files/Genes/TAIR10_genome_release/TAIR10_chromosome_files/TAIR10_chr_all.fas
+```
+
+### Other files
+
+
+```bash
+#CDS
+wget https://www.arabidopsis.org/download_files/Genes/Araport11_genome_release/Araport11_blastsets/Araport11_genes.201606.cds.fasta.gz
+#cDNA
+wget https://www.arabidopsis.org/download_files/Genes/Araport11_genome_release/Araport11_blastsets/Araport11_genes.201606.cdna.fasta.gz
+
+```
+
+
+
+## Gene Prediction methods and datasets used
 
 All prediction scenarios are listed below. Please follow the respective links to find methods for that prediction scenario.
-
 
 | Title                                       | DatasetName                         | transcripts                                     | proteins                              | shortname                       | LongName                                                                          |
 |---------------------------------------------|-------------------------------------|-------------------------------------------------|---------------------------------------|---------------------------------|-----------------------------------------------------------------------------------|
@@ -26,6 +58,4 @@ All prediction scenarios are listed below. Please follow the respective links to
 | Braker \w Pooled + Mikado \w OrphanEnriched |                                     | assembled transcripts using multiple assemblers | ORF predicted and translated          | Inference-special+Maker-pooled  | Mikad with 38 RNAseq libraries + polished with BRAKER pooled predictions          |
 
 
-
-
-# Downloading SRA datasets
+## Comparing the predictions
