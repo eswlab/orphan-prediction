@@ -27,6 +27,19 @@ wget https://www.arabidopsis.org/download_files/Genes/Araport11_genome_release/A
 #cDNA
 wget https://www.arabidopsis.org/download_files/Genes/Araport11_genome_release/Araport11_blastsets/Araport11_genes.201606.cdna.fasta.gz
 
+# following protein datasets were downloaded from phytozome via Globus
+cat Athaliana_167_TAIR10.protein.fa.gz \
+	Alyrata_107_v1.0.protein.fa.gz >> proteins_phytozome_arab_2.fa.gz
+cat Creinhardtii_281_v5.5.protein.fa.gz \
+	Osativa_323_v7.0.protein.fa.gz \
+	Ppatens_318_v3.3.protein.fa.gz \
+	Cgrandiflora_266_v1.1.protein.fa.gz \
+	Sitalica_312_v2.2.protein.fa.gz \
+	BrapaFPsc_277_v1.3.protein.fa.gz \
+	Gmax_275_Wm82.a2.v1.protein.fa.gz \
+	Ptrichocarpa_210_v3.0.protein.fa.gz \
+	Alyrata_107_v1.0.protein.fa.gz \
+	Athaliana_167_TAIR10.protein.fa.gz >> proteins_phytozome_selected10.fa.gz
 ```
 
 
@@ -58,4 +71,34 @@ All prediction scenarios are listed below. Please follow the respective links to
 | Braker \w Pooled + Mikado \w OrphanEnriched |                                     | assembled transcripts using multiple assemblers | ORF predicted and translated          | Inference-special+Maker-pooled  | Mikad with 38 RNAseq libraries + polished with BRAKER pooled predictions          |
 
 
-## Comparing the predictions
+## Preparing files for predictions
+
+
+Both MAKER and MIKADO requires many files in order to run the predictions. Following methods were used for generating them:
+
+
+### Files for MAKER
+#### GeneMark
+
+GeneMark was trained using [`genemark.sub`](scripts/genemark.sub) script. The output file `gmhmm.mod` was used with MAKER predictions.
+
+
+#### Trintiy assembly:
+
+For RNAseq dataset with single-end reads only, [`runTrinityS.sh`](scripts/runTrinityS.sh) was used. For all the other reads, [`runTrinity.sh`](scripts/runTrinity.sh was used.
+The generated assemblies were used as EST evidence for running MAKER
+
+#### TransDecoder Predicted proteins
+
+The trinity generated assemblies were used for ORF prediction and for generating translated proteins form the predicted ORFs using [`runTransDecoder.sh`](scripts/runTransDecoder.sh)
+
+
+#### Predicted proteins from closely related spp
+
+These proteins were downloaded from Phytozome website, using Globus and were combined to make 2 datasets as described above. The files generated are:
+
+```
+proteins_phytozome_selected10.fa.gz
+proteins_phytozome_arab_2.fa.gz
+```
+
