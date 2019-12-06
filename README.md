@@ -64,8 +64,8 @@ All prediction scenarios are listed below. Please follow the respective links to
 | [Braker-X](braker-X/README.md)                                    | pooled                              | RNAseq aligned to genome                        |                                       | pooled-raw                      | Braker pooled dataset (raw RNA-Seq)                                               |
 | [Braker-ap11](braker-ap11/README.md)                                 | Araport11                           | CDS from araport11                              |                                       | actual                          | Braker predictions using ARAPORT11 actual CDS sequences                           |
 | [Braker-Orph38](braker-orph38/README.md)                               | Filtered SRA dataset (38 libraries) | RNAseq aligned to genome                        |                                       | Braker-Special38                | Braker with 38 RNAseq libraries (raw RNAseq)                                      |
-| [Mikiado-Orph38]()                              |                                     | RNAseq assembled                                | ORF predicted and translated          | Inference-special38             | Mikado with 38 RNAseq libraries                                                   |
-| [Mikado-pooled]()                               |                                     | assembled transcripts using multiple assemblers | ORF predicted and translated          | inference-pooled                | Mikado using pooled dataset                                                       |
+| [Mikiado-Orph38](mikado/README.md)                              |                                     | RNAseq assembled                                | ORF predicted and translated          | Inference-special38             | Mikado with 38 RNAseq libraries                                                   |
+| [Mikado-pooled](mikado/README.md)                               |                                     | assembled transcripts using multiple assemblers | ORF predicted and translated          | inference-pooled                | Mikado using pooled dataset                                                       |
 | OrphanEnriched (Braker+Mikado)              |                                     | assembled transcripts using multiple assemblers | ORF predicted and translated          | Inference-special+Braker-pooled | Mikad with 38 RNAseq libraries + polished with BRAKER orphan enriched predictions |
 | OrphanEnriched (Maker+Mikado)               |                                     | assembled transcripts using multiple assemblers | ORF predicted and translated          | Inference-special+Maker-pooled  | Mikad with 38 RNAseq libraries + polished with Maker orphan enriched predictions  |
 | Braker \w Pooled + Mikado \w OrphanEnriched |                                     | assembled transcripts using multiple assemblers | ORF predicted and translated          | Inference-special+Maker-pooled  | Mikad with 38 RNAseq libraries + polished with BRAKER pooled predictions          |
@@ -130,6 +130,11 @@ After which run the [`runPhylostratRb.sh`](scripts/runPhylostratRb.sh).
 ## Comparing Predictions:
 
 Predictions were compared to Arabidopsis Araport11 predictions using Mikado compare using the [`runMikadoCompare.sh`](scripts/runMikadoCompare.sh).
+
+## Plots
+
+scripts used for plots can be found [here](plots_publication/README.md)
+
 
 
 

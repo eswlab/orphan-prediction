@@ -1,0 +1,145 @@
+PS	Method	PC
+Arabidopsis	Make-pool+trans	30.0
+Arabidopsis	Make-small+trans	6.3
+Arabidopsis	Brake-small	44.8
+Arabidopsis	Brake-pool	46.2
+Arabidopsis	DirInf-orph	47.1
+Arabidopsis	DirInf-pool	22.3
+Arabidopsis	BIND-orph	55.1
+Arabidopsis	MIND-orph	53.6
+Arabidopsis	Brake-large	45.4
+Arabidopsis thaliana	Make-pool+trans	22.3
+Arabidopsis thaliana	Make-small+trans	5.9
+Arabidopsis thaliana	Brake-small	20.0
+Arabidopsis thaliana	Brake-pool	20.3
+Arabidopsis thaliana	DirInf-orph	41.6
+Arabidopsis thaliana	DirInf-pool	24.6
+Arabidopsis thaliana	BIND-orph	43.9
+Arabidopsis thaliana	MIND-orph	42.7
+Arabidopsis thaliana	Brake-large	19.6
+Brassicaceae	Make-pool+trans	45.9
+Brassicaceae	Make-small+trans	12.5
+Brassicaceae	Brake-small	47.6
+Brassicaceae	Brake-pool	48.9
+Brassicaceae	DirInf-orph	58.5
+Brassicaceae	DirInf-pool	25.3
+Brassicaceae	BIND-orph	68.2
+Brassicaceae	MIND-orph	67.9
+Brassicaceae	Brake-large	47.8
+Camelineae	Make-pool+trans	35.5
+Camelineae	Make-small+trans	5.9
+Camelineae	Brake-small	49.6
+Camelineae	Brake-pool	51.2
+Camelineae	DirInf-orph	59.9
+Camelineae	DirInf-pool	25.7
+Camelineae	BIND-orph	63.8
+Camelineae	MIND-orph	63.8
+Camelineae	Brake-large	48.6
+Cellular Organisms	Make-pool+trans	79.5
+Cellular Organisms	Make-small+trans	69.0
+Cellular Organisms	Brake-small	70.6
+Cellular Organisms	Brake-pool	70.5
+Cellular Organisms	DirInf-orph	80.5
+Cellular Organisms	DirInf-pool	40.6
+Cellular Organisms	BIND-orph	80.7
+Cellular Organisms	MIND-orph	82.4
+Cellular Organisms	Brake-large	70.4
+Embryophyta	Make-pool+trans	68.4
+Embryophyta	Make-small+trans	49.6
+Embryophyta	Brake-small	63.5
+Embryophyta	Brake-pool	63.2
+Embryophyta	DirInf-orph	68.9
+Embryophyta	DirInf-pool	36.1
+Embryophyta	BIND-orph	74.2
+Embryophyta	MIND-orph	74.9
+Embryophyta	Brake-large	63.0
+Eukaryota	Make-pool+trans	78.1
+Eukaryota	Make-small+trans	64.6
+Eukaryota	Brake-small	67.8
+Eukaryota	Brake-pool	67.6
+Eukaryota	DirInf-orph	78.5
+Eukaryota	DirInf-pool	40.6
+Eukaryota	BIND-orph	78.7
+Eukaryota	MIND-orph	80.9
+Eukaryota	Brake-large	67.5
+Magnoliophyta	Make-pool+trans	65.1
+Magnoliophyta	Make-small+trans	42.1
+Magnoliophyta	Brake-small	61.2
+Magnoliophyta	Brake-pool	61.0
+Magnoliophyta	DirInf-orph	65.9
+Magnoliophyta	DirInf-pool	35.5
+Magnoliophyta	BIND-orph	73.6
+Magnoliophyta	MIND-orph	74.0
+Magnoliophyta	Brake-large	60.7
+Malvids	Make-pool+trans	50.0
+Malvids	Make-small+trans	22.8
+Malvids	Brake-small	48.9
+Malvids	Brake-pool	48.5
+Malvids	DirInf-orph	58.3
+Malvids	DirInf-pool	33.3
+Malvids	BIND-orph	69.5
+Malvids	MIND-orph	69.6
+Malvids	Brake-large	47.8
+Mesangiospermae	Make-pool+trans	63.3
+Mesangiospermae	Make-small+trans	34.4
+Mesangiospermae	Brake-small	60.0
+Mesangiospermae	Brake-pool	59.6
+Mesangiospermae	DirInf-orph	64.3
+Mesangiospermae	DirInf-pool	28.9
+Mesangiospermae	BIND-orph	72.8
+Mesangiospermae	MIND-orph	74.6
+Mesangiospermae	Brake-large	60.0
+Pentapetalae	Make-pool+trans	56.0
+Pentapetalae	Make-small+trans	15.1
+Pentapetalae	Brake-small	62.6
+Pentapetalae	Brake-pool	63.0
+Pentapetalae	DirInf-orph	61.5
+Pentapetalae	DirInf-pool	20.2
+Pentapetalae	BIND-orph	74.3
+Pentapetalae	MIND-orph	77.2
+Pentapetalae	Brake-large	62.2
+Rosids	Make-pool+trans	35.3
+Rosids	Make-small+trans	13.8
+Rosids	Brake-small	33.2
+Rosids	Brake-pool	34.6
+Rosids	DirInf-orph	52.6
+Rosids	DirInf-pool	21.2
+Rosids	BIND-orph	59.5
+Rosids	MIND-orph	62.3
+Rosids	Brake-large	33.0
+Spermatophyta	Make-pool+trans	61.1
+Spermatophyta	Make-small+trans	26.5
+Spermatophyta	Brake-small	53.2
+Spermatophyta	Brake-pool	55.4
+Spermatophyta	DirInf-orph	54.6
+Spermatophyta	DirInf-pool	32.8
+Spermatophyta	BIND-orph	68.2
+Spermatophyta	MIND-orph	65.1
+Spermatophyta	Brake-large	53.4
+Streptophyta	Make-pool+trans	73.7
+Streptophyta	Make-small+trans	55.5
+Streptophyta	Brake-small	61.8
+Streptophyta	Brake-pool	61.8
+Streptophyta	DirInf-orph	74.9
+Streptophyta	DirInf-pool	39.1
+Streptophyta	BIND-orph	75.2
+Streptophyta	MIND-orph	77.3
+Streptophyta	Brake-large	61.7
+Tracheophyta	Make-pool+trans	69.5
+Tracheophyta	Make-small+trans	42.7
+Tracheophyta	Brake-small	61.5
+Tracheophyta	Brake-pool	61.7
+Tracheophyta	DirInf-orph	68.4
+Tracheophyta	DirInf-pool	28.9
+Tracheophyta	BIND-orph	74.2
+Tracheophyta	MIND-orph	75.2
+Tracheophyta	Brake-large	61.4
+Viridiplantae	Make-pool+trans	74.0
+Viridiplantae	Make-small+trans	58.4
+Viridiplantae	Brake-small	60.2
+Viridiplantae	Brake-pool	60.2
+Viridiplantae	DirInf-orph	75.0
+Viridiplantae	DirInf-pool	38.3
+Viridiplantae	BIND-orph	76.0
+Viridiplantae	MIND-orph	77.6
+Viridiplantae	Brake-large	60.0

@@ -1,0 +1,5 @@
+Absent	maker_38-mikado_38	626
+1-25	maker_38-mikado_38	843
+26-50	maker_38-mikado_38	2308
+51-75	maker_38-mikado_38	6380
+76-100	maker_38-mikado_38	37938

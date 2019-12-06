@@ -1,0 +1,17 @@
+PS	Method	PC
+cellular_organisms	braker_X-mikado_38	98.5247
+Eukaryota	braker_X-mikado_38	99.4399
+Viridiplantae	braker_X-mikado_38	98.7849
+Streptophyta	braker_X-mikado_38	99.3065
+Streptophytina	braker_X-mikado_38	98.4444
+Embryophyta	braker_X-mikado_38	98.2392
+Tracheophyta	braker_X-mikado_38	99.0074
+Magnoliophyta	braker_X-mikado_38	97.0813
+Mesangiospermae	braker_X-mikado_38	96.6562
+Pentapetalae	braker_X-mikado_38	91.6667
+rosids	braker_X-mikado_38	92.9134
+malvids	braker_X-mikado_38	91.6667
+Brassicaceae	braker_X-mikado_38	93.2153
+Camelineae	braker_X-mikado_38	93.007
+Arabidopsis	braker_X-mikado_38	89.0476
+Arabidopsis_thaliana	braker_X-mikado_38	65.7996

@@ -1,0 +1,5 @@
+Absent	makerC1	7557
+1-25	makerC1	562
+26-50	makerC1	1571
+51-75	makerC1	4049
+76-100	makerC1	13667

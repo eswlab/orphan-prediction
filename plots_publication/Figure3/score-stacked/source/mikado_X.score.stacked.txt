@@ -1,0 +1,5 @@
+Absent	mikado_X	11616
+1-25	mikado_X	7714
+26-50	mikado_X	5550
+51-75	mikado_X	4763
+76-100	mikado_X	18452

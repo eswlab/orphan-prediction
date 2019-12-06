@@ -1,0 +1,17 @@
+PS	Method	PC
+cellular_organisms	mikado_X	77.3296
+Eukaryota	mikado_X	77.5453
+Viridiplantae	mikado_X	75.0911
+Streptophyta	mikado_X	73.6477
+Streptophytina	mikado_X	75.7778
+Embryophyta	mikado_X	68.9132
+Tracheophyta	mikado_X	61.0422
+Magnoliophyta	mikado_X	65.0452
+Mesangiospermae	mikado_X	52.0376
+Pentapetalae	mikado_X	51.8939
+rosids	mikado_X	49.6063
+malvids	mikado_X	37.5
+Brassicaceae	mikado_X	44.5428
+Camelineae	mikado_X	41.958
+Arabidopsis	mikado_X	44.2857
+Arabidopsis_thaliana	mikado_X	41.3295

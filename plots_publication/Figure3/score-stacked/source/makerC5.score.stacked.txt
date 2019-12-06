@@ -1,0 +1,5 @@
+Absent	makerC5	1950
+1-25	makerC5	1332
+26-50	makerC5	4699
+51-75	makerC5	10912
+76-100	makerC5	29202
