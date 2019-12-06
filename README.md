@@ -26,6 +26,9 @@ wget https://www.arabidopsis.org/download_files/Genes/TAIR10_genome_release/TAIR
 wget https://www.arabidopsis.org/download_files/Genes/Araport11_genome_release/Araport11_blastsets/Araport11_genes.201606.cds.fasta.gz
 #cDNA
 wget https://www.arabidopsis.org/download_files/Genes/Araport11_genome_release/Araport11_blastsets/Araport11_genes.201606.cdna.fasta.gz
+# GFF
+wget https://www.arabidopsis.org/download_files/Genes/Araport11_genome_release/Araport11_GFF3_genes_transposons.201606.gff.gz
+
 
 # following protein datasets were downloaded from phytozome via Globus
 cat Athaliana_167_TAIR10.protein.fa.gz \
