@@ -1,0 +1,16 @@
+#!/bin/bash
+#SBATCH -N 1
+#SBATCH -n 28
+#SBATCH -p RM
+#SBATCH -t 48:00:00
+#SBATCH -J gmap_0
+#SBATCH -o gmap_0.o%j
+#SBATCH -e gmap_0.e%j
+#SBATCH --mail-user=arnstrm@gmail.com
+#SBATCH --mail-type=begin
+#SBATCH --mail-type=end
+cd $SLURM_SUBMIT_DIR
+source /usr/share/Modules/init/bash
+ulimit -s unlimited
+./runGMAP_on_TrinityGG.sh Trinity-GG.fasta
+scontrol show job $SLURM_JOB_ID

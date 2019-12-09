@@ -1,0 +1,15 @@
+#!/bin/bash
+#SBATCH -N 1
+#SBATCH -p RM
+#SBATCH --ntasks-per-node=28
+#SBATCH -t 48:00:00
+#SBATCH -J SRR1058120
+#SBATCH -o SRR1058120.o%j
+#SBATCH -e SRR1058120.e%j
+#SBATCH --mail-user=arnstrm@gmail.com
+#SBATCH --mail-type=begin
+#SBATCH --mail-type=end
+cd $SLURM_SUBMIT_DIR
+ulimit -s unlimited
+../runGMAP_on_TrinityGG.sh SRR1058120_trinity_gg.fasta
+scontrol show job $SLURM_JOB_ID
