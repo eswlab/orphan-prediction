@@ -127,6 +127,77 @@ cat *_2.fastq.gz >> reverse_reads.fq.gz
 
 Run BRAKER using the [`runBRAKER.sh`](scripts/runBRAKER.sh) script
 
-``bash
+```bash
 runBraker.sh forward_reads.fq.gz reverse_reads.fq.gz TAIR10_chr_all.fas
+```
+
+## Run MAKER
+
+For running MAKER, you will need:
+
+
+1. Genome assembly in fasta format, eg: `TAIR10_chr_all.fas `
+2. Trinity assembled transcripts form the SRA datasets, eg: `trinity.fasta`
+3. Trinity transcripts translated to proteins, combined with curated proteins dataset, eg:`trinity-swissprot-pep.fasta`
+
+Here are the steps in detail. generate the CTL files:
+
+```
+module load GIF/maker
+module rm perl/5.22.1
+maker -CTL
+```
+
+Edit them to make changes. For the first round, change these lines in `maker_opts.ctl` file:
+
+```
+genome=TAIR10_chr_all.fas
+est=trinity.fasta #set of ESTs or assembled mRNA-seq in fasta format
+protein=trinity-swissprot-pep.fasta
+est2genome=1
+protein2genome=1
+TMP=/dev/shm
+```
+
+Execute MAKER in a slurm file as shown, requesting more than 1 node with multiple processors is essential to run this efficiently.
+
+```
+/work/GIF/software/programs/mpich2/3.2/bin/mpiexec
+  -n 64 \
+	/work/GIF/software/programs/maker/2.31.9/bin/maker \
+	-base maker \
+	-fix_nucleotides
+```
+
+Upon completion, train SNAP, AUGUSUTS and Pre-trained GeneMark to run the second round using [script](../scripts/maker_process.sh)
+
+```bash
+/maker_process.sh maker
+runGeneMark.sh TAIR10_chr_all.fas
+```
+
+
+Once complete, second round MAKER is run by modifying these lines in `maker_opts.ctl` file:
+
+
+```
+snaphmm=maker.snap.hmm #SNAP HMM file
+gmhmm=common_files/gmhmm.mod
+augustus_species=maker_20171103
+```
+
+and run MAKER as:
+
+```
+/work/GIF/software/programs/mpich2/3.2/bin/mpiexec
+  -n 64 \
+	/work/GIF/software/programs/maker/2.31.9/bin/maker \
+	-base maker \
+	-fix_nucleotides
+```
+
+finalize perdictions using [`maker_finalize.sh`](scripts/maker_finalize.sh) script.
+
+```bash
+maker_finalize.sh maker
 ```
