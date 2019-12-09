@@ -1,8 +1,10 @@
-# Orphan gene prediction and optimization using BIND and MIND workflows:
+# Gene prediction and optimization using BIND and MIND workflows:
 
 ## Overview
 
-Here is the overview of steps, evidence based predictions are common for both MIND and BIND. MAKER predictions are combined with evidence models to generate MIND and BRAKER predictions are combined with evidence models to generate BIND.
+Gene models derived from direct inference evidence-based predictions are used for MIND and BIND. 
+For MIND, gene preditions by MAKER gene predictions are combined with evidence-base models. 
+For BIND, gene preditions by BRAKER are combined with evidence-based models.
 
 1. Finding Orphan Enriched RNAseq dataset form NCBI:
 	- Search RNAseq datasets for your organism on NCBI, filter Runs (SRR) for Illumina, paired-end, HiSeq 2500 or newer.
