@@ -69,12 +69,47 @@ Then export the results to "Run Selector" as follows:
 
 ![SRA results](Assets/ncbi-sra.png)
 
-Clicking the "Accession List" should allow you to download all the SRR ids in a text file format. We can use this for downloading data with SRA toolkit (use `runSRAdownload.sh`)
+Clicking the "Accession List" should allow you to download all the SRR ids in a text file format. We can use this for downloading data with SRA toolkit (use [`runSRAdownload.sh`](scripts/runSRAdownload.sh))
 
 ```bash
 while read line; do
 	runSRAdownload.sh $line;
 done<SRR_Acc_List.txt
 ```
+Note: depending on how much data you find, this can take a lot of time as well as resources (disk usage). Use caution and narrow down to only most interesting datasets, if you can. Also, note that the max size of the SRA is set to 100Gb in this script. If you have a SRA greater than 100Gb, please edit the script to allow those files to download.
 
-Note: depending on how much data you find, this can take a lot of time as well as resources (disk usage). Use caution and narrow down to only most interesting datasets, if you can.
+
+Download the CDS sequences for your organism, if available. **If you don't have one, you can skip this step and use the subset of SRRs for the predictions**.
+
+```
+#CDS
+wget https://www.arabidopsis.org/download_files/Genes/Araport11_genome_release/Araport11_blastsets/Araport11_genes.201606.cds.fasta.gz
+gunzip Araport11_genes.201606.cds.fasta.gz
+kallisto index -i ARAPORT11cds Araport11_genes.201606.cds.fasta
+```
+
+
+For each SRR id, run the Kallisto qualitification ([`runKallisto.sh`](scripts/runKallisto.sh)).
+
+```bash
+while read line; do
+	runKallisto.sh ARAPORT11cds $line;
+done<SRR_Acc_List.txt
+```
+Once done, the tsv files containing counts and TPM were merged using [`joinr.sh`](scripts/joinr.sh):
+
+```bash
+joinr.sh *.tsv >> kallisto_out_tair10.txt
+```
+
+For every SRR id, the file contains 3 columns, `effective length`, `estimated counts` and `transcript per million`.
+
+Run Phylostratr
+
+For running phylostratR program, you need predicted proteins from your gene-prediction method (input).
+Once you have the input, run the [`runPhylostrarRa.sh`](scripts/runPhylostratR.sh). This will download the datasets, but will not run BLAST.
+Run Blast using [`runBLASTp.sh`](scripts/runBLASTp.sh) and proceed with formatting the BLAST results using [`format-BLAST-for-phylostratr.sh`](scripts/format-BLAST-for-phylostratr.sh).
+After which run the [`runPhylostratRb.sh`](scripts/runPhylostratRb.sh).
+
+
+Once we have the orphan genes identified, total number of orphan genes expressed in each SRR is counted and SRR's are ranked based on number of orphan genes found (>1TPM). Top 38 SRR's is selected (based on total data size), for use with gene prediction in the next steps.
