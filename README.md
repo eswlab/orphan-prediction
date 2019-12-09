@@ -6,14 +6,15 @@ Gene models derived from direct inference evidence-based predictions are used fo
 For MIND, gene preditions by MAKER gene predictions are combined with evidence-base models. 
 For BIND, gene preditions by BRAKER are combined with evidence-based models.
 
-1. Find an Orphan-Enriched RNA-Seq dataset from NCBI-SRA:
-	- Search RNA-Seq datasets for your organism on NCBI, filter Runs (SRR) for Illumina, paired-end, HiSeq 2500 or newer.
-	- Download Runs from NCBI (SRA-toolkit)
-	- quantifiy against current gene models using kallisto
-	- run phylostratR on current gene models to infer phylostrata of each gene model
-	- Rank the SRRs with highest number of expressed orphans and select feasible amounts of data to work with.
+1. Identify an Orphan-Enriched RNA-Seq dataset:
+	- Search RNA-Seq datasets for your organism on NCBI-SRA. Apply filter to Runs (SRR): e.g., Illumina, paired-end, HiSeq 2500 or newer. (NB- As more long-read runs become broadly available, these will provide an valuable additional source of RNA-Seq evidence)
+	- Download all available Runs from NCBI (SRA-toolkit)
+	- Quantify against current gene models using kallisto
+	- Run phylostratR on current gene models to infer phylostrata of each gene model
+	- Rank the SRRs according to highest number of expressed orphans and select feasible numbers of SSRs to work with (recommend over 20). 
+	NB- If using BIND, it is not critical to include runs with maximal representation of ancient genes because BRAKER performs similarly with a wide variety of RNA-Seq input; however, if using MIND this might be a consideration, although we have not tested this. 
 	
-	If NCBI-SRA has no samples for your organism, and you are relying solely on RNA-Seq that you generate yourself, best practice is to maximize representation of all genes by including conditions like reproductive tissues and stresses in which orphan gene expression is high.
+	If NCBI-SRA has no samples for your organism, and you are relying solely on RNA-Seq that you generate yourself, best practice is to maximize representation of all genes by including conditions such as reproductive tissues and stresses, in which orphan gene expression is high.
 
 2. Run BRAKER
 	- Align RNA-Seq with splice aware aligner (STAR or HiSat2 preferred, HiSat2 used here)
@@ -81,7 +82,7 @@ done<SRR_Acc_List.txt
 Note: depending on how much data you find, this can take a lot of time as well as resources (disk usage). Use caution and narrow down to only most interesting datasets, if you can. Also, note that the max size of the SRA is set to 100Gb in this script. If you have a SRA greater than 100Gb, please edit the script to allow those files to download.
 
 
-Download the CDS sequences for your organism, if available. **If you don't have one, you can skip this step (move to BRAKER step) and use the subset of SRRs for the predictions**.
+Download the CDS sequences for your organism, if available. **If you don't have one, you can skip this step and use the subset of SRRs for the predictions**.
 
 ```
 #CDS
@@ -126,74 +127,6 @@ cat *_2.fastq.gz >> reverse_reads.fq.gz
 
 Run BRAKER using the [`runBRAKER.sh`](scripts/runBRAKER.sh) script
 
-```bash
+``bash
 runBraker.sh forward_reads.fq.gz reverse_reads.fq.gz TAIR10_chr_all.fas
-```
-
-## Run MAKER
-
-For running MAKER, you will need:
-
-
-1. Genome assembly in fasta format, eg: `TAIR10_chr_all.fas `
-2. Trinity assembled transcripts form the SRA datasets, eg: `trinity.fasta`
-3. Trinity transcripts translated to proteins, combined with curated proteins dataset, eg:`trinity-swissprot-pep.fasta`
-
-Here are the steps in detail. generate the CTL files:
-
-```
-module load GIF/maker
-module rm perl/5.22.1
-maker -CTL
-```
-
-Edit them to make changes. For the first round, change these lines in `maker_opts.ctl` file:
-
-```
-genome=TAIR10_chr_all.fas #genome sequence (fasta file or fasta embeded in GFF3 file)
-est=trinity.fasta #set of ESTs or assembled mRNA-seq in fasta format
-protein=trinity-swissprot-pep.fasta  #protein sequence file in fasta format (i.e. from mutiple oransisms)
-est2genome=1 #infer gene predictions directly from ESTs, 1 = yes, 0 = no
-protein2genome=1 #infer predictions from protein homology, 1 = yes, 0 = no
-TMP=/dev/shm #specify a directory other than the system default temporary directory for temporary files
-```
-
-Execute MAKER in a slurm file as shown, requesting more than 1 node with multiple processors is essential to run this efficiently.
-
-```
-/work/GIF/software/programs/mpich2/3.2/bin/mpiexec
-  -n 64 \
-	/work/GIF/software/programs/maker/2.31.9/bin/maker \
-	-base maker \
-	-fix_nucleotides
-```
-
-Upon completion, train SNAP, AUGUSUTS and Pre-trained GeneMark to run the second round using [script](../scripts/maker_process.sh)
-
-```bash
-/maker_process.sh maker
-runGeneMark.sh TAIR10_chr_all.fas
-```
-
-
-Once complete, second round MAKER is run by modifying these lines in `maker_opts.ctl` file:
-
-
-```
-#-----Gene Prediction
-snaphmm=maker.snap.hmm #SNAP HMM file
-gmhmm=/work/LAS/mash-lab/arnstrm/20170320_ArabidopsosGenePrediction_as/04_maker/common_files/gmhmm.mod #GeneMark HMM file
-augustus_species=maker_20171103  #Augustus gene prediction species model
-```
-
-and run MAKER as:
-
-```bash
-/work/GIF/software/programs/mpich2/3.2/bin/mpiexec -n 64 /work/GIF/software/programs/maker/2.31.9/bin/maker -base maker -fix_nucleotides
-```
-
-finalize perdictions using [`maker_finalize.sh`](../scripts/maker_finalize.sh) script.
-
-```bash
-maker_finalize.sh maker
 ```
