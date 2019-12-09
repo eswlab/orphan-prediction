@@ -104,12 +104,26 @@ joinr.sh *.tsv >> kallisto_out_tair10.txt
 
 For every SRR id, the file contains 3 columns, `effective length`, `estimated counts` and `transcript per million`.
 
-Run Phylostratr
-
-For running phylostratR program, you need predicted proteins from your gene-prediction method (input).
+Run Phylostratr to identify orphan genes. For running phylostratR program, you need predicted proteins from your gene-prediction method (input).
 Once you have the input, run the [`runPhylostrarRa.sh`](scripts/runPhylostratR.sh). This will download the datasets, but will not run BLAST.
 Run Blast using [`runBLASTp.sh`](scripts/runBLASTp.sh) and proceed with formatting the BLAST results using [`format-BLAST-for-phylostratr.sh`](scripts/format-BLAST-for-phylostratr.sh).
 After which run the [`runPhylostratRb.sh`](scripts/runPhylostratRb.sh).
 
 
 Once we have the orphan genes identified, total number of orphan genes expressed in each SRR is counted and SRR's are ranked based on number of orphan genes found (>1TPM). Top 38 SRR's is selected (based on total data size), for use with gene prediction in the next steps.
+
+
+## Run BRAKER
+
+To simplify handling of files, we will combine all the forward reads to one file and all the reverse reads to another.
+
+```bash
+cat *_1.fastq.gz >> forward_reads.fq.gz
+cat *_2.fastq.gz >> reverse_reads.fq.gz
+```
+
+Run BRAKER using the [`runBRAKER.sh`](scripts/runBRAKER.sh) script
+
+``bash
+runBraker.sh forward_reads.fq.gz reverse_reads.fq.gz TAIR10_chr_all.fas
+```
