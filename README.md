@@ -1,17 +1,17 @@
 # Gene prediction and optimization using BIND and MIND workflows:
 
-## Overview of MIND and BIND: 
+## Overview of MIND and BIND:
 
-Ab initio gene predictions are combined with gene predictions that are Inferred Directly from alignment of RNA-Seq evidence. For MIND, ab initio gene predictions by MAKER  are combined with gene predictions that are Inferred Directly from evidence. 
-For BIND, ab initio gene predictions by BRAKER are combined with gene predictions that are Inferred Directly from evidence. 
+Ab initio gene predictions are combined with gene predictions that are Inferred Directly from alignment of RNA-Seq evidence. For MIND, ab initio gene predictions by MAKER  are combined with gene predictions that are Inferred Directly from evidence.
+For BIND, ab initio gene predictions by BRAKER are combined with gene predictions that are Inferred Directly from evidence.
 
 1. Find an Orphan-Enriched RNA-Seq dataset from NCBI-SRA:
 	- Search RNA-Seq datasets for your organism on NCBI, filter Runs (SRR) for Illumina, paired-end, HiSeq 2500 or newer.
 	- Download Runs from NCBI (SRA-toolkit)
-	- quantify against current gene models using kallisto @AS unclear
+	- If existing annotations is available, expression quantification is done against every gene using every SRR with Kallisto.
 	- run phylostratR on current gene models to infer phylostrata of each gene model
 	- Rank the SRRs with highest number of expressed orphans and select feasible amounts of data to work with.
-	
+
 	If NCBI-SRA has no samples for your organism, and you are relying solely on RNA-Seq that you generate yourself, best practice is to maximize representation of all genes by including conditions like reproductive tissues and stresses in which orphan gene expression is high.
 
 2. Run BRAKER
@@ -24,14 +24,14 @@ For BIND, ab initio gene predictions by BRAKER are combined with gene prediction
 	- Generate BAM file for each SRA-SRR id, merge them to generate a single sorted BAM file
 	- Run Trinity to generate transcriptome assembly using the BAM file
 	- Run TransDecoder on Trinity transcripts to predict ORFs and translate them to protein
-	- Download SwissProt curated proteins (use proteins from Viridaplantae for plants)
+	- Download SwissProt curated proteins (use proteins from Viridiplantae for plants)
 	- Run MAKER with transcripts (Trinity), proteins (TransDecoder and SwissProt), in homology-only mode
 	- Use the MAKER predictions to train SNAP and AUGUSTUS. Self-train GeneMark
 	- Run second round of MAKER with the above (SNAP, AUGUSTUS, and GeneMark) ab initio predictions plus the results from previous MAKER rounds.
 
 3. Run Direct Inference evidence-based predictions:
 	- Align RNA-Seq with splice aware aligner (STAR or HiSat2 preferred, HiSat2 used here)
-	- Generate BAM file for each SRA-SRR id, merge these to generate a single BAM file sorted by XXX.@AS HOW SORTED?
+	- Generate BAM file for each SRA-SRR id, merge these to generate a single BAM file sorted by coordinates.
 	- Use the sorted BAM file with multiple transcript assemblers for genome guided transcript assembly:
 		* Trinity GG
 		* Class2
@@ -55,7 +55,7 @@ For BIND, ab initio gene predictions by BRAKER are combined with gene prediction
 ## Steps in detail with scripts
 NB-specific case studies are here@AS link
 
-### 1. Finding Orphan Enriched RNAseq dataset form NCBI:
+## 1. Finding Orphan Enriched RNAseq dataset form NCBI:
 
 Go to [NCBI SRA](https://www.ncbi.nlm.nih.gov/sra) page and search with "SRA Advanced Search Builder". This allows you to build a query and select the Runs that satisfy certain requirements. For example:
 
@@ -77,11 +77,13 @@ Clicking the "Accession List" should allow you to download all the SRR ids in a 
 while read line; do
 	runSRAdownload.sh $line;
 done<SRR_Acc_List.txt
+# max file size is set to 100Gb
+# change `--max-size 100G` to allow >100Gb files
 ```
-Note: depending on how much data you find, this can take a lot of time as well as resources (disk usage). You may need to narrow down to only the most interesting@AS? datasets. Also, the max size of the SRA is set to 100Gb in this script. If you have a SRA greater than 100Gb, be sure to edit the script to allow all files to download.
 
+Note: depending on how much data you find, this can take a lot of time as well as resources (disk usage). You may need to narrow down to select only subset of total datasets. One way to do this is by selecting the most interesting SRRs (eg: stress response RNAseq, flowering tissue RNAseq, etc). In this workflow, we will screen them based on number of orphan genes expressed in each SRR. This assumes that you have existing annotations for your organism. If you don't, then you can skip the next few steps and move to "Run BRAKER" section.
 
-Download the CDS sequences for your organism, if available. **If not, you can skip this step (move to BRAKER step) and use only SRRs @AS? for the predictions**.
+Download the CDS sequences for your organism
 
 ```
 #CDS
@@ -106,16 +108,19 @@ joinr.sh *.tsv >> kallisto_out_tair10.txt
 
 For every SRR id, the file contains 3 columns, `effective length`, `estimated counts` and `transcript per million`.
 
-## Run phylostratr to infer phylostrata of genes, and identify orphan genes. 
+### Run phylostratr to infer phylostrata of genes, and identify orphan genes.
+
 The input to phylostratr is the predicted proteins from your gene-prediction method.
 Using this input, run the [`runPhylostrarRa.sh`](scripts/runPhylostratR.sh). This will download the datasets, but will not run BLAST.
 Run Blast using [`runBLASTp.sh`](scripts/runBLASTp.sh) and proceed with formatting the BLAST results using [`format-BLAST-for-phylostratr.sh`](scripts/format-BLAST-for-phylostratr.sh).
 Run the [`runPhylostratRb.sh`](scripts/runPhylostratRb.sh).
 
 
-## Select diverse RNA-Seq data 
-Once the orphan (species-specific) genes are identified, count the total number of orphan genes expressed in each SRR and ranked SSRs based on number of orphan genes found (>1TPM). Select the top SRR's (based on total data size@AS?); use these as evidence for direct inference and as training data. 
-Note: for Arabidopsis thaliana, we used all of the SRRs that expressed over 60% of the orphan genes (=38 SSRs)
+### Select diverse RNA-Seq data
+
+Once the orphan (species-specific) genes are identified, count the total number of orphan genes expressed (>1TPM) in each SRR, rank them based on % orphan expressed. Depending on how much computational resources you have, you can select the top X number of SRRs to use them as evidence for direct inference and as training data.
+
+Note: for _Arabidopsis thaliana_, we used all of the SRRs that expressed over 60% of the orphan genes (=38 SSRs)
 Note: If you are relying solely on RNA-Seq that you generate yourself, best practice is to maximize representation of all genes by including conditions like reproductive tissues and stresses, in which orphan gene expression is high.
 
 
@@ -207,3 +212,77 @@ finalize predictions using [`maker_finalize.sh`](../scripts/maker_finalize.sh) s
 ```bash
 maker_finalize.sh maker
 ```
+
+## Evidence (direct inference) gene models.
+
+The merged BAM file generated for BRAKER can be used here (`merged_SRA.bam`). All transcript assembly programs will use this as input to generate transcripts . If you plant to use more RNAseq data, you can use the [`runHisat2.sh`](scripts/runHisat2.sh) and generate a single, BAM file of mapped RNAseq reads.
+
+Run Transcriptome assemblies using Trinity, Class2, Cufflinks and Stringtie. The scripts  [`runTrinity-gg.sh`](scripts/runTrinity-gg.sh), [`runClass2.sh`](scripts/runClass2.sh),  [`runCufflinks.sh`](scripts/runCufflinks.sh), [`runStringtie.sh`](scripts/runStringtie.sh) can be executed as:
+
+```bash
+runTrinity-gg.sh merged_SRA.bam
+runClass2.sh merged_SRA.bam
+runCufflinks.sh merged_SRA.bam
+runStringtie.sh merged_SRA.bam
+```
+
+While Class2, Cufflinks and StringTie generates a GFF3 format transcripts, Trinity only outputs transcripts. To generate GFF3 for Trinity, we can map them back to genome using GMAP. The script [`runGMAP_on_Trinity-gg.sh`](scripts/runGMAP_on_Trinity-gg.sh) can be used as:
+
+
+```bash
+runGMAP_on_Trinity-gg.sh Trinity-GG.fasta
+```
+
+The mapped reads can them be processed to generate high confidence splice sites that are useful for picking correct transcritps. We use PortCullis [`runPortCullis.sh`](scripts/runPortCullis.sh) for that purpose:
+
+```bash
+runPortCullis.sh merged_SRA.bam
+```
+
+We will now consolidate all the transcripts, removing redundancy to create input set of transcripts for Mikado. This is done using Mikado prepare [`runMikado-1.sh`](scripts/runMikado-1.sh).
+
+Running this script requires: `list.txt` a file listing all transcript assemblies and weight; `genome.fasta` target genome assembly; `junctions.bed` with splice junctions information.
+
+`list.txt`
+
+```
+mergedBAM_class.gtf    cs1    False
+mergedBAM_cufflinks.gtf cl1     False
+mergedBAM_stringtie.gtf st1     False
+mergedBAM_trinity_gg_match_cdna.gff3    tr1     False
+```
+
+```bash
+runMikado-1.sh genome.fasta junctions.bed list.txt
+```
+
+This will generate `mikado_prepared.fasta` file that will be used for predicting ORFs using TransDecoder [`runTransDecoder.sh`](scripts/runTransDecoder.sh) as follows.
+
+```bash
+runTransDecoder.sh mikado_prepared.fasta
+# output: mikado_prepared.fasta.transdecoder.bed
+```
+
+Information regarding full-length gene models can be generated using BLASTx (against the genome itself or against curated SwissPort). Here we use genome [`runBLASTx.sh`](scripts/runBLASTx.sh).
+
+```bash
+runBLASTx.sh mikado_prepared.fasta
+# output: mikado.blast.xml
+```
+
+As a final step, we will pick best transcripts for each locus and annotate them as gene using Mikado pick.
+
+```
+runMikado-2.sh
+```
+This will generate:
+
+```
+mikado.loci.metrics.tsv
+mikado.loci.scores.tsv
+mikado.loci.gff3
+```
+
+## MIND (merged **M**AKER with genes **IN**ferred **D**irectly)
+
+We will need the `maker-final.gff3` generated in
