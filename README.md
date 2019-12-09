@@ -69,9 +69,12 @@ Go to [NCBI SRA](https://www.ncbi.nlm.nih.gov/sra) page and search with "SRA Adv
 
 Then export the results to "Run Selector" as follows:
 
-![SRA results](Assets/ncbi-sra.png)
+![SRA results](Assets/ncbi-sra-1.png)
 
 Clicking the "Accession List" should allow you to download all the SRR ids in a text file format. We can use this for downloading data with SRA toolkit (use [`runSRAdownload.sh`](scripts/runSRAdownload.sh))
+
+![SRA results](Assets/ncbi-sra-2.png)
+
 
 ```bash
 while read line; do
@@ -291,10 +294,6 @@ For weights:
 ```
 OTHER_PREDICTION	Mikado_loci	2
 ABINITIO_PREDICTION	maker	1
-```
-
-Run EVM
-
 ```bash
 runEVM.sh maker-final.gff3 mikado.loci.gff3 weights.txt
 mv EVM.all.gff3 MIND-final.gff3
@@ -308,8 +307,6 @@ For weights:
 OTHER_PREDICTION	Mikado_loci	2
 ABINITIO_PREDICTION	AUGUSTUS	1
 ```
-
-Run EVM
 
 ```bash
 runEVM.sh braker-final.gff3 mikado.loci.gff3 weights.txt
