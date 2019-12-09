@@ -37,18 +37,18 @@ Here is the overview of steps, evidence based predictions are common for both MI
 		* StringTie
 		* Cufflinks
 
- - Align Trinity transcripts to the genome to generate GFF3 file (using GMAP)
- - Run PortCullis to remove invalid splice junctions
- - Consolidate transcripts and generate a non-redundant set of transcripts using Mikado.
- - Predict ORFs on these consolidated transcripts using TransDecoder
- - run BLASTx for consolidated transcripts against SwissProt curated dataset.
- - Pick best transcripts using all the above information with Miakdo Pick.
+	- Align Trinity transcripts to the genome to generate GFF3 file (using GMAP)
+	- Run PortCullis to remove invalid splice junctions
+	- Consolidate transcripts and generate a non-redundant set of transcripts using Mikado.
+	- Predict ORFs on these consolidated transcripts using TransDecoder
+	- run BLASTx for consolidated transcripts against SwissProt curated dataset.
+	- Pick best transcripts using all the above information with Miakdo Pick.
 
 4. BIND
- - Combine BRAKER generated predictions with Evidence predictions using EVM.
+	- Combine BRAKER generated predictions with Evidence predictions using EVM.
 
 5. MIND
- - Combine MAKER generated predictions with Evidence predictions using EVM.
+	- Combine MAKER generated predictions with Evidence predictions using EVM.
 
 
 
