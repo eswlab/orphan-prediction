@@ -3,6 +3,8 @@ GFF1=$1
 GFF2=$2
 weights=$3
 genome=TAIR10_chr_all.fas
+cat ${GFF1} <( grep -v "^#" ${GFF2}) > gene_predictions.gff3
+
 partition_EVM_inputs.pl \
    --genome ${genome} \
    --gene_predictions gene_predictions.gff3 \
