@@ -1,0 +1,17 @@
+PS	Method	PC
+cellular_organisms	makerC4	98.226
+Eukaryota	makerC4	99.1763
+Viridiplantae	makerC4	98.1774
+Streptophyta	makerC4	99.0985
+Streptophytina	makerC4	98.4444
+Embryophyta	makerC4	97.4499
+Tracheophyta	makerC4	98.7593
+Magnoliophyta	makerC4	97.1508
+Mesangiospermae	makerC4	96.7607
+Pentapetalae	makerC4	94.3182
+rosids	makerC4	88.189
+malvids	makerC4	88.8889
+Brassicaceae	makerC4	94.5919
+Camelineae	makerC4	95.8042
+Arabidopsis	makerC4	91.9048
+Arabidopsis_thaliana	makerC4	69.8459

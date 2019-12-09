@@ -1,0 +1,17 @@
+PS	Method	PC
+cellular_organisms	brakerAP	98.4687
+Eukaryota	brakerAP	99.061
+Viridiplantae	brakerAP	97.6914
+Streptophyta	brakerAP	98.1969
+Streptophytina	brakerAP	96.6667
+Embryophyta	brakerAP	95.507
+Tracheophyta	brakerAP	97.0223
+Magnoliophyta	brakerAP	93.6067
+Mesangiospermae	brakerAP	87.2518
+Pentapetalae	brakerAP	79.1667
+rosids	brakerAP	66.9291
+malvids	brakerAP	59.7222
+Brassicaceae	brakerAP	67.5516
+Camelineae	brakerAP	74.1259
+Arabidopsis	brakerAP	65.2381
+Arabidopsis_thaliana	brakerAP	31.8882

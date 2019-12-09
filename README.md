@@ -1,139 +1,129 @@
-# Orphan gene prediction and optimization
+# Orphan gene prediction and optimization using BIND and MIND workflows:
 
-## Downloading datasets
+## Overview
 
-### SRA datasets
+Here is the overview of steps, evidence based predictions are common for both MIND and BIND. MAKER predictions are combined with evidence models to generate MIND and BRAKER predictions are combined with evidence models to generate BIND.
 
-Scripts for downloading various datasets from NCBI-SRA/GEO
+1. Finding Orphan Enriched RNAseq dataset form NCBI:
+	- Search RNAseq datasets for your organism on NCBI, filter Runs (SRR) for Illumina, paired-end, HiSeq 2500 or newer.
+	- Download Runs from NCBI (SRA-toolkit)
+	- run quantification against current gene models using kallisto
+	- run phylostratR on current gene models to identify orphans
+	- Rank the SRRs with highest number of expressed orphans and select feasible amounts of data to work with.
 
-* [script](scripts/fetch-small-dataset-from-ncbi.sh) to download small dataset.
-* [script](scripts/fetch-medium-dataset-from-ncbi.sh) to download medium dataset.
-* [script](scripts/fetch-large-dataset-from-ncbi.sh) to download large dataset.
-* [script](scripts/create-pooled-dataset.sh) to create pooled dataset.
-* [script](scripts/create-pooled-dataset.sh) to download orphan enriched dataset.
+2. Run BRAKER
+	- Align RNA-Seq with splice aware aligner (STAR or HiSat2 preferred, HiSat2 used here)
+	- Generate BAM file for each SRA-SRR id, merge them to generate a single sorted BAM file
+	- Run BRAKER
 
-### Genomes
+2. Run MAKER
 
-```bash
-wget https://www.arabidopsis.org/download_files/Genes/TAIR10_genome_release/TAIR10_chromosome_files/TAIR10_chr_all.fas
+	- Align RNA-Seq with splice aware aligner (STAR or HiSat2 preferred, HiSat2 used here)
+	- Generate BAM file for each SRA-SRR id, merge them to generate a single sorted BAM file
+	- Run Trinity to generate transcriptome assembly using the BAM file
+	- Run TransDecoder on Trinity transcripts to predict ORFs and translate them to protein
+	- Download SwissProt curated Viridaplantae proteins
+	- Run MAKER with transcripts (Trinity), proteins (TransDecoder and SwissProt), with homology only mode
+	- Use the MAKER predictions to train: SNAP and AUGUSTUS. Self-train GeneMark
+	- Run second round of MAKER with above three ab initio predictions along with the previous round MAKER results.
+
+3. Run evidence based predictions:
+
+	- Align RNA-Seq with splice aware aligner (STAR or HiSat2 preferred, HiSat2 used here)
+	- Generate BAM file for each SRA-SRR id, merge them to generate a single sorted BAM file
+	- Use the sorted BAM files with multiple transcript assemblers for genome guided transcript assembly:
+		* Trinity GG
+		* Class2
+		* StringTie
+		* Cufflinks
+	- Align Trinity transcripts to the genome to generate GFF3 file (using GMAP)
+	- Run PortCullis to remove invalid splice junctions
+	- Consolidate transcripts and generate a non-redundant set of transcripts using Mikado.
+	- Predict ORFs on these consolidated transcripts using TransDecoder
+	- run BLASTx for consolidated transcripts against SwissProt curated dataset.
+	- Pick best transcripts using all the above information with Miakdo Pick.
+
+4. BIND
+	- Combine BRAKER generated predictions with Evidence predictions using EVM.
+
+5. MIND
+	- Combine MAKER generated predictions with Evidence predictions using EVM.
+
+
+
+## Steps in detail
+
+### 1. Finding Orphan Enriched RNAseq dataset form NCBI:
+
+Go to [NCBI SRA](https://www.ncbi.nlm.nih.gov/sra) page and search with "SRA Advanced Search Builder". This allows you to build a query and select the Runs that satisfy certain requirements. For example:
+
+```
+("Arabidopsis thaliana"[Organism] AND
+  "filetype fastq"[Filter] AND
+	"paired"[Layout] AND
+	"illumina"[Platform] AND
+	"transcriptomic"[Source])
 ```
 
-### Other files
+Then export the results to "Run Selector" as follows:
 
+![SRA results](Assets/ncbi-sra.png)
+
+Clicking the "Accession List" should allow you to download all the SRR ids in a text file format. We can use this for downloading data with SRA toolkit (use [`runSRAdownload.sh`](scripts/runSRAdownload.sh))
 
 ```bash
+while read line; do
+	runSRAdownload.sh $line;
+done<SRR_Acc_List.txt
+```
+Note: depending on how much data you find, this can take a lot of time as well as resources (disk usage). Use caution and narrow down to only most interesting datasets, if you can. Also, note that the max size of the SRA is set to 100Gb in this script. If you have a SRA greater than 100Gb, please edit the script to allow those files to download.
+
+
+Download the CDS sequences for your organism, if available. **If you don't have one, you can skip this step and use the subset of SRRs for the predictions**.
+
+```
 #CDS
 wget https://www.arabidopsis.org/download_files/Genes/Araport11_genome_release/Araport11_blastsets/Araport11_genes.201606.cds.fasta.gz
-#cDNA
-wget https://www.arabidopsis.org/download_files/Genes/Araport11_genome_release/Araport11_blastsets/Araport11_genes.201606.cdna.fasta.gz
-
-# following protein datasets were downloaded from phytozome via Globus
-cat Athaliana_167_TAIR10.protein.fa.gz \
-	Alyrata_107_v1.0.protein.fa.gz >> proteins_phytozome_arab_2.fa.gz
-cat Creinhardtii_281_v5.5.protein.fa.gz \
-	Osativa_323_v7.0.protein.fa.gz \
-	Ppatens_318_v3.3.protein.fa.gz \
-	Cgrandiflora_266_v1.1.protein.fa.gz \
-	Sitalica_312_v2.2.protein.fa.gz \
-	BrapaFPsc_277_v1.3.protein.fa.gz \
-	Gmax_275_Wm82.a2.v1.protein.fa.gz \
-	Ptrichocarpa_210_v3.0.protein.fa.gz \
-	Alyrata_107_v1.0.protein.fa.gz \
-	Athaliana_167_TAIR10.protein.fa.gz >> proteins_phytozome_selected10.fa.gz
+gunzip Araport11_genes.201606.cds.fasta.gz
+kallisto index -i ARAPORT11cds Araport11_genes.201606.cds.fasta
 ```
 
 
+For each SRR id, run the Kallisto qualitification ([`runKallisto.sh`](scripts/runKallisto.sh)).
 
-## Gene Prediction methods and datasets used
-
-All prediction scenarios are listed below. Please follow the respective links to find methods for that prediction scenario.
-
-| Title                                       | DatasetName                         | transcripts                                     | proteins                              | shortname                       | LongName                                                                          |
-|---------------------------------------------|-------------------------------------|-------------------------------------------------|---------------------------------------|---------------------------------|-----------------------------------------------------------------------------------|
-| [Araport11]                                   | NA                                  | NA                                              | NA                                    | AP11                            | Current version of A. thaliana annotation                                         |
-| [MAKER-case1](maker-case1/README.md)                                 | pooled                              | RNAseq assembled                                |                                       | Pool                            | Maker pooled dataset (assembled transcripts only)                                 |
-| [MAKER-case2](maker-case2/README.md)                                 | pooled                              | RNAseq assembled                                | phytozome cloesly related spp         | Pool+Phy                        | Maker pooled dataset (transcripts  and phytozome proteins)                        |
-| [MAKER-case3](maker-case3/README.md)                                 | Araport11                           | CDS from araport11                              |                                       | Annotated transcripts           | Maker using ARAPORT 11 transcripts as evidence                                    |
-| [MAKER-case4](maker-case4/README.md)                                 | Araport11                           | CDS from araport11                              | peptide from araport11                | Annotated transcripts+prots     | Maker using ARAPORT 11 transcripts and proteins as evidence                       |
-| [MAKER-case5](maker-case5/README.md)                                 | small                               | RNAseq assembled                                | translated from assembled transcripts | small+tran                      | Maker small dataset (assembled transcripts and its translated proteins)           |
-| [MAKER-case6](maker-case6/README.md)                                 | Pooled                              | RNAseq assembled                                | translated from assembled transcripts | Pool+tran                       | Maker pooled dataset (assembled transcripts and its translated proteins)          |
-| [MAKER-Orph38](maker-orph38/README.md)                                |                                     | RNAseq assembled                               | translated from assembled transcripts | Maker-Special38                 | Maker with 38 RNAseq libraries (assembled transcripts and translated proteins)    |
-| [Braker-S](braker-S/README.md)                                    | small                               | RNAseq aligned to genome                        |                                       | small-raw                       | Braker small dataset (raw RNA-Seq)                                                |
-| [Braker-M](braker-M/README.md)                                    | medium                              | RNAseq aligned to genome                        |                                       | med-raw                         | Braker Medium dataset (raw RNA-Seq)                                               |
-| [Braker-L](braker-L/README.md)                                    | large                               | RNAseq aligned to genome                        |                                       | large-raw                       | Braker Large dataset (raw RNA-Seq)                                                |
-| [Braker-X](braker-X/README.md)                                    | pooled                              | RNAseq aligned to genome                        |                                       | pooled-raw                      | Braker pooled dataset (raw RNA-Seq)                                               |
-| [Braker-ap11](braker-ap11/README.md)                                 | Araport11                           | CDS from araport11                              |                                       | actual                          | Braker predictions using ARAPORT11 actual CDS sequences                           |
-| [Braker-Orph38](braker-orph38/README.md)                               | Filtered SRA dataset (38 libraries) | RNAseq aligned to genome                        |                                       | Braker-Special38                | Braker with 38 RNAseq libraries (raw RNAseq)                                      |
-| [Mikiado-Orph38]()                              |                                     | RNAseq assembled                                | ORF predicted and translated          | Inference-special38             | Mikado with 38 RNAseq libraries                                                   |
-| [Mikado-pooled]()                               |                                     | assembled transcripts using multiple assemblers | ORF predicted and translated          | inference-pooled                | Mikado using pooled dataset                                                       |
-| OrphanEnriched (Braker+Mikado)              |                                     | assembled transcripts using multiple assemblers | ORF predicted and translated          | Inference-special+Braker-pooled | Mikad with 38 RNAseq libraries + polished with BRAKER orphan enriched predictions |
-| OrphanEnriched (Maker+Mikado)               |                                     | assembled transcripts using multiple assemblers | ORF predicted and translated          | Inference-special+Maker-pooled  | Mikad with 38 RNAseq libraries + polished with Maker orphan enriched predictions  |
-| Braker \w Pooled + Mikado \w OrphanEnriched |                                     | assembled transcripts using multiple assemblers | ORF predicted and translated          | Inference-special+Maker-pooled  | Mikad with 38 RNAseq libraries + polished with BRAKER pooled predictions          |
-
-
-
-## Files for MAKER
-
-Both MAKER and MIKADO requires many files in order to run the predictions. Following methods were used for generating them:
-
-
-### GeneMark
-
-GeneMark was trained using [`genemark.sub`](scripts/genemark.sub) script. The output file `gmhmm.mod` was used with MAKER predictions.
-
-
-### Trintiy assembly:
-
-For RNAseq dataset with single-end reads only, [`runTrinityS.sh`](scripts/runTrinityS.sh) was used. For all the other reads, [`runTrinity.sh`](scripts/runTrinity.sh) was used.
-The generated assemblies were used as EST evidence for running MAKER
-
-### TransDecoder Predicted proteins
-
-The trinity generated assemblies were used for ORF prediction and for generating translated proteins form the predicted ORFs using [`runTransDecoder.sh`](scripts/runTransDecoder.sh)
-
-
-### Predicted proteins from closely related spp
-
-These proteins were downloaded from Phytozome website, using Globus and were combined to make 2 datasets as described above. The files generated are:
-
+```bash
+while read line; do
+	runKallisto.sh ARAPORT11cds $line;
+done<SRR_Acc_List.txt
 ```
-proteins_phytozome_selected10.fa.gz
-proteins_phytozome_arab_2.fa.gz
+Once done, the tsv files containing counts and TPM were merged using [`joinr.sh`](scripts/joinr.sh):
+
+```bash
+joinr.sh *.tsv >> kallisto_out_tair10.txt
 ```
 
-## Preparing files for Mikado
+For every SRR id, the file contains 3 columns, `effective length`, `estimated counts` and `transcript per million`.
 
-Transcriptome assemblies, transdecoder predicted ORFs, BLAST XML files, Portcullis files are required for Mikado and were generated as follows:
-
-
-1. RNAseq mapping: [`runHisat2.sh`](scripts/runHisat2.sh)
-2. Transcriptome assemblies:
-	- [`runTrinity-gg.sh`](scripts/runTrinity-gg.sh)
-	- [`runClass2.sh`](scripts/runClass2.sh)
-	- [`runCufflinks.sh`](scripts/runCufflinks.sh)
-	- [`runStringtie.sh`](scripts/runStringtie.sh)
-4. GFF file for Trinity transcritps: [`runGMAP_on_Trinity-gg.sh`](scripts/runGMAP_on_Trinity-gg.sh)
-5. PortCullis: [`runPortCullis.sh`](scripts/runPortCullis.sh)
-6. After these files, you will run the Mikado program to consolidate transcritps/gff3 files (using [`runMikado.sh`](scripts/runMikado.sh)). The other scripts needed for this to run are:
-	- TransDecoder: [`runTransDecoder.sh`](scripts/runTransDecoder.sh)
-	- BLAST: [`runBLASTx.sh`](scripts/runBLASTx.sh)
-
-
-## Running Phylostratr
-
-For running phylostratR program, you need predicted proteins from your gene-prediction method (input). 
+Run Phylostratr to identify orphan genes. For running phylostratR program, you need predicted proteins from your gene-prediction method (input).
 Once you have the input, run the [`runPhylostrarRa.sh`](scripts/runPhylostratR.sh). This will download the datasets, but will not run BLAST.
 Run Blast using [`runBLASTp.sh`](scripts/runBLASTp.sh) and proceed with formatting the BLAST results using [`format-BLAST-for-phylostratr.sh`](scripts/format-BLAST-for-phylostratr.sh).
 After which run the [`runPhylostratRb.sh`](scripts/runPhylostratRb.sh).
 
 
-## Comparing Predictions:
-
-Predictions were compared to Arabidopsis Araport11 predictions using Mikado compare using the [`runMikadoCompare.sh`](scripts/runMikadoCompare.sh).
+Once we have the orphan genes identified, total number of orphan genes expressed in each SRR is counted and SRR's are ranked based on number of orphan genes found (>1TPM). Top 38 SRR's is selected (based on total data size), for use with gene prediction in the next steps.
 
 
+## Run BRAKER
 
+To simplify handling of files, we will combine all the forward reads to one file and all the reverse reads to another.
 
+```bash
+cat *_1.fastq.gz >> forward_reads.fq.gz
+cat *_2.fastq.gz >> reverse_reads.fq.gz
+```
 
+Run BRAKER using the [`runBRAKER.sh`](scripts/runBRAKER.sh) script
 
-
+``bash
+runBraker.sh forward_reads.fq.gz reverse_reads.fq.gz TAIR10_chr_all.fas
+```

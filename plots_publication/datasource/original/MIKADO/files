@@ -1,0 +1,6 @@
+brakerX-mikado38_merged_cds.stats.txt	Braker using pooled dataset merged with mikado run with orphan enriched dataset
+braker-mikado_both38_cds.stats.txt	Braker using orphan enriched dataset merged with mikado run with orphan enriched dataset
+maker-mikado_both38_cds.stats.txt	Maker using orphan enriched dataset merged with mikado run with orphan enriched dataset
+trans_mikado-38-braker_cds.stats.txt	Braker using pooled dataset merged with mikado run with orphan enriched dataset (old)
+trans_mikado-38_cds.stats.txt	Mikado only using orphan enriched dataset
+trans_po_cds.stats.txt	Mikado only using pooled dataset

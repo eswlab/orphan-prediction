@@ -1,0 +1,35 @@
+#!/usr/bin/env Rscript
+library(ggplot2)
+library(gplots)
+input <- read.csv("combined.score.distrib.tsv", sep="\t", quote='', stringsAsFactors=TRUE,header=TRUE)
+input$Score <- factor(input$Score, levels=c("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32", "33", "34", "35", "36", "37", "38", "39", "40", "41", "42", "43", "44", "45", "46", "47", "48", "49", "50", "51", "52", "53", "54", "55", "56", "57", "58", "59", "60", "61", "62", "63", "64", "65", "66", "67", "68", "69", "70", "71", "72", "73", "74", "75", "76", "77", "78", "79", "80", "81", "82", "83", "84", "85", "86", "87", "88", "89", "90", "91", "92", "93", "94", "95", "96", "97", "98", "99", "100"))
+input$Method <- factor(input$Method, levels=c("Make-small+trans", "Make-pool+trans", "Brake-small", "Brake-pool", "DirInf-pool", "DirInf-orph", "BIND-orph", "MIND-orph"))
+l <- ggplot(input, aes(x= Score, y= Counts, color=Method, group=Method)) +
+    geom_line(size = 1) +
+    scale_y_continuous(name = "Number of Genes",
+                       breaks = seq(0, 2000, 250),
+                       limits=c(1, 2000)) +
+    scale_x_discrete(name = "nucleotide F1 Score", breaks = levels(input$Score)[c(1,26,51,76,101)]) +
+    ggtitle("Nucleotide F1 score distribution") +
+    theme_set(theme_bw(base_size = 18)) +
+    theme(panel.grid.major = element_line(colour = "#d3d3d3"),
+          panel.grid.minor = element_blank(),
+	  axis.title.x=element_text(size=16),
+          axis.title.y=element_text(size=16),
+          panel.border = element_blank(),
+          panel.background = element_blank(),
+          plot.title = element_text(size = 16, face = "bold"),
+          axis.title = element_text(face="bold"),
+          axis.text.x = element_text(colour="black", size = 16, hjust = 1),
+          axis.text.y = element_text(colour="black", size = 16),
+          axis.line = element_line(size=1.0, colour = "black"),
+	  legend.justification = c("left", "top"),
+	  legend.box.just = "right",
+	  legend.margin = margin(6, 6, 6, 6),
+	  legend.position = c(0.2, 0.8),
+	  legend.title = element_text(size=14),
+	  legend.text = element_text(size=12)) +
+          geom_point() + 
+          scale_color_manual(values=c("palevioletred1", "palevioletred3", "olivedrab", "olivedrab2", "slateblue1", "tan1", "royalblue", "red"))
+ggsave("combined-score-distrib.png", l, width = 8, height = 10)
+

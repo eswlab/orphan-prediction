@@ -1,0 +1,5 @@
+Absent	braker-mikado-both38	577
+1-25	braker-mikado-both38	588
+26-50	braker-mikado-both38	1231
+51-75	braker-mikado-both38	3283
+76-100	braker-mikado-both38	21727

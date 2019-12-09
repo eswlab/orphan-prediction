@@ -1,0 +1,5 @@
+Absent	brakerX	1530
+1-25	brakerX	239
+26-50	brakerX	1009
+51-75	brakerX	6231
+76-100	brakerX	18397

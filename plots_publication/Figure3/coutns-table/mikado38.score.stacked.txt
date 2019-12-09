@@ -1,0 +1,5 @@
+Absent	mikado38	685
+1-25	mikado38	546
+26-50	mikado38	1178
+51-75	mikado38	2769
+76-100	mikado38	22228

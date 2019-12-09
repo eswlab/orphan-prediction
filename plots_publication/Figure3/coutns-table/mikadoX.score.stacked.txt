@@ -1,0 +1,5 @@
+Absent	mikadoX	7754
+1-25	mikadoX	3974
+26-50	mikadoX	3032
+51-75	mikadoX	2609
+76-100	mikadoX	10037

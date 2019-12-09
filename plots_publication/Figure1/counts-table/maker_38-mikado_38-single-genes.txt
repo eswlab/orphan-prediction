@@ -1,0 +1,17 @@
+PS	Method	PC
+cellular_organisms	maker_38-mikado_38	98.4127
+Eukaryota	maker_38-mikado_38	99.2916
+Viridiplantae	maker_38-mikado_38	98.5419
+Streptophyta	maker_38-mikado_38	99.6533
+Streptophytina	maker_38-mikado_38	98.6667
+Embryophyta	maker_38-mikado_38	98.4821
+Tracheophyta	maker_38-mikado_38	98.263
+Magnoliophyta	maker_38-mikado_38	97.4983
+Mesangiospermae	maker_38-mikado_38	97.4922
+Pentapetalae	maker_38-mikado_38	92.4242
+rosids	maker_38-mikado_38	94.4882
+malvids	maker_38-mikado_38	95.8333
+Brassicaceae	maker_38-mikado_38	94.5919
+Camelineae	maker_38-mikado_38	90.9091
+Arabidopsis	maker_38-mikado_38	85.7143
+Arabidopsis_thaliana	maker_38-mikado_38	67.052
