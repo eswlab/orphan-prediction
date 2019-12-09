@@ -1,15 +1,14 @@
 # Gene prediction and optimization using BIND and MIND workflows:
 
-## Overview of MIND and BIND
+## Overview of MIND and BIND: 
 
-Gene model predictions that are Inferred Directly from alignment of RNA-Seq evidence are combined with ab initio preditions. 
-For MIND, ab initio gene predictions by MAKER  are combined with gene predictions that are Inferred Directly from evidence. 
+Ab initio gene predictions are combined with gene predictions that are Inferred Directly from alignment of RNA-Seq evidence. For MIND, ab initio gene predictions by MAKER  are combined with gene predictions that are Inferred Directly from evidence. 
 For BIND, ab initio gene predictions by BRAKER are combined with gene predictions that are Inferred Directly from evidence. 
 
 1. Find an Orphan-Enriched RNA-Seq dataset from NCBI-SRA:
 	- Search RNA-Seq datasets for your organism on NCBI, filter Runs (SRR) for Illumina, paired-end, HiSeq 2500 or newer.
 	- Download Runs from NCBI (SRA-toolkit)
-	- quantifiy against current gene models using kallisto
+	- quantify against current gene models using kallisto @AS unclear
 	- run phylostratR on current gene models to infer phylostrata of each gene model
 	- Rank the SRRs with highest number of expressed orphans and select feasible amounts of data to work with.
 	
@@ -30,7 +29,7 @@ For BIND, ab initio gene predictions by BRAKER are combined with gene prediction
 	- Use the MAKER predictions to train SNAP and AUGUSTUS. Self-train GeneMark
 	- Run second round of MAKER with the above (SNAP, AUGUSTUS, and GeneMark) ab initio predictions plus the results from previous MAKER rounds.
 
-3. Run  Direct Inference evidence-based predictions:
+3. Run Direct Inference evidence-based predictions:
 	- Align RNA-Seq with splice aware aligner (STAR or HiSat2 preferred, HiSat2 used here)
 	- Generate BAM file for each SRA-SRR id, merge these to generate a single BAM file sorted by XXX.@AS HOW SORTED?
 	- Use the sorted BAM file with multiple transcript assemblers for genome guided transcript assembly:
@@ -46,14 +45,15 @@ For BIND, ab initio gene predictions by BRAKER are combined with gene prediction
 	- Pick best transcripts using all the above information with Miakdo Pick.
 
 4. BIND
-	- Combine BRAKER generated predictions with Direct Inference evidence-based predictions using EVM.
+	- Combine BRAKER-generated predictions with Direct Inference evidence-based predictions using EVM.
 
 5. MIND
-	- Combine MAKER generated predictions with Direct Inference evidence-based predictions using EVM.
+	- Combine MAKER-generated predictions with Direct Inference evidence-based predictions using EVM.
 
 
 
 ## Steps in detail with scripts
+NB-specific case studies are here@AS link
 
 ### 1. Finding Orphan Enriched RNAseq dataset form NCBI:
 
@@ -78,10 +78,10 @@ while read line; do
 	runSRAdownload.sh $line;
 done<SRR_Acc_List.txt
 ```
-Note: depending on how much data you find, this can take a lot of time as well as resources (disk usage). Use caution and narrow down to only most interesting datasets, if you can. Also, note that the max size of the SRA is set to 100Gb in this script. If you have a SRA greater than 100Gb, please edit the script to allow those files to download.
+Note: depending on how much data you find, this can take a lot of time as well as resources (disk usage). You may need to narrow down to only the most interesting@AS? datasets. Also, the max size of the SRA is set to 100Gb in this script. If you have a SRA greater than 100Gb, be sure to edit the script to allow all files to download.
 
 
-Download the CDS sequences for your organism, if available. **If you don't have one, you can skip this step (move to BRAKER step) and use the subset of SRRs for the predictions**.
+Download the CDS sequences for your organism, if available. **If not, you can skip this step (move to BRAKER step) and use only SRRs @AS? for the predictions**.
 
 ```
 #CDS
@@ -106,18 +106,22 @@ joinr.sh *.tsv >> kallisto_out_tair10.txt
 
 For every SRR id, the file contains 3 columns, `effective length`, `estimated counts` and `transcript per million`.
 
-Run Phylostratr to identify orphan genes. For running phylostratR program, you need predicted proteins from your gene-prediction method (input).
-Once you have the input, run the [`runPhylostrarRa.sh`](scripts/runPhylostratR.sh). This will download the datasets, but will not run BLAST.
+## Run phylostratr to infer phylostrata of genes, and identify orphan genes. 
+The input to phylostratr is the predicted proteins from your gene-prediction method.
+Using this input, run the [`runPhylostrarRa.sh`](scripts/runPhylostratR.sh). This will download the datasets, but will not run BLAST.
 Run Blast using [`runBLASTp.sh`](scripts/runBLASTp.sh) and proceed with formatting the BLAST results using [`format-BLAST-for-phylostratr.sh`](scripts/format-BLAST-for-phylostratr.sh).
-After which run the [`runPhylostratRb.sh`](scripts/runPhylostratRb.sh).
+Run the [`runPhylostratRb.sh`](scripts/runPhylostratRb.sh).
 
 
-Once we have the orphan genes identified, total number of orphan genes expressed in each SRR is counted and SRR's are ranked based on number of orphan genes found (>1TPM). Top 38 SRR's is selected (based on total data size), for use with gene prediction in the next steps.
+## Select diverse RNA-Seq data 
+Once the orphan (species-specific) genes are identified, count the total number of orphan genes expressed in each SRR and ranked SSRs based on number of orphan genes found (>1TPM). Select the top SRR's (based on total data size@AS?); use these as evidence for direct inference and as training data. 
+Note: for Arabidopsis thaliana, we used all of the SRRs that expressed over 60% of the orphan genes (=38 SSRs)
+Note: If you are relying solely on RNA-Seq that you generate yourself, best practice is to maximize representation of all genes by including conditions like reproductive tissues and stresses, in which orphan gene expression is high.
 
 
 ## Run BRAKER
 
-To simplify handling of files, we will combine all the forward reads to one file and all the reverse reads to another.
+To simplify handling of files, combine all the forward reads to one file and all the reverse reads to another.
 
 ```bash
 cat *_1.fastq.gz >> forward_reads.fq.gz
@@ -147,7 +151,7 @@ module rm perl/5.22.1
 maker -CTL
 ```
 
-Edit them to make changes. For the first round, change these lines in `maker_opts.ctl` file:
+Edit them@ASeditwhat? to make changes. For the first round, change these lines in `maker_opts.ctl` file:
 
 ```
 genome=TAIR10_chr_all.fas #genome sequence (fasta file or fasta embeded in GFF3 file)
@@ -158,7 +162,7 @@ protein2genome=1 #infer predictions from protein homology, 1 = yes, 0 = no
 TMP=/dev/shm #specify a directory other than the system default temporary directory for temporary files
 ```
 
-Execute MAKER in a slurm file as shown, requesting more than 1 node with multiple processors is essential to run this efficiently.
+Execute MAKER in a slurm file as shown.  It is essential to request more than 1 node with multiple processors to run this efficiently.
 
 ```
 /work/GIF/software/programs/mpich2/3.2/bin/mpiexec
@@ -176,7 +180,7 @@ runGeneMark.sh TAIR10_chr_all.fas
 ```
 
 
-Once complete, second round MAKER is run by modifying these lines in `maker_opts.ctl` file:
+Once complete, the second round of MAKER is run by modifying the following lines in `maker_opts.ctl` file:
 
 
 ```
@@ -192,7 +196,7 @@ and run MAKER as:
 /work/GIF/software/programs/mpich2/3.2/bin/mpiexec -n 64 /work/GIF/software/programs/maker/2.31.9/bin/maker -base maker -fix_nucleotides
 ```
 
-finalize perdictions using [`maker_finalize.sh`](../scripts/maker_finalize.sh) script.
+finalize predictions using [`maker_finalize.sh`](../scripts/maker_finalize.sh) script.
 
 ```bash
 maker_finalize.sh maker
