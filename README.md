@@ -52,3 +52,29 @@ Here is the overview of steps, evidence based predictions are common for both MI
 
 
 ## Steps in detail
+
+### 1. Finding Orphan Enriched RNAseq dataset form NCBI:
+
+Go to [NCBI SRA](https://www.ncbi.nlm.nih.gov/sra) page and search with "SRA Advanced Search Builder". This allows you to build a query and select the Runs that satisfy certain requirements. For example:
+
+```
+("Arabidopsis thaliana"[Organism] AND
+  "filetype fastq"[Filter] AND
+	"paired"[Layout] AND
+	"illumina"[Platform] AND
+	"transcriptomic"[Source])
+```
+
+Then export the results to "Run Selector" as follows:
+
+![SRA results](Assets/ncbi-sra.png)
+
+Clicking the "Accession List" should allow you to download all the SRR ids in a text file format. We can use this for downloading data with SRA toolkit (use `runSRAdownload.sh`)
+
+```bash
+while read line; do
+	runSRAdownload.sh $line;
+done<SRR_Acc_List.txt
+```
+
+Note: depending on how much data you find, this can take a lot of time as well as resources (disk usage). Use caution and narrow down to only most interesting datasets, if you can.
