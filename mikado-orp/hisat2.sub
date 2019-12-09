@@ -1,0 +1,18 @@
+#!/bin/bash
+#SBATCH -p LM 
+#SBATCH --mem=3000GB
+#SBATCH -t 48:00:00
+#SBATCH -J hisat2
+#SBATCH -o hisat2.o%j
+#SBATCH -e hisat2.e%j
+#SBATCH --mail-user=arnstrm@gmail.com
+#SBATCH --mail-type=begin
+#SBATCH --mail-type=end
+cd $SLURM_SUBMIT_DIR
+ulimit -s unlimited
+module load hisat2
+module load samtools
+#hisat2 -p 64 -x TAIR10_chr_all --dta-cufflinks -1 sra_38runs_forward.fq.gz -2 sra_38runs_reverse.fq.gz > sra_38runs.sam
+samtools view -@ 32 -b -o sra_38runs.bam sra_38runs.sam
+samtools sort -o sra_38runs_sorted.bam -T sra_38runs_temp --threads 32 sra_38runs.bam
+scontrol show job $SLURM_JOB_ID

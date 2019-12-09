@@ -1,0 +1,16 @@
+#!/bin/bash
+#SBATCH -N 1
+#SBATCH -n 28
+#SBATCH -p RM
+#SBATCH -t 48:00:00
+#SBATCH -J trinity_0
+#SBATCH -o trinity_0.o%j
+#SBATCH -e trinity_0.e%j
+#SBATCH --mail-user=arnstrm@gmail.com
+#SBATCH --mail-type=begin
+#SBATCH --mail-type=end
+cd $SLURM_SUBMIT_DIR
+source /usr/share/Modules/init/bash
+ulimit -s unlimited
+./runTrinity.sh pooled.bam
+scontrol show job $SLURM_JOB_ID
