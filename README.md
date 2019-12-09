@@ -291,6 +291,10 @@ For weights:
 ```
 OTHER_PREDICTION	Mikado_loci	2
 ABINITIO_PREDICTION	maker	1
+```
+
+Run EVM
+
 ```bash
 runEVM.sh maker-final.gff3 mikado.loci.gff3 weights.txt
 mv EVM.all.gff3 MIND-final.gff3
@@ -304,6 +308,8 @@ For weights:
 OTHER_PREDICTION	Mikado_loci	2
 ABINITIO_PREDICTION	AUGUSTUS	1
 ```
+
+Run EVM
 
 ```bash
 runEVM.sh braker-final.gff3 mikado.loci.gff3 weights.txt
