@@ -1,10 +1,10 @@
 # Gene prediction and optimization using BIND and MIND workflows:
 
-## Overview
+## Overview of MIND and BIND
 
-Gene models derived from direct inference evidence-based predictions are used for MIND and BIND. 
-For MIND, gene preditions by MAKER gene predictions are combined with evidence-base models. 
-For BIND, gene preditions by BRAKER are combined with evidence-based models.
+Gene model predictions that are Inferred Directly from alignment of RNA-Seq evidence are combined with ab initio preditions. 
+For MIND, ab initio gene predictions by MAKER  are combined with gene predictions that are Inferred Directly from evidence. 
+For BIND, ab initio gene predictions by BRAKER are combined with gene predictions that are Inferred Directly from evidence. 
 
 1. Find an Orphan-Enriched RNA-Seq dataset from NCBI-SRA:
 	- Search RNA-Seq datasets for your organism on NCBI, filter Runs (SRR) for Illumina, paired-end, HiSeq 2500 or newer.
@@ -25,15 +25,15 @@ For BIND, gene preditions by BRAKER are combined with evidence-based models.
 	- Generate BAM file for each SRA-SRR id, merge them to generate a single sorted BAM file
 	- Run Trinity to generate transcriptome assembly using the BAM file
 	- Run TransDecoder on Trinity transcripts to predict ORFs and translate them to protein
-	- Download SwissProt curated Viridaplantae proteins
-	- Run MAKER with transcripts (Trinity), proteins (TransDecoder and SwissProt), with homology only mode
-	- Use the MAKER predictions to train: SNAP and AUGUSTUS. Self-train GeneMark
-	- Run second round of MAKER with above three ab initio predictions along with the previous round MAKER results.
+	- Download SwissProt curated proteins (use proteins from Viridaplantae for plants)
+	- Run MAKER with transcripts (Trinity), proteins (TransDecoder and SwissProt), in homology-only mode
+	- Use the MAKER predictions to train SNAP and AUGUSTUS. Self-train GeneMark
+	- Run second round of MAKER with the above (SNAP, AUGUSTUS, and GeneMark) ab initio predictions plus the results from previous MAKER rounds.
 
-3. Run direct inference evidence-based predictions:
+3. Run  Direct Inference evidence-based predictions:
 	- Align RNA-Seq with splice aware aligner (STAR or HiSat2 preferred, HiSat2 used here)
-	- Generate BAM file for each SRA-SRR id, merge them to generate a single sorted BAM file
-	- Use the sorted BAM files with multiple transcript assemblers for genome guided transcript assembly:
+	- Generate BAM file for each SRA-SRR id, merge these to generate a single BAM file sorted by XXX.@AS HOW SORTED?
+	- Use the sorted BAM file with multiple transcript assemblers for genome guided transcript assembly:
 		* Trinity GG
 		* Class2
 		* StringTie
@@ -46,14 +46,14 @@ For BIND, gene preditions by BRAKER are combined with evidence-based models.
 	- Pick best transcripts using all the above information with Miakdo Pick.
 
 4. BIND
-	- Combine BRAKER generated predictions with Evidence predictions using EVM.
+	- Combine BRAKER generated predictions with Direct Inference evidence-based predictions using EVM.
 
 5. MIND
-	- Combine MAKER generated predictions with Evidence predictions using EVM.
+	- Combine MAKER generated predictions with Direct Inference evidence-based predictions using EVM.
 
 
 
-## Steps in detail
+## Steps in detail with scripts
 
 ### 1. Finding Orphan Enriched RNAseq dataset form NCBI:
 
