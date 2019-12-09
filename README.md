@@ -36,7 +36,6 @@ Here is the overview of steps, evidence based predictions are common for both MI
 		* Class2
 		* StringTie
 		* Cufflinks
-
 	- Align Trinity transcripts to the genome to generate GFF3 file (using GMAP)
 	- Run PortCullis to remove invalid splice junctions
 	- Consolidate transcripts and generate a non-redundant set of transcripts using Mikado.
