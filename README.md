@@ -6,12 +6,14 @@ Gene models derived from direct inference evidence-based predictions are used fo
 For MIND, gene preditions by MAKER gene predictions are combined with evidence-base models. 
 For BIND, gene preditions by BRAKER are combined with evidence-based models.
 
-1. Finding Orphan Enriched RNAseq dataset form NCBI:
-	- Search RNAseq datasets for your organism on NCBI, filter Runs (SRR) for Illumina, paired-end, HiSeq 2500 or newer.
+1. Find an Orphan-Enriched RNA-Seq dataset from NCBI-SRA:
+	- Search RNA-Seq datasets for your organism on NCBI, filter Runs (SRR) for Illumina, paired-end, HiSeq 2500 or newer.
 	- Download Runs from NCBI (SRA-toolkit)
-	- run quantification against current gene models using kallisto
-	- run phylostratR on current gene models to identify orphans
+	- quantifiy against current gene models using kallisto
+	- run phylostratR on current gene models to infer phylostrata of each gene model
 	- Rank the SRRs with highest number of expressed orphans and select feasible amounts of data to work with.
+	
+	If NCBI-SRA has no samples for your organism, and you are relying solely on RNA-Seq that you generate yourself, best practice is to maximize representation of all genes by including conditions like reproductive tissues and stresses in which orphan gene expression is high.
 
 2. Run BRAKER
 	- Align RNA-Seq with splice aware aligner (STAR or HiSat2 preferred, HiSat2 used here)
@@ -19,7 +21,6 @@ For BIND, gene preditions by BRAKER are combined with evidence-based models.
 	- Run BRAKER
 
 2. Run MAKER
-
 	- Align RNA-Seq with splice aware aligner (STAR or HiSat2 preferred, HiSat2 used here)
 	- Generate BAM file for each SRA-SRR id, merge them to generate a single sorted BAM file
 	- Run Trinity to generate transcriptome assembly using the BAM file
@@ -29,8 +30,7 @@ For BIND, gene preditions by BRAKER are combined with evidence-based models.
 	- Use the MAKER predictions to train: SNAP and AUGUSTUS. Self-train GeneMark
 	- Run second round of MAKER with above three ab initio predictions along with the previous round MAKER results.
 
-3. Run evidence based predictions:
-
+3. Run direct inference evidence-based predictions:
 	- Align RNA-Seq with splice aware aligner (STAR or HiSat2 preferred, HiSat2 used here)
 	- Generate BAM file for each SRA-SRR id, merge them to generate a single sorted BAM file
 	- Use the sorted BAM files with multiple transcript assemblers for genome guided transcript assembly:
