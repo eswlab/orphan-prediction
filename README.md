@@ -1,7 +1,7 @@
 # Gene prediction and optimization using BIND and MIND workflows:
 
 ## Overview of MIND and BIND:
-  
+
 **MIND**: _ab initio_ gene predictions by **M**AKER combined with gene predictions **IN**ferred **D**irectly from alignment of RNA-Seq evidence to the genome.
 **BIND**: _ab initio_ gene predictions by **B**RAKER combined with gene predictions **IN**ferred **D**irectly from alignment of RNA-Seq evidence to the genome.
 
@@ -45,7 +45,7 @@
 	- Pick best transcripts using all the above information with Miakdo Pick.
 
 4. final step in BIND
-	- Use EVM to combine BRAKER-generated predictions with Direct Inference evidence-based predictions. 
+	- Use EVM to combine BRAKER-generated predictions with Direct Inference evidence-based predictions.
 
 5. final step in MIND
 	- Use EVM to combine MAKER-generated predictions with Direct Inference evidence-based predictions.
@@ -53,7 +53,7 @@
 
 
 ## Steps in detail, with scripts
-NB-specific case studies are here@**AS link**
+All case studies used in the manuscript are listed [here](case-studies.md). Additional information can be found by clicking on the case study (methods, parameters and dataset used).  
 
 ## 1. Finding Orphan Enriched RNAseq dataset form NCBI:
 
