@@ -136,7 +136,7 @@ cat *_1.fastq.gz >> forward_reads.fq.gz
 cat *_2.fastq.gz >> reverse_reads.fq.gz
 ```
 
-Run BRAKER using the [`runBRAKER.sh`](scripts/runBRAKER.sh) script
+Run BRAKER using the [`runBRAKER.sh`](scripts/runBraker.sh) script
 
 ```bash
 runBraker.sh forward_reads.fq.gz reverse_reads.fq.gz TAIR10_chr_all.fas
@@ -181,7 +181,7 @@ mpiexec \
 	-fix_nucleotides
 ```
 
-Upon completion, train SNAP, AUGUSUTS and Pre-trained GeneMark to run the second round using [script](../scripts/maker_process.sh)
+Upon completion, train SNAP, AUGUSTUS and Pre-trained GeneMark to run the second round using [script](../scripts/maker_process.sh)
 
 ```bash
 # process first round results and train SNAP/AUGUSTUS
