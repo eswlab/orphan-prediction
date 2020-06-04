@@ -114,7 +114,7 @@ For every SRR id, the file contains 3 columns, `effective length`, `estimated co
 ### Run phylostratr to infer phylostrata of genes, and identify orphan genes.
 
 The input to phylostratr is the predicted proteins from your gene-prediction method.
-Using this input, run the [`runPhylostrarRa.sh`](scripts/runPhylostratR.sh). This will download the datasets, but will not run BLAST.
+Using this input, run the [`runPhylostrarRa.sh`](scripts/runPhylostratRa.sh). This will download the datasets, but will not run BLAST.
 Run Blast using [`runBLASTp.sh`](scripts/runBLASTp.sh) and proceed with formatting the BLAST results using [`format-BLAST-for-phylostratr.sh`](scripts/format-BLAST-for-phylostratr.sh).
 Run the [`runPhylostratRb.sh`](scripts/runPhylostratRb.sh).
 
