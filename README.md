@@ -19,7 +19,8 @@
 	- Generate BAM file for each SRA-SRR id, merge them to generate a single sorted BAM file
 	- Run BRAKER
 
-2. Run MAKER
+
+3. Run MAKER
 	- Align RNA-Seq with splice aware aligner (STAR or HiSat2 preferred, HiSat2 used here)
 	- Generate BAM file for each SRA-SRR id, merge them to generate a single sorted BAM file
 	- Run Trinity to generate transcriptome assembly using the BAM file
@@ -29,26 +30,27 @@
 	- Use the MAKER predictions to train SNAP and AUGUSTUS. Self-train GeneMark
 	- Run second round of MAKER with the above (SNAP, AUGUSTUS, and GeneMark) ab initio predictions plus the results from previous MAKER rounds.
 
-3. Run Direct Inference evidence-based predictions:
+
+4. Run Direct Inference evidence-based predictions:
 	- Align RNA-Seq with splice aware aligner (STAR or HiSat2 preferred, HiSat2 used here)
-	- Generate BAM file for each SRA-SRR id, merge these to generate a single BAM file sorted by coordinates.
-	- Use the sorted BAM file with multiple transcript assemblers for genome guided transcript assembly:
-		* Trinity GG
+	- Generate BAM file for each SRA-SRR id
+	- For each BAM file, use multiple transcript assemblers for genome guided transcript assembly:
 		* Class2
 		* StringTie
 		* Cufflinks
-	- Align Trinity transcripts to the genome to generate GFF3 file (using GMAP)
 	- Run PortCullis to remove invalid splice junctions
 	- Consolidate transcripts and generate a non-redundant set of transcripts using Mikado.
 	- Predict ORFs on these consolidated transcripts using TransDecoder
-	- run BLASTx for consolidated transcripts against SwissProt curated dataset.
 	- Pick best transcripts using all the above information with Miakdo Pick.
 
-4. final step in BIND
-	- Use EVM to combine BRAKER-generated predictions with Direct Inference evidence-based predictions.
 
-5. final step in MIND
-	- Use EVM to combine MAKER-generated predictions with Direct Inference evidence-based predictions.
+5. final step in BIND
+	- Use Mikado to combine BRAKER-generated predictions with Direct Inference evidence-based predictions.
+
+
+6. final step in MIND
+	- Use Mikado to combine MAKER-generated predictions with Direct Inference evidence-based predictions.
+
 
 
 
@@ -218,23 +220,19 @@ maker_finalize.sh maker
 
 ## 3. Evidence (direct inference) gene models.
 
-The merged BAM file generated for BRAKER can be used here (`merged_SRA.bam`). All transcript assembly programs will use this as input to generate transcripts . If you plant to use more RNAseq data, you can use the [`runHisat2.sh`](scripts/runHisat2.sh) and generate a single, BAM file of mapped RNAseq reads.
+Cufflinks and Class2 may takes a long time to process BAM file with deep depth region. Instead of using a merged BAM file, single BAM file for each SRR sample is used in multiple transcript assembly programs to generate transcripts . If you plant to use more RNAseq data, you can use the [`runHisat2.sh`](scripts/runHisat2.sh) and generate a single, BAM file of mapped RNAseq reads.
 
-Run Transcriptome assemblies using Trinity, Class2, Cufflinks and Stringtie. The scripts  [`runTrinity-gg.sh`](scripts/runTrinity-gg.sh), [`runClass2.sh`](scripts/runClass2.sh),  [`runCufflinks.sh`](scripts/runCufflinks.sh), [`runStringtie.sh`](scripts/runStringtie.sh) can be executed as:
-
-```bash
-runTrinity-gg.sh merged_SRA.bam
-runClass2.sh merged_SRA.bam
-runCufflinks.sh merged_SRA.bam
-runStringtie.sh merged_SRA.bam
-```
-
-While Class2, Cufflinks and StringTie generates a GFF3 format transcripts, Trinity only outputs transcripts. To generate GFF3 for Trinity, we can map them back to genome using GMAP. The script [`runGMAP_on_Trinity-gg.sh`](scripts/runGMAP_on_Trinity-gg.sh) can be used as:
-
+Run Transcriptome assemblies using Class2, Cufflinks and Stringtie. The scripts   [`runClass2.sh`](scripts/runClass2.sh),  [`runCufflinks.sh`](scripts/runCufflinks.sh), [`runStringtie.sh`](scripts/runStringtie.sh) can be executed as:
 
 ```bash
-runGMAP_on_Trinity-gg.sh Trinity-GG.fasta
+while read line; do
+	./runClass2.sh ${line}_sorted.bam;
+	./runCufflinks.sh ${line}_sorted.bam;
+	./runStringtie.sh ${line}_sorted.bam;
+done < SRR_Acc_List.txt
 ```
+
+Class2, Cufflinks and StringTie generates a GFF3 format transcripts for each SRR sample.
 
 The mapped reads can them be processed to generate high confidence splice sites that are useful for picking correct transcritps. We use PortCullis [`runPortCullis.sh`](scripts/runPortCullis.sh) for that purpose:
 
@@ -242,80 +240,81 @@ The mapped reads can them be processed to generate high confidence splice sites 
 runPortCullis.sh merged_SRA.bam
 ```
 
-We will now consolidate all the transcripts, removing redundancy to create input set of transcripts for Mikado. This is done using Mikado prepare [`runMikado-1.sh`](scripts/runMikado-1.sh).
+We will now consolidate all the transcripts, removing redundancy to create input set of transcripts for Mikado. This is done using Mikado prepare [`runMikado_round1.sh.sh`](scripts/runMikado_round1.sh).
 
 Running this script requires: `list.txt` a file listing all transcript assemblies and weight; `genome.fasta` target genome assembly; `junctions.bed` with splice junctions information.
 
 `list.txt`
 
 ```
-mergedBAM_class.gtf    cs1    False
-mergedBAM_cufflinks.gtf cl1     False
-mergedBAM_stringtie.gtf st1     False
-mergedBAM_trinity_gg_match_cdna.gff3    tr1     False
+SRRID1_class.gtf    cs_SRRID1    False
+SRRID1_cufflinks.gtf cl_SRRID1     False
+SRRID1_stringtie.gtf st_SRRID1    False
+SRRID2_class.gtf    cs_SRRID2    False
+SRRID2_cufflinks.gtf cl_SRRID2     False
+SRRID2_stringtie.gtf st_SRRID2    False
+...
 ```
 
 ```bash
-runMikado-1.sh genome.fasta junctions.bed list.txt
+runMikado_round1.sh genome.fasta junctions.bed list.txt DI
 ```
 
-This will generate `mikado_prepared.fasta` file that will be used for predicting ORFs using TransDecoder [`runTransDecoder.sh`](scripts/runTransDecoder.sh) as follows.
+This will generate `DI_prepared.fasta` file that will be used for predicting ORFs using TransDecoder [`runTransDecoder2.sh`](scripts/runTransDecoder2.sh) as follows.
 
 ```bash
-runTransDecoder.sh mikado_prepared.fasta
-# output: mikado_prepared.fasta.transdecoder.bed
-```
-
-Information regarding full-length gene models can be generated using BLASTx (against the genome itself or against curated SwissPort). Here we use genome [`runBLASTx.sh`](scripts/runBLASTx.sh).
-
-```bash
-runBLASTx.sh mikado_prepared.fasta
-# output: mikado.blast.xml
+runTransDecoder2.sh DI_prepared.fasta
+# output: DI_prepared.fasta.transdecoder.bed
 ```
 
 As a final step, we will pick best transcripts for each locus and annotate them as gene using Mikado pick.
 
 ```
-runMikado-2.sh
+runMikado-2.sh DI_prepared.fasta.transdecoder.bed DI
 ```
 This will generate:
 
 ```
-mikado.loci.metrics.tsv
-mikado.loci.scores.tsv
-mikado.loci.gff3
+mikado.metrics.tsv
+mikado.scores.tsv
+DI.loci.gff3
 ```
 
 ## 4A. MIND final step
 
-Merge gene predictions by **M**AKER with gene predictions  **IN**ferred **D**irectly). Here, `maker-final.gff3` generated by MAKER with direct evidence models `mikado.loci.gff3`, EVM can be used ([`runEVM.sh`](scripts/runEVM.sh)):
+Merge gene predictions by **M**AKER with gene predictions  **IN**ferred **D**irectly. Here, `maker-final.gff3` generated by MAKER with direct evidence models `DI.loci.gff3`, Mikado can be used in the same way as Step 3, only change the `list.txt`
 
-For weights:
+`list_MIND.txt`
 ```
-OTHER_PREDICTION	Mikado_loci	2
-ABINITIO_PREDICTION	maker	1
+maker-final.gff3    mk    False
+DI.loci.gff3 DI     False
 ```
 
-Run EVM:
+Run Mikado use same scripts as Step 3:
 
 ```bash
-runEVM.sh maker-final.gff3 mikado.loci.gff3 weights.txt
-mv EVM.all.gff3 MIND-final.gff3
+runMikado_round1.sh genome.fasta junctions.bed list_MIND.txt MIND
+runTransDecoder2.sh MIND_prepared.fasta
+runMikado-2.sh MIND_prepared.fasta.transdecoder.bed MIND
+# Final MIND prediction: MIND.loci.gff3
 ```
 
 ## 4B. BIND final step
 
 Merge gene predictions of **B**RAKER with gene predictions **IN**ferred **D**irectly.
-To merge `braker-final.gff3` generated by BRAKER with direct evidence models `mikado.loci.gff3`, EVM can be used:
-For weights:
+To merge `braker-final.gff3` generated by BRAKER with direct evidence models `DI.loci.gff3`, Mikado can be used in the same way as Step 3, only change the `list.txt`
 
+`list_BIND.txt`
 ```
-OTHER_PREDICTION	Mikado_loci	2
-ABINITIO_PREDICTION	AUGUSTUS	1
+braker-final.gff3    br    False
+DI.loci.gff3 DI     False
 ```
 
-Run EVM:
+Run Mikado use same scripts as Step 3:
+
 ```bash
-runEVM.sh braker-final.gff3 mikado.loci.gff3 weights.txt
-mv EVM.all.gff3 BIND-final.gff3
+runMikado_round1.sh genome.fasta junctions.bed list_BIND.txt BIND
+runTransDecoder2.sh BIND_prepared.fasta
+runMikado-2.sh BIND_prepared.fasta.transdecoder.bed BIND
+# Final BND prediction: BIND.loci.gff3
 ```
