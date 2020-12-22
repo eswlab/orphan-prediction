@@ -1,3 +1,30 @@
+
+# Table of Contents
+<!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
+
+- [Table of Contents](#table-of-contents)
+- [Gene prediction and optimization using BIND and MIND workflows:](#gene-prediction-and-optimization-using-bind-and-mind-workflows)
+	- [Overview of MIND and BIND:](#overview-of-mind-and-bind)
+	- [Steps in detail, with scripts](#steps-in-detail-with-scripts)
+	- [1. Finding Orphan Enriched RNAseq dataset form NCBI:](#1-finding-orphan-enriched-rnaseq-dataset-form-ncbi)
+- [max file size is set to 100Gb](#max-file-size-is-set-to-100gb)
+- [change `--max-size 100G` to allow >100Gb files](#change-max-size-100g-to-allow-100gb-files)
+- [CDS](#cds)
+		- [Run phylostratr to infer phylostrata of genes, and identify orphan genes.](#run-phylostratr-to-infer-phylostrata-of-genes-and-identify-orphan-genes)
+		- [Select diverse RNA-Seq data](#select-diverse-rna-seq-data)
+	- [2A. Run BRAKER (for BIND)](#2a-run-braker-for-bind)
+	- [2B. Run MAKER (for MIND)](#2b-run-maker-for-mind)
+- [process first round results and train SNAP/AUGUSTUS](#process-first-round-results-and-train-snapaugustus)
+- [train GeneMark](#train-genemark)
+	- [3. Evidence (direct inference) gene models.](#3-evidence-direct-inference-gene-models)
+- [output: DI_prepared.fasta.transdecoder.bed](#output-dipreparedfastatransdecoderbed)
+	- [4A. MIND final step](#4a-mind-final-step)
+- [Final MIND prediction: MIND.loci.gff3](#final-mind-prediction-mindlocigff3)
+	- [4B. BIND final step](#4b-bind-final-step)
+- [Final BND prediction: BIND.loci.gff3](#final-bnd-prediction-bindlocigff3)
+
+<!-- /TOC -->
+
 # Gene prediction and optimization using BIND and MIND workflows:
 
 ## Overview of MIND and BIND:
@@ -14,15 +41,14 @@
 
 	If NCBI-SRA has no samples for your organism, and you are relying solely on RNA-Seq that you generate yourself, best practice is to maximize representation of all genes by including conditions like reproductive tissues and stresses in which orphan gene expression is high.
 
- Pick one of the 2 _ab initio_ predictions below:
+ _Pick one of the 2 _ab initio_ predictions below:_
 
-2a. Run BRAKER
+2. A. Run BRAKER
 	- Align RNA-Seq with splice aware aligner (STAR or HiSat2 preferred, HiSat2 used here)
 	- Generate BAM file for each SRA-SRR id, merge them to generate a single sorted BAM file
 	- Run BRAKER
 
-
-2b. Run MAKER
+2. B. Run MAKER
 	- Align RNA-Seq with splice aware aligner (STAR or HiSat2 preferred, HiSat2 used here)
 	- Generate BAM file for each SRA-SRR id, merge them to generate a single sorted BAM file
 	- Run Trinity to generate transcriptome assembly using the BAM file
@@ -31,7 +57,6 @@
 	- Run MAKER with transcripts (Trinity), proteins (TransDecoder and SwissProt), in homology-only mode
 	- Use the MAKER predictions to train SNAP and AUGUSTUS. Self-train GeneMark
 	- Run second round of MAKER with the above (SNAP, AUGUSTUS, and GeneMark) ab initio predictions plus the results from previous MAKER rounds.
-
 
 3. Run Direct Inference evidence-based predictions:
 	- Align RNA-Seq with splice aware aligner (STAR or HiSat2 preferred, HiSat2 used here)
@@ -47,12 +72,12 @@
 
 _If you ran BRAKER in step 2, run 4a._
 
-4a. Merge BRAKER with Direct Inference (BIND)
+4. A. Merge BRAKER with Direct Inference (BIND)
 	- Use Mikado to combine BRAKER-generated predictions with Direct Inference evidence-based predictions.
 
 _If you ran MAKER in step 2, run 4b._
 
-4b. Merge MAKER with Direct Inference (MIND)
+4. B. Merge MAKER with Direct Inference (MIND)
 	- Use Mikado to combine MAKER-generated predictions with Direct Inference evidence-based predictions.
 
 6. Evaluate your predictions
