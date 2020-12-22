@@ -14,13 +14,15 @@
 
 	If NCBI-SRA has no samples for your organism, and you are relying solely on RNA-Seq that you generate yourself, best practice is to maximize representation of all genes by including conditions like reproductive tissues and stresses in which orphan gene expression is high.
 
-2. Run BRAKER
+ Pick one of the 2 _ab initio_ predictions below:
+
+2a. Run BRAKER
 	- Align RNA-Seq with splice aware aligner (STAR or HiSat2 preferred, HiSat2 used here)
 	- Generate BAM file for each SRA-SRR id, merge them to generate a single sorted BAM file
 	- Run BRAKER
 
 
-3. Run MAKER
+2b. Run MAKER
 	- Align RNA-Seq with splice aware aligner (STAR or HiSat2 preferred, HiSat2 used here)
 	- Generate BAM file for each SRA-SRR id, merge them to generate a single sorted BAM file
 	- Run Trinity to generate transcriptome assembly using the BAM file
@@ -31,7 +33,7 @@
 	- Run second round of MAKER with the above (SNAP, AUGUSTUS, and GeneMark) ab initio predictions plus the results from previous MAKER rounds.
 
 
-4. Run Direct Inference evidence-based predictions:
+3. Run Direct Inference evidence-based predictions:
 	- Align RNA-Seq with splice aware aligner (STAR or HiSat2 preferred, HiSat2 used here)
 	- Generate BAM file for each SRA-SRR id
 	- For each BAM file, use multiple transcript assemblers for genome guided transcript assembly:
@@ -43,15 +45,22 @@
 	- Predict ORFs on these consolidated transcripts using TransDecoder
 	- Pick best transcripts using all the above information with Miakdo Pick.
 
+_If you ran BRAKER in step 2, run 4a._
 
-5. final step in BIND
+4a. Merge BRAKER with Direct Inference (BIND)
 	- Use Mikado to combine BRAKER-generated predictions with Direct Inference evidence-based predictions.
 
+_If you ran MAKER in step 2, run 4b._
 
-6. final step in MIND
+4b. Merge MAKER with Direct Inference (MIND)
 	- Use Mikado to combine MAKER-generated predictions with Direct Inference evidence-based predictions.
 
+6. Evaluate your predictions
 
+   - Run `BUSCO` to see how well the consereved genes are represented in your final predictions
+	 - Run `OrthoFinder` to find and annotate orthologs present in your predictions
+	 - Run `phylostratR` to find orphan genes in your predictions
+	 - Add functional annotation to your genes using homology and `InterProScan`
 
 
 ## Steps in detail, with scripts
