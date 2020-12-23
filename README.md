@@ -82,9 +82,9 @@ _If you ran MAKER in step 2, run 4b._
 
 6. Evaluate your predictions
 
-   - Run `BUSCO` to see how well the consereved genes are represented in your final predictions
-	 - Run `OrthoFinder` to find and annotate orthologs present in your predictions
-	 - Run `phylostratR` to find orphan genes in your predictions
+   - Run [`BUSCO`](busco.md) to see how well the conserved genes are represented in your final predictions
+	 - Run [`OrthoFinder`](orthofinder.md) to find and annotate orthologs present in your predictions
+	 - Run [`phylostratR`](phylostratr.md) to find orphan genes in your predictions
 	 - Add functional annotation to your genes using homology and `InterProScan`
 
 
