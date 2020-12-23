@@ -89,7 +89,7 @@ We will run `phylostratr` in 3 parts. In the first part, we will find the taxono
 
 We will use _Arabidopsis thaliana_ as an example. To find the Taxonomy id, you can look up the scientific name on [NCBI taxonomy database](https://www.ncbi.nlm.nih.gov/taxonomy). The ID is `3702`
 
-```
+```python
 library(reshape2)
 library(taxizedb)
 library(dplyr)
