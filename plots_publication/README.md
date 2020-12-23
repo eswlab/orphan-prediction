@@ -1,1 +1,1 @@
-## Will be updated scoon
+## Will be updated soon
