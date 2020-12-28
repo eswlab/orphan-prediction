@@ -120,7 +120,8 @@ done<SRR_Acc_List.txt
 # change `--max-size 100G` to allow >100Gb files
 ```
 
-Note: depending on how much data you find, this can take a lot of time as well as resources (disk usage). You may need to narrow down and select only a subset of total datasets. One way to do this is by selecting SRRs most likely to be diverse (eg: stress response, flowering tissue, or SRRs with very deep coverage). In this workflow, we will screen them based on number of orphan genes expressed in each SRR. This assumes that you have existing annotations for your organism. If you don't, then you can skip the next few steps and move to "Run BRAKER" section.
+Note: depending on how much data you find, this can take a lot of time and resources (disk usage). You may need to narrow down and select only a subset of total datasets. One way to choose datasets with maximal orphan representation is to select SRRs most likely to be diverse (eg: stress response, flowering tissue, or SRRs with very deep coverage). 
+A better way, which we do in this workflow, is to screen runs based on number of known orphan genes expressed in each SRR; however, this method assumes that you have some existing orphan gene annotations for your organism. If you can't screen runs based on number of known orphan genes, then you can skip the next few steps and move to "Run BRAKER" (or "Run MAKER) section.
 
 Download the CDS sequences for your organism
 
