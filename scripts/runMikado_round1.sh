@@ -1,5 +1,6 @@
 #!/bin/bash
 export PATH="/home/aseethar/miniconda3/bin:$PATH"
+# Mikado 2.0
 source activate mikado
 list=$3
 genome=$1
