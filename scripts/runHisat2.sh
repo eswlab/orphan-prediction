@@ -1,6 +1,7 @@
 #!/bin/bash
-module load samtools
-module load hisat2
+module load samtools/1.10-py3-xuj7ylj
+module load hisat2/2.2.0-5kvb7f2
+
 R1="$1"
 R2=$(echo $R1 |sed 's/_1.fastq.gz/_2.fastq.gz/g')
 out=$(echo $R1 |cut -f 1 -d "_")
