@@ -1,0 +1,1 @@
+mamba create -n orphan_prediction -c bioconda pyrpipe hisat2=2.2.1 stringtie=2.1.5 sra-tools=2.10.9 cufflinks=2.2.1
