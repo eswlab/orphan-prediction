@@ -218,7 +218,7 @@ mpiexec \
 	-fix_nucleotides
 ```
 
-Upon completion, train SNAP, AUGUSTUS and Pre-trained GeneMark to run the second round using [script](../scripts/maker_process.sh)
+Upon completion, train SNAP, AUGUSTUS and Pre-trained GeneMark to run the second round using [script](scripts/maker_process.sh)
 
 ```bash
 # process first round results and train SNAP/AUGUSTUS
@@ -247,7 +247,7 @@ mpiexec \
 	-fix_nucleotides
 ```
 
-finalize predictions using [`maker_finalize.sh`](../scripts/maker_finalize.sh) script.
+finalize predictions using [`maker_finalize.sh`](scripts/maker_finalize.sh) script.
 
 ```bash
 maker_finalize.sh maker
@@ -269,7 +269,7 @@ done < SRR_Acc_List.txt
 
 Class2, Cufflinks and StringTie generates a GFF3 format transcripts for each SRR sample.
 
-The mapped reads can them be processed to generate high confidence splice sites that are useful for picking correct transcritps. We use PortCullis [`runPortCullis.sh`](scripts/runPortCullis.sh) for that purpose:
+The mapped reads can them be processed to generate high confidence splice sites that are useful for picking correct transcritps. We use PortCullis [`runPortCullis.sh`](scripts/runPortcullis.sh) for that purpose:
 
 ```bash
 runPortCullis.sh merged_SRA.bam
@@ -353,3 +353,24 @@ runTransDecoder2.sh BIND_prepared.fasta
 runMikado-2.sh BIND_prepared.fasta.transdecoder.bed BIND
 # Final BND prediction: BIND.loci.gff3
 ```
+
+## Prediction tools include:
+
+| Tool                                                                                 | Purpose             |
+|--------------------------------------------------------------------------------------|---------------------|
+| [SRA Tools](https://github.com/ncbi/sra-tools) (v. 2.9.6 )                  | SRA access          |
+| [Hisat2](https://ccb.jhu.edu/software/hisat2/index.shtml) (v. 2.2.0)                            | Alignment           |
+| [STAR](https://github.com/alexdobin/STAR) (v. 2.7.7a)                                           | Alignment           |
+| [Kallisto](https://pachterlab.github.io/kallisto/) (v. 0.46.2)                                  | Quantification      |
+| [Samtools](https://github.com/samtools/samtools) (v. 1.10)                                    | Tools               |
+| [CLASS2](http://ccb.jhu.edu/people/florea/research/CLASS2/) (v. 2.1.7)                           | Transcript Assembly |
+| [Stringtie](https://github.com/gpertea/stringtie) (v. 1.3.3)                                   | Transcript Assembly |
+| [Cufflinks](http://cole-trapnell-lab.github.io/cufflinks/) (v. 2.2.1)                           | Transcript Assembly |
+| [Porticullis](https://github.com/maplesond/portcullis) (v. 1.2.2)                           | Tools |
+| [Transdecoder](https://github.com/TransDecoder/TransDecoder) (v. 3.0.1)                           | CDS prediction |
+| [Mikado](https://github.com/EI-CoreBioinformatics/mikado) (v. 2.0)                           | Direct Inference prediction |
+| [Phylostratr](https://github.com/arendsee/phylostratr) (v. 0.2.0)                                    | Phylostratigraphy              |
+| [BLAST](https://www.ncbi.nlm.nih.gov/books/NBK279668/) (v. 3.11.0)                                    | Tools               |
+| [Braker](https://github.com/Gaius-Augustus/BRAKER) (v. 2.1.2)                                    | _Ab initio_ prediction               |
+| [Maker](http://www.yandell-lab.org/software/maker-p.html) (v. 2.31.10)                                    | _Ab initio_ prediction               |
+| [GMAP-GSNAP](http://research-pub.gene.com/gmap/) (v. 2019-05-12)                                    | Alignment               |
