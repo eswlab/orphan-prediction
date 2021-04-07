@@ -2,6 +2,12 @@
 module load samtools/1.10-py3-xuj7ylj
 module load hisat2/2.2.0-5kvb7f2
 
+# build hisat2 inddex, only need once.
+# genome=TAIR10_chr_all.fas
+# index=TAIR10_chr_all
+# hisat2-build ${genome} ${index}
+
+
 R1="$1"
 R2=$(echo $R1 |sed 's/_1.fastq.gz/_2.fastq.gz/g')
 out=$(echo $R1 |cut -f 1 -d "_")
