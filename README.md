@@ -275,7 +275,7 @@ The mapped reads can them be processed to generate high confidence splice sites 
 runPortCullis.sh merged_SRA.bam
 ```
 
-We will now consolidate all the transcripts, removing redundancy to create input set of transcripts for Mikado. This is done using Mikado prepare [`runMikado_round1.sh.sh`](scripts/runMikado_round1.sh).
+We will now consolidate all the transcripts, removing redundancy to create input set of transcripts for Mikado. This is done using Mikado prepare [`runMikado_round1.sh`](scripts/runMikado_round1.sh).
 
 Running this script requires: `list.txt` a file listing all transcript assemblies and weight; `genome.fasta` target genome assembly; `junctions.bed` with splice junctions information.
 
@@ -305,7 +305,7 @@ runTransDecoder2.sh DI_prepared.fasta
 As a final step, we will pick best transcripts for each locus and annotate them as gene using Mikado pick.
 
 ```
-runMikado-2.sh DI_prepared.fasta.transdecoder.bed DI
+runMikado_round2.sh DI_prepared.fasta.transdecoder.bed DI
 ```
 This will generate:
 
