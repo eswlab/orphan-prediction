@@ -6,7 +6,7 @@
 #SBATCH -o transdecoder.o%j
 #SBATCH -e transdecoder.e%j
 
-module load transdecoder
+module load transdecoder/3.0.1
 
 fasta=$1
 
