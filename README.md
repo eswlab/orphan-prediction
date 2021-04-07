@@ -22,7 +22,7 @@
 - [Final MIND prediction: MIND.loci.gff3](#final-mind-prediction-mindlocigff3)
 	- [4B. BIND final step](#4b-bind-final-step)
 - [Final BND prediction: BIND.loci.gff3](#final-bnd-prediction-bindlocigff3)
-- Tools list
+- [Tools list](#prediction-tools-include)
 
 <!-- /TOC -->
 
