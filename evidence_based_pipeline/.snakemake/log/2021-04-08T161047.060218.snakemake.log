@@ -1,0 +1,4 @@
+Building DAG of jobs...
+MissingInputException in line 27 of /ocean/projects/mcb190119p/usingh/urmi/max_orphans/orphan-prediction/evidence_based_pipeline/Snakefile:
+Missing input files for rule all:
+direct_inference_out/portcullis_out/3-filt/portcullis_filtered.pass.junctions.bed

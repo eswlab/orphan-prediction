@@ -1,0 +1,3 @@
+NameError in line 28 of /ocean/projects/mcb190119p/usingh/urmi/max_orphans/orphan-prediction/evidence_based_pipeline/Snakefile:
+name 'DIR' is not defined
+  File "/ocean/projects/mcb190119p/usingh/urmi/max_orphans/orphan-prediction/evidence_based_pipeline/Snakefile", line 28, in <module>

@@ -1,0 +1,30 @@
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 2
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	1	bam_merge
+	2
+
+[Thu Apr  8 15:51:05 2021]
+rule bam_merge:
+    input: direct_inference_out/SRR976159/SRR976159_hisat2_sorted.bam, direct_inference_out/SRR978411/SRR978411_hisat2_sorted.bam, direct_inference_out/SRR971778/SRR971778_hisat2_sorted.bam
+    output: direct_inference_out/merged.bam
+    jobid: 1
+    wildcards: wd=direct_inference_out
+
+[Thu Apr  8 15:52:20 2021]
+Finished job 1.
+1 of 2 steps (50%) done
+
+[Thu Apr  8 15:52:20 2021]
+localrule all:
+    input: direct_inference_out/merged.bam
+    jobid: 0
+
+[Thu Apr  8 15:52:20 2021]
+Finished job 0.
+2 of 2 steps (100%) done
+Complete log: /ocean/projects/mcb190119p/usingh/urmi/max_orphans/orphan-prediction/evidence_based_pipeline/.snakemake/log/2021-04-08T155104.103444.snakemake.log

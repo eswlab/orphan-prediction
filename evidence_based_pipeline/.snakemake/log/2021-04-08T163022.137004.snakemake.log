@@ -1,0 +1,6 @@
+Building DAG of jobs...
+MissingInputException in line 75 of /ocean/projects/mcb190119p/usingh/urmi/max_orphans/orphan-prediction/evidence_based_pipeline/Snakefile:
+Missing input files for rule create_GTFlist:
+direct_inference_out/SRR971778/SRR971778_hisat2_sorted_class2.gtf
+direct_inference_out/SRR978411/SRR978411_hisat2_sorted_class2.gtf
+direct_inference_out/SRR976159/SRR976159_hisat2_sorted_class2.gtf

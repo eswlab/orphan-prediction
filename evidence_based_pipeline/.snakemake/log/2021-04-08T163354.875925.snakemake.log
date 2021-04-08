@@ -1,0 +1,43 @@
+Building DAG of jobs...
+Using shell: /usr/bin/bash
+Provided cores: 2
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	1	all
+	1	create_GTFlist
+	1	portcullis
+	3
+
+[Thu Apr  8 16:33:56 2021]
+rule create_GTFlist:
+    input: direct_inference_out/SRR976159/SRR976159_hisat2_sorted_cufflinks.gtf, direct_inference_out/SRR978411/SRR978411_hisat2_sorted_cufflinks.gtf, direct_inference_out/SRR971778/SRR971778_hisat2_sorted_cufflinks.gtf, direct_inference_out/SRR976159/SRR976159_hisat2_sorted_stringtie.gtf, direct_inference_out/SRR978411/SRR978411_hisat2_sorted_stringtie.gtf, direct_inference_out/SRR971778/SRR971778_hisat2_sorted_stringtie.gtf
+    output: direct_inference_out/gtflist.txt
+    jobid: 6
+    wildcards: wd=direct_inference_out
+
+[Thu Apr  8 16:33:58 2021]
+Finished job 6.
+1 of 3 steps (33%) done
+
+[Thu Apr  8 16:33:58 2021]
+rule portcullis:
+    input: direct_inference_out/merged.bam, direct_inference_out/gtflist.txt
+    output: direct_inference_out/portcullis_out/3-filt/portcullis_filtered.pass.junctions.bed
+    jobid: 1
+    wildcards: _dir=direct_inference_out
+
+[Thu Apr  8 16:33:59 2021]
+Error in rule portcullis:
+    jobid: 1
+    output: direct_inference_out/portcullis_out/3-filt/portcullis_filtered.pass.junctions.bed
+    shell:
+        
+		echo "portcullis full --threads 12 --output direct_inference_out/portcullis_out reference_data/TAIR10_chr_all.fas direct_inference_out/merged.bam direct_inference_out/gtflist.txt"
+		portcullis full --threads 12 --output direct_inference_out/portcullis_out reference_data/TAIR10_chr_all.fas direct_inference_out/merged.bam direct_inference_out/gtflist.txt
+		
+        (one of the commands exited with non-zero exit code; note that snakemake uses bash strict mode!)
+
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look above for error message
+Complete log: /ocean/projects/mcb190119p/usingh/urmi/max_orphans/orphan-prediction/evidence_based_pipeline/.snakemake/log/2021-04-08T163354.875925.snakemake.log

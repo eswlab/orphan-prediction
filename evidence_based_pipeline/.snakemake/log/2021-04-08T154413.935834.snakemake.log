@@ -1,0 +1,8 @@
+AttributeError in line 23 of /ocean/projects/mcb190119p/usingh/urmi/max_orphans/orphan-prediction/evidence_based_pipeline/Snakefile:
+'str' object has no attribute 'copy'
+  File "/ocean/projects/mcb190119p/usingh/urmi/max_orphans/orphan-prediction/evidence_based_pipeline/Snakefile", line 23, in <module>
+  File "/ocean/projects/mcb190119p/usingh/lib/myAnacondaBridges2/envs/orphan_prediction/lib/python3.6/site-packages/pyrpipe/assembly.py", line 118, in __init__
+  File "/ocean/projects/mcb190119p/usingh/lib/myAnacondaBridges2/envs/orphan_prediction/lib/python3.6/site-packages/pyrpipe/runnable.py", line 101, in _param_yaml
+  File "/ocean/projects/mcb190119p/usingh/lib/myAnacondaBridges2/envs/orphan_prediction/lib/python3.6/site-packages/pyrpipe/runnable.py", line 281, in load_yaml
+  File "/ocean/projects/mcb190119p/usingh/lib/myAnacondaBridges2/envs/orphan_prediction/lib/python3.6/site-packages/pyrpipe/param_loader.py", line 34, in __init__
+  File "/ocean/projects/mcb190119p/usingh/lib/myAnacondaBridges2/envs/orphan_prediction/lib/python3.6/site-packages/pyrpipe/param_loader.py", line 54, in parse_params

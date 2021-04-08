@@ -1,0 +1,4 @@
+Building DAG of jobs...
+WildcardError in line 108 of /ocean/projects/mcb190119p/usingh/urmi/max_orphans/orphan-prediction/evidence_based_pipeline/Snakefile:
+Wildcards in input files cannot be determined from output files:
+'wd'

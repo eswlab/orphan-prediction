@@ -1,0 +1,23 @@
+Building DAG of jobs...
+Provided cores: 2
+Rules claiming more threads will be scaled down.
+Job counts:
+	count	jobs
+	3	align_assemble
+	1	all
+	4
+
+rule align_assemble:
+    output: direct_inference_out/SRR971778/SRR971778_hisat2_sorted.bam, direct_inference_out/SRR971778/SRR971778_hisat2_sorted_stringtie.gtf, direct_inference_out/SRR971778/SRR971778_hisat2_sorted_cufflinks.gtf
+    jobid: 1
+    wildcards: wd=direct_inference_out, sample=SRR971778
+
+rule align_assemble:
+    output: direct_inference_out/SRR976159/SRR976159_hisat2_sorted.bam, direct_inference_out/SRR976159/SRR976159_hisat2_sorted_stringtie.gtf, direct_inference_out/SRR976159/SRR976159_hisat2_sorted_cufflinks.gtf
+    jobid: 3
+    wildcards: wd=direct_inference_out, sample=SRR976159
+
+Will exit after finishing currently running jobs.
+Will exit after finishing currently running jobs.
+Exiting because a job execution failed. Look above for error message
+Complete log: .snakemake/log/2021-04-07T231808.283625.snakemake.log

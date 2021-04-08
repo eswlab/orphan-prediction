@@ -1,0 +1,12 @@
+evidence_based_pipeline/__pycache__
+evidence_based_pipeline/CLASS-2.1.7
+evidence_based_pipeline/direct_inference_out
+evidence_based_pipeline/reference_data
+evidence_based_pipeline/testout
+evidence_based_pipeline/*.fasta
+evidence_based_pipeline/*.fasta.fai
+evidence_based_pipeline/*.log
+evidence_based_pipeline/*.gtf
+evidence_based_pipeline/mkconf.yaml
+evidence_based_pipeline/orfipy_out
+evidence_based_pipeline/pyrpipe_logs
