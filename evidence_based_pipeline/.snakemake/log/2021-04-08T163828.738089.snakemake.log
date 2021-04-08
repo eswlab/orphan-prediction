@@ -1,2 +1,0 @@
-SyntaxError in line 105 of /ocean/projects/mcb190119p/usingh/urmi/max_orphans/orphan-prediction/evidence_based_pipeline/Snakefile:
-Command must be given as string after the shell keyword. (Snakefile, line 105)

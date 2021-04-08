@@ -10,3 +10,5 @@ evidence_based_pipeline/*.gtf
 evidence_based_pipeline/mkconf.yaml
 evidence_based_pipeline/orfipy_out
 evidence_based_pipeline/pyrpipe_logs
+evidence_based_pipeline/.snakemake
+evidence_based_pipeline/.pyrpipe
