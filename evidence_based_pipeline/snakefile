@@ -112,6 +112,8 @@ rule mikado:
 		
 
 	output: "mikado.loci.gff3"
+	
+	conda: "envs/mikado_orfipy.yaml"
 
 	shell:
 		"""
@@ -125,7 +127,7 @@ rule mikado:
 		orfipy mikado_prepared.fasta --min {_min_orf_len} --max {_max_orf_len} --outdir orfipy_out  --bed12 orfs.bed --include-stop --start ATG
 
 		#step 4 serialise
-		mikado serialise --json-conf {_mikado_conf_file} --orfs orfipy_out/orfs.bed -nsa  -p {_threads} --max-objects 1000000  --seed {_seed}
+		mikado serialise --json-conf {_mikado_conf_file} --orfs orfipy_out/orfs.bed -nsa  -p 1 --max-objects 1000000  --seed {_seed}
 
 		#step 5 pick
 		mikado pick --json-conf {_mikado_conf_file} --procs {_threads} --shm --mode {_mode} --seed {_seed}

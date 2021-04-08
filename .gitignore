@@ -12,3 +12,5 @@ evidence_based_pipeline/orfipy_out
 evidence_based_pipeline/pyrpipe_logs
 evidence_based_pipeline/.snakemake
 evidence_based_pipeline/.pyrpipe
+evidence_based_pipeline/mikado.loci.*
+evidence_based_pipeline/mikado.db
