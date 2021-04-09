@@ -1,3 +1,4 @@
+evidence_based_pipeline/*.out
 evidence_based_pipeline/__pycache__
 evidence_based_pipeline/CLASS-2.1.7
 evidence_based_pipeline/direct_inference_out

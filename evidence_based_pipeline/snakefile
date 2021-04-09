@@ -42,7 +42,7 @@ rule all:
   		#expand("{wd}/merged.bam",wd=_dir,sample=_srr)
 		expand("{wd}/portcullis_out/3-filt/portcullis_filtered.pass.junctions.bed",wd=_dir,sample=_srr),
 		expand("{wd}/gtflist.txt",wd=_dir),
-		"mikado.loci.gff3"
+		expand("{wd}/metaassembly/mikado.loci.gff3",wd=_dir)
 
 
 rule align_assemble:
@@ -57,8 +57,9 @@ rule align_assemble:
 		srrid=outfile.split("/")[1]
 		sra.SRA(srrid,directory=_dir).align(hisat2).assemble(stringtie).assemble(cufflinks).delete_fastq()
 
-#may need large memory node for bam merge
+#may need large memory node for bam merge; this rule is merged with portcullis as both may need big ram
 rule bam_merge:
+	group: "mergebam"
 	input:
 		expand("{wd}/{sample}/{sample}_hisat2_sorted.bam",wd=_dir,sample=_srr)
 	output:
@@ -72,6 +73,7 @@ rule bam_merge:
 
 
 rule portcullis:
+	group: "mergebam"
 	input:
 		"{_dir}/merged.bam",
 	output:
@@ -83,8 +85,9 @@ rule portcullis:
 		portcullis full --threads {_threads} --output {_dir}/portcullis_out {_genome} {input}
 		"""	
 
-#create a gtf list to input to mikado
+#create a gtf list to input to mikado in the meta_assembly rule; this rule is grouped with rule mergedbam 
 rule create_GTFlist:
+	group: "mergebam"
 	input:
 		g1=expand("{wd}/{sample}/{sample}_hisat2_sorted_cufflinks.gtf",sample=_srr,wd=_dir),
                 g2=expand("{wd}/{sample}/{sample}_hisat2_sorted_stringtie.gtf",sample=_srr,wd=_dir),
@@ -105,13 +108,14 @@ rule create_GTFlist:
 		f.write("\n".join(gtfs))
 		f.close()
 
-rule mikado:
+rule final_assembly:
+	group: "metaassembly"
 	input:
 		junctions=expand("{wd}/portcullis_out/3-filt/portcullis_filtered.pass.junctions.bed",wd=_dir),
 		gtflist=expand("{wd}/gtflist.txt",wd=_dir),
 		
 
-	output: "mikado.loci.gff3"
+	output: "{_dir}/metaassembly/mikado.loci.gff3"
 	
 	conda: "envs/mikado_orfipy.yaml"
 
@@ -131,6 +135,10 @@ rule mikado:
 
 		#step 5 pick
 		mikado pick --json-conf {_mikado_conf_file} --procs {_threads} --shm --mode {_mode} --seed {_seed}
+
+                #step 6 move all files to outdir
+		mkdir -p {_dir}/metaassembly
+		mv mikado.db mikado.loci.gff3 mikado.loci.metrics.tsv mikado.loci.scores.tsv mikado_prepared.fasta mikado_prepared.fasta.fai mikado_prepared.gtf  mkconf.yaml orfipy_out pick.log prepare.log serialise.log {_dir}/metaassembly
 
 		"""
 
