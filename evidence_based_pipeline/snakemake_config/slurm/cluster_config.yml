@@ -1,0 +1,27 @@
+__default__:
+    partition: RM # partition you use
+    mail-user: user@domain.edu # your email for notifications
+    time: "8:000" # default time
+    nodes: 1
+    ntasks: 25
+
+align_assemble:
+    partition: RM-shared
+    time: "4:00:00"
+    nodes: 1
+    ntasks: 25
+
+bam_merge:
+    time: "48:00:00"
+    nodes: 1
+    ntasks: 25
+
+portcullis:
+    time: "48:00:00"
+    nodes: 1
+    ntasks: 25
+
+final_assembly:
+    time: "48:00:00"
+    nodes: 1
+    ntasks: 25

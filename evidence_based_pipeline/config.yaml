@@ -1,16 +1,20 @@
+# Specify the output directory
 DIR: "direct_inference_out"
-THREADS: 12
+# Specify threads to use
+THREADS: 24
+# Specify path to genome
 genome: "reference_data/TAIR10_chr_all.fas"
+# Specify hisat2 index
 hisat2_index: "reference_data/TAIR10_chr_all"
 
-##Mikado options
+# Specify Mikado options
 mode: "nosplit"
 scoring_file: "mammalian_orphan.yaml"
 seed: 1234
 min_cdna: 100
 mikado_conf_file: "mkconf.yaml"
 
-##Orfipy options
+# Specify orfipy options
 min_orf_len: 100
 max_orf_len: 100000000
 
