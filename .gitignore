@@ -14,3 +14,4 @@ evidence_based_pipeline/.snakemake
 evidence_based_pipeline/.pyrpipe
 evidence_based_pipeline/mikado.loci.*
 evidence_based_pipeline/mikado.db
+docs/build
