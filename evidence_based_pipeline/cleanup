@@ -1,0 +1,1 @@
+rm -r mikado.db mikado.loci.gff3 mikado.loci.metrics.tsv mikado.loci.scores.tsv mikado_prepared.fasta mikado_prepared.fasta.fai mikado_prepared.gtf  mkconf.yaml orfipy_out pick.log prepare.log serialise.log

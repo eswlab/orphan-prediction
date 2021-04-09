@@ -1,0 +1,16 @@
+DIR: "direct_inference_out"
+THREADS: 12
+genome: "reference_data/TAIR10_chr_all.fas"
+hisat2_index: "reference_data/TAIR10_chr_all"
+
+##Mikado options
+mode: "nosplit"
+scoring_file: "mammalian_orphan.yaml"
+seed: 1234
+min_cdna: 100
+mikado_conf_file: "mkconf.yaml"
+
+##Orfipy options
+min_orf_len: 100
+max_orf_len: 100000000
+

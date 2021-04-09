@@ -1,0 +1,152 @@
+import yaml
+import sys
+import os
+from pyrpipe import sra,mapping,assembly
+from pyrpipe import pyrpipe_utils as pu
+import pandas as pd
+
+
+####Read config#####
+configfile: "config.yaml"
+_dir = config['DIR']
+_threads=config['THREADS']
+_index=config['hisat2_index']
+_genome=config['genome']
+#mikado options
+_mode=config['mode']
+_scoring=config['scoring_file']
+_seed=config['seed']
+_min_cdna=config['min_cdna']
+_mikado_conf_file=config['mikado_conf_file']
+#orfipy options
+_min_orf_len=config['min_orf_len']
+_max_orf_len=config['max_orf_len']
+
+
+
+#####Read SRR ids######
+with open ("srrids.txt") as f:
+	_srr=f.read().splitlines()
+
+#create salmon object. If index is not present it will be created
+hisat2=mapping.Hisat2(index='reference_data/TAIR10_chr_all',threads=_threads)
+stringtie=assembly.Stringtie(threads=_threads)
+cufflinks=assembly.Cufflinks(threads=_threads)
+
+
+rule all:
+	input:
+		#expand("{wd}/{sample}/{sample}_hisat2_sorted.bam",wd=_dir,sample=_srr),
+		#expand("{wd}/{sample}/{sample}_hisat2_sorted_stringtie.gtf",wd=_dir,sample=_srr),
+		#expand("{wd}/{sample}/{sample}_hisat2_sorted_cufflinks.gtf",wd=_dir,sample=_srr)
+  		#expand("{wd}/merged.bam",wd=_dir,sample=_srr)
+		expand("{wd}/portcullis_out/3-filt/portcullis_filtered.pass.junctions.bed",wd=_dir,sample=_srr),
+		expand("{wd}/gtflist.txt",wd=_dir),
+		"mikado.loci.gff3"
+
+
+rule align_assemble:
+	output:
+		bam="{wd}/{sample}/{sample}_hisat2_sorted.bam",
+                stringtie_gtf="{wd}/{sample}/{sample}_hisat2_sorted_stringtie.gtf",
+                cufflinks_gtf="{wd}/{sample}/{sample}_hisat2_sorted_cufflinks.gtf"
+                #class2_gtf=""
+               
+	run:
+		outfile=str(output.bam)
+		srrid=outfile.split("/")[1]
+		sra.SRA(srrid,directory=_dir).align(hisat2).assemble(stringtie).assemble(cufflinks).delete_fastq()
+
+#may need large memory node for bam merge
+rule bam_merge:
+	input:
+		expand("{wd}/{sample}/{sample}_hisat2_sorted.bam",wd=_dir,sample=_srr)
+	output:
+		"{wd}/merged.bam"
+	
+	shell:
+		"""
+		echo "sambamba merge -t {_threads} {output} {input}"
+		sambamba merge -t 25 {output} {input}
+		"""
+
+
+rule portcullis:
+	input:
+		"{_dir}/merged.bam",
+	output:
+		"{_dir}/portcullis_out/3-filt/portcullis_filtered.pass.junctions.bed"
+	
+	shell:
+		"""
+		echo "portcullis full --threads {_threads} --output {_dir}/portcullis_out {_genome} {input}"
+		portcullis full --threads {_threads} --output {_dir}/portcullis_out {_genome} {input}
+		"""	
+
+#create a gtf list to input to mikado
+rule create_GTFlist:
+	input:
+		g1=expand("{wd}/{sample}/{sample}_hisat2_sorted_cufflinks.gtf",sample=_srr,wd=_dir),
+                g2=expand("{wd}/{sample}/{sample}_hisat2_sorted_stringtie.gtf",sample=_srr,wd=_dir),
+                #g3=expand("{wd}/{sample}/{sample}_hisat2_sorted_class2.gtf",sample=_srr,wd=_dir),
+	output:
+		"{wd}/gtflist.txt"
+	run:
+		filepath=_dir+"/gtflist.txt"
+		gtfs=[]
+		temp=input.g1+input.g2#+input.g3
+		for l in temp:
+			fullpath=os.path.abspath(l)
+			thisName=pu.get_file_basename(l)
+			if thisName:
+				gtfs.append("\t".join([fullpath,thisName,"False"]))
+       
+		f=open(filepath,"w")
+		f.write("\n".join(gtfs))
+		f.close()
+
+rule mikado:
+	input:
+		junctions=expand("{wd}/portcullis_out/3-filt/portcullis_filtered.pass.junctions.bed",wd=_dir),
+		gtflist=expand("{wd}/gtflist.txt",wd=_dir),
+		
+
+	output: "mikado.loci.gff3"
+	
+	conda: "envs/mikado_orfipy.yaml"
+
+	shell:
+		"""
+		#step 1 configure
+		mikado configure --list {input.gtflist} --reference {_genome} --mode {_mode} --scoring {_scoring} --junctions {input.junctions} --seed {_seed} -t {_threads} --minimum-cdna-length {_min_cdna} {_mikado_conf_file}
+		
+		#step 2 prepare
+		mikado prepare --json-conf {_mikado_conf_file} -m {_min_cdna} -p {_threads} --seed {_seed}
+	
+		#step 3 run orfipy
+		orfipy mikado_prepared.fasta --min {_min_orf_len} --max {_max_orf_len} --outdir orfipy_out  --bed12 orfs.bed --include-stop --start ATG
+
+		#step 4 serialise
+		mikado serialise --json-conf {_mikado_conf_file} --orfs orfipy_out/orfs.bed -nsa  -p 1 --max-objects 1000000  --seed {_seed}
+
+		#step 5 pick
+		mikado pick --json-conf {_mikado_conf_file} --procs {_threads} --shm --mode {_mode} --seed {_seed}
+
+		"""
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
