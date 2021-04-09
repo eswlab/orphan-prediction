@@ -9,6 +9,8 @@ SRA=$1
 
 # Download sra file with ASCP, which should provide the path of ASCP keys
 prefetch \
+   # max file size is set to 100Gb
+   # change `--max-size 100G` to allow >100Gb files
    --max-size 100G \
    --transport ascp \
    # provide ASCP keys. Or download without ascp if don't set --ascp-path.
