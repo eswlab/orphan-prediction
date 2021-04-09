@@ -12,7 +12,7 @@ MAKERDIR="$1"
 
 # Re-do the index file as it will be scramblled due to mpi, so remove the log file.
 rm ${MAKERDIR}.maker.output/${MAKERDIR}_master_datastore_index.log
-/work/GIF/software/programs/maker/2.31.9/bin/maker -base ${MAKERDIR} -fix_nucleotides -dsindex
+maker -base ${MAKERDIR} -fix_nucleotides -dsindex
 
 # Make GFF3 and FASTA files for predictions.
 gff3_merge  -d ${MAKERDIR}.maker.output/${MAKERDIR}_master_datastore_index.log
