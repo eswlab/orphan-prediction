@@ -11,11 +11,11 @@ module load singularity/3.1.1
 # Provide path of reference genome sequence and merged bam file.
 # The merged bam file obtained from the process of braker.
 # You can also provide multiple single bam files got from 01_runHisat2.sh, but it takes some time to merge bam files. It's faster to provide merged bam if you already run braker.
-ref=TAIR10_chr_all.fas
-bam=TAIR10_rnaseq.bam
+ref=$1
+bam=$2
 
 # Change the path of the portcullis image you've downloaded
-singularity exec /path/to/portcullis_stable.sif  portcullis full --threads 16 --verbose --use_csi --output portcullis_out $ref $bam
+singularity exec /path/to/portcullis_stable.sif  portcullis full --threads 16 --verbose --use_csi --output portcullis_out ${ref} ${bam}
 
 # If you installed portcullis in your computer without using container, just do:
 # portcullis full --threads 16 --verbose --use_csi --output portcullis_out $ref $bam
