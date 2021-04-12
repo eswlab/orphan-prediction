@@ -367,6 +367,7 @@ runMikado-2.sh BIND_prepared.fasta.transdecoder.bed BIND
 | [CLASS2](http://ccb.jhu.edu/people/florea/research/CLASS2/) (v. 2.1.7)                           | Transcript Assembly |
 | [Stringtie](https://github.com/gpertea/stringtie) (v. 1.3.3)                                   | Transcript Assembly |
 | [Cufflinks](http://cole-trapnell-lab.github.io/cufflinks/) (v. 2.2.1)                           | Transcript Assembly |
+| [Trinity](https://github.com/trinityrnaseq/trinityrnaseq) (v. 2.6.6)                           | Transcript Assembly |
 | [Porticullis](https://github.com/maplesond/portcullis) (v. 1.2.2)                           | Tools |
 | [Transdecoder](https://github.com/TransDecoder/TransDecoder) (v. 3.0.1)                           | CDS prediction |
 | [Mikado](https://github.com/EI-CoreBioinformatics/mikado) (v. 2.0)                           | Direct Inference prediction |
@@ -375,3 +376,5 @@ runMikado-2.sh BIND_prepared.fasta.transdecoder.bed BIND
 | [Braker](https://github.com/Gaius-Augustus/BRAKER) (v. 2.1.2)                                    | _Ab initio_ prediction               |
 | [Maker](http://www.yandell-lab.org/software/maker-p.html) (v. 2.31.10)                                    | _Ab initio_ prediction               |
 | [GMAP-GSNAP](http://research-pub.gene.com/gmap/) (v. 2019-05-12)                                    | Alignment               |
+| [GeneMark](http://exon.gatech.edu/GeneMark/) (v. 4.83)                                    | _Ab initio_ Prediction               |
+
