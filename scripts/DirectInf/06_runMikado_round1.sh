@@ -27,4 +27,4 @@ mikado configure \
 # Prepare transcirpts fasta
 mikado prepare \
    --json-conf configuration.yaml \
-   -od ${prefix}_prepared.fasta
+   -of ${prefix}_prepared.fasta
