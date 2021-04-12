@@ -57,10 +57,11 @@ The main pipeline configuration file is `config.yaml`. Edit this file to change 
 If working with Arabidopsis thaliana, execute the script `prepare_data.sh` to download the reference genome and build a hisat2 index:
 
 ```
+conda activate orphan_prediction
 bash prepare_data.sh
 ```
 
-Above command will create a directory, `reference\_data`
+Above command will create a directory, `reference_data`
 
 Alternatively, you can download genome of your choice and build a hisat2 index. You need to edit `config.yaml` to specify which genome and index to use.
 
