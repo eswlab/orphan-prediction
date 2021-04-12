@@ -38,6 +38,12 @@ conda config --add channels conda-forge
 conda env create -f environment.yaml
 ``` 
 
+   _Note: Install portcullis seperately if you cannot install it successfully._
+    
+```
+conda install -c bioconda portcullis
+```
+
 
 4. If using `class2` please execute the instructions in the `class2_instructions.sh` to setup `class2`
 
