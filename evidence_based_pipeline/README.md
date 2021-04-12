@@ -32,18 +32,12 @@ conda config --add channels bioconda
 conda config --add channels conda-forge
 ```
 
-Install mamba [optional]. This step is optional but mamba is much faster that conda.
-
-```
-conda install -c conda-forge mamba 
-```
-
 3. Build the conda environment present in the `environment.yaml` file:
 
 ```
-mamba env create -f environment.yaml
+conda env create -f environment.yaml
 ``` 
-If you dont have `mamba` replace `mamba` with `conda` in the above command.
+
 
 4. If using `class2` please execute the instructions in the `class2_instructions.sh` to setup `class2`
 
