@@ -1,6 +1,27 @@
 # Find an Orphan-Enriched RNA-Seq dataset from NCBI-SRA:
 
 - Select RNA-Seq SRR ID from NCBI-SRA website for your desired species.
+
+Go to [NCBI SRA](https://www.ncbi.nlm.nih.gov/sra) page and search with "SRA Advanced Search Builder". This allows you to build a query and select the Runs that satisfy certain requirements. For example:
+
+```
+("Arabidopsis thaliana"[Organism] AND
+  "filetype fastq"[Filter] AND
+	"paired"[Layout] AND
+	"illumina"[Platform] AND
+	"transcriptomic"[Source])
+```
+
+Then export the results to "Run Selector" as follows:
+
+![SRA results](../../Assets/ncbi-sra-1.png)
+
+Clicking the "Accession List" allows you to download all the SRR IDs in a text file format. For downloading data with SRA Toolkit (use [`runSRAdownload.sh`](scripts/runSRAdownload.sh))
+
+![SRA results](../../Assets/ncbi-sra-2.png)
+
+
+
 - Download RNA-Seq raw reads:
 ```bash
 while read line; do
