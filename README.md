@@ -48,7 +48,7 @@
 
 ## 3. Direct Inference evidence-based predictions ([See details here](scripts/DirectInf)):
 
-   **We provide an automated pipeline for evidence-based predictions([See details here](evidence_based_pipeline))**
+   ### We provide an automated pipeline for evidence-based predictions([See details here](evidence_based_pipeline))
    
    - Align RNA-Seq with splice aware aligner (STAR or HiSat2 preferred, HiSat2 used here)
    - Generate BAM file for each SRA-SRR id
