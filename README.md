@@ -48,7 +48,7 @@
 
 ## 3. Direct Inference evidence-based predictions ([See details here](scripts/DirectInf)):
 
-   ### We provide an automated pipeline for evidence-based predictions([See details here](evidence_based_pipeline))
+   ### We provide an automated pipeline for evidence-based predictions ([See details here](evidence_based_pipeline))
    
    - Align RNA-Seq with splice aware aligner (STAR or HiSat2 preferred, HiSat2 used here)
    - Generate BAM file for each SRA-SRR id
@@ -67,12 +67,14 @@
    _If you ran BRAKER in step 2, run 4.1_
 
    1. Merge BRAKER with Direct Inference (BIND) ([See details here](scripts/BIND)):
-	- Use Mikado to combine BRAKER-generated predictions with Direct Inference evidence-based predictions.
+   
+   - Use Mikado to combine BRAKER-generated predictions with Direct Inference evidence-based predictions.
 
    _If you ran MAKER in step 2, run 4.2_
 
    2. Merge MAKER with Direct Inference (MIND) ([See details here](scripts/MIND)):
-	- Use Mikado to combine MAKER-generated predictions with Direct Inference evidence-based predictions.
+	
+   - Use Mikado to combine MAKER-generated predictions with Direct Inference evidence-based predictions.
 
 ## 5. Evaluate your predictions ([See details here](scripts/downstream)):
 
