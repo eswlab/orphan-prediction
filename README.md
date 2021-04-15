@@ -4,11 +4,11 @@
 
 - [Table of Contents](#table-of-contents)
 - [Gene prediction and optimization using BIND and MIND workflows:](#gene-prediction-and-optimization-using-bind-and-mind-workflows)
-    - [Find an Orphan-Enriched RNA-Seq dataset from NCBI-SRA](#)
-    - [_Ab initio_ gene prediction](#)
-    - [Direct Inference evidence-based predictions](#)
-    - [Combine _ab initio_ and Direct Inference evidence-based predictions](#)
-    - [Evaluate your predictions](#)
+    - [Find an Orphan-Enriched RNA-Seq dataset from NCBI-SRA](#1-find-an-orphan-enriched-rna-seq-dataset-from-ncbi-sra-see-details-here)
+    - [_Ab initio_ gene prediction](#2-ab-initio-gene-prediction)
+    - [Direct Inference evidence-based predictions](#3-direct-inference-evidence-based-predictions-see-details-here)
+    - [Combine _ab initio_ and Direct Inference evidence-based predictions](#4-combine-ab-initio-and-direct-inference-evidence-based-predictions)
+    - [Evaluate your predictions](#5-evaluate-your-predictions)
 - [Tools list](#prediction-tools-include)
 
 <!-- /TOC -->
@@ -19,64 +19,64 @@
 **BIND**: _ab initio_ gene predictions by **B**RAKER combined with gene predictions **IN**ferred **D**irectly from alignment of RNA-Seq evidence to the genome.
 
 ## 1. Find an Orphan-Enriched RNA-Seq dataset from NCBI-SRA ([See details here](scripts/RNA-Seq_prepare)):
-	- Search RNA-Seq datasets for your organism on NCBI, filter Runs (SRR) for Illumina, paired-end, HiSeq 2500 or newer.
-	- Download Runs from NCBI (SRA-toolkit)
-	- If existing annotations is available, expression quantification is done against every gene using every SRR with Kallisto.
-	- run phylostratr on current gene models to infer phylostrata of each gene model
-	- Rank the SRRs with highest number of expressed orphans and select feasible amounts of data to work with.
+   - Search RNA-Seq datasets for your organism on NCBI, filter Runs (SRR) for Illumina, paired-end, HiSeq 2500 or newer.
+   - Download Runs from NCBI (SRA-toolkit)
+   - If existing annotations is available, expression quantification is done against every gene using every SRR with Kallisto.
+   - run phylostratr on current gene models to infer phylostrata of each gene model
+   - Rank the SRRs with highest number of expressed orphans and select feasible amounts of data to work with.
 
-	If NCBI-SRA has no samples for your organism, and you are relying solely on RNA-Seq that you generate yourself, best practice is to maximize representation of all genes by including conditions like reproductive tissues and stresses in which orphan gene expression is high.
-
+   _Note: If NCBI-SRA has no samples for your organism, and you are relying solely on RNA-Seq that you generate yourself, best practice is to maximize representation of all genes by including conditions like reproductive tissues and stresses in which orphan gene expression is high._
 
 ## 2. _Ab initio_ gene prediction:
 
    _Pick one of the 2 _ab initio_ predictions below:_
 
-   2.A. Run BRAKER ([See details here](scripts/braker)):
-	- Align RNA-Seq with splice aware aligner (STAR or HiSat2 preferred, HiSat2 used here)
-	- Generate BAM file for each SRA-SRR id, merge them to generate a single sorted BAM file
-	- Run BRAKER
+   1. Run BRAKER ([See details here](scripts/braker)):
+   
+      - Align RNA-Seq with splice aware aligner (STAR or HiSat2 preferred, HiSat2 used here) 
+      - Generate BAM file for each SRA-SRR id, merge them to generate a single sorted BAM file
+      - Run BRAKER
 
-   2.B. Run MAKER ([See details here](scripts/maker)):
-	- Align RNA-Seq with splice aware aligner (STAR or HiSat2 preferred, HiSat2 used here)
-	- Generate BAM file for each SRA-SRR id, merge them to generate a single sorted BAM file
-	- Run Trinity to generate transcriptome assembly using the BAM file
-	- Run TransDecoder on Trinity transcripts to predict ORFs and translate them to protein
-	- Download SwissProt curated proteins (use proteins from Viridiplantae for plants)
-	- Run MAKER with transcripts (Trinity), proteins (TransDecoder and SwissProt), in homology-only mode
-	- Use the MAKER predictions to train SNAP and AUGUSTUS. Self-train GeneMark
-	- Run second round of MAKER with the above (SNAP, AUGUSTUS, and GeneMark) ab initio predictions plus the results from previous MAKER rounds.
+   2. Run MAKER ([See details here](scripts/maker)):
+      - Align RNA-Seq with splice aware aligner (STAR or HiSat2 preferred, HiSat2 used here)
+      - Generate BAM file for each SRA-SRR id, merge them to generate a single sorted BAM file
+      - Run Trinity to generate transcriptome assembly using the BAM file
+      - Run TransDecoder on Trinity transcripts to predict ORFs and translate them to protein
+      - Download SwissProt curated proteins (use proteins from Viridiplantae for plants)
+      - Run MAKER with transcripts (Trinity), proteins (TransDecoder and SwissProt), in homology-only mode
+      - Use the MAKER predictions to train SNAP and AUGUSTUS. Self-train GeneMark
+      - Run second round of MAKER with the above (SNAP, AUGUSTUS, and GeneMark) ab initio predictions plus the results from previous MAKER rounds.
 
 ## 3. Direct Inference evidence-based predictions ([See details here](scripts/DirectInf)):
-	- Align RNA-Seq with splice aware aligner (STAR or HiSat2 preferred, HiSat2 used here)
-	- Generate BAM file for each SRA-SRR id
-	- For each BAM file, use multiple transcript assemblers for genome guided transcript assembly:
+   - Align RNA-Seq with splice aware aligner (STAR or HiSat2 preferred, HiSat2 used here)
+   - Generate BAM file for each SRA-SRR id
+   - For each BAM file, use multiple transcript assemblers for genome guided transcript assembly:
 		* Class2
 		* StringTie
 		* Cufflinks
-	- Run PortCullis to remove invalid splice junctions
-	- Consolidate transcripts and generate a non-redundant set of transcripts using Mikado.
-	- Predict ORFs on these consolidated transcripts using TransDecoder
-	- Pick best transcripts using all the above information with Miakdo Pick.
+   - Run PortCullis to remove invalid splice junctions
+   - Consolidate transcripts and generate a non-redundant set of transcripts using Mikado.
+   - Predict ORFs on these consolidated transcripts using TransDecoder
+   - Pick best transcripts using all the above information with Miakdo Pick.
 
 ## 4. Combine _ab initio_ and Direct Inference evidence-based predictions:
    
-   _If you ran BRAKER in step 2, run 4a._
+   _If you ran BRAKER in step 2, run 4.1_
 
-   4.A. Merge BRAKER with Direct Inference (BIND) ([See details here](scripts/BIND)):
+   1. Merge BRAKER with Direct Inference (BIND) ([See details here](scripts/BIND)):
 	- Use Mikado to combine BRAKER-generated predictions with Direct Inference evidence-based predictions.
 
-   _If you ran MAKER in step 2, run 4b._
+   _If you ran MAKER in step 2, run 4.2_
 
-   4.B. Merge MAKER with Direct Inference (MIND) ([See details here](scripts/MIND)):
+   2. Merge MAKER with Direct Inference (MIND) ([See details here](scripts/MIND)):
 	- Use Mikado to combine MAKER-generated predictions with Direct Inference evidence-based predictions.
 
 ## 5. Evaluate your predictions
 
    - Run [`BUSCO`](busco.md) to see how well the conserved genes are represented in your final predictions
-	 - Run [`OrthoFinder`](orthofinder.md) to find and annotate orthologs present in your predictions
-	 - Run [`phylostratR`](phylostratr.md) to find orphan genes in your predictions
-	 - Add functional annotation to your genes using homology and `InterProScan`
+   - Run [`OrthoFinder`](orthofinder.md) to find and annotate orthologs present in your predictions
+   - Run [`phylostratR`](phylostratr.md) to find orphan genes in your predictions
+   - Add functional annotation to your genes using homology and `InterProScan`
 
 
 ## Prediction tools include:
