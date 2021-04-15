@@ -16,7 +16,7 @@ Then export the results to "Run Selector" as follows:
 
 ![SRA results](../../Assets/ncbi-sra-1.png)
 
-Clicking the "Accession List" allows you to download all the SRR IDs in a text file format. For downloading data with SRA Toolkit (use [`runSRAdownload.sh`](scripts/runSRAdownload.sh))
+Clicking the "Accession List" allows you to download all the SRR IDs in a text file format. 
 
 ![SRA results](../../Assets/ncbi-sra-2.png)
 
