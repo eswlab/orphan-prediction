@@ -3,53 +3,36 @@
 <!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
 - [Table of Contents](#table-of-contents)
-- [Gene prediction and optimization using BIND and MIND workflows:](#gene-prediction-and-optimization-using-bind-and-mind-workflows)
-	- [Overview of MIND and BIND:](#overview-of-mind-and-bind)
-	- [Steps in detail, with scripts](#steps-in-detail-with-scripts)
-	- [1. Finding Orphan Enriched RNAseq dataset form NCBI:](#1-finding-orphan-enriched-rnaseq-dataset-form-ncbi)
-- [max file size is set to 100Gb](#max-file-size-is-set-to-100gb)
-- [change `--max-size 100G` to allow >100Gb files](#change-max-size-100g-to-allow-100gb-files)
-- [CDS](#cds)
-		- [Run phylostratr to infer phylostrata of genes, and identify orphan genes.](#run-phylostratr-to-infer-phylostrata-of-genes-and-identify-orphan-genes)
-		- [Select diverse RNA-Seq data](#select-diverse-rna-seq-data)
-	- [2A. Run BRAKER (for BIND)](#2a-run-braker-for-bind)
-	- [2B. Run MAKER (for MIND)](#2b-run-maker-for-mind)
-- [process first round results and train SNAP/AUGUSTUS](#process-first-round-results-and-train-snapaugustus)
-- [train GeneMark](#train-genemark)
-	- [3. Evidence (direct inference) gene models.](#3-evidence-direct-inference-gene-models)
-- [output: DI_prepared.fasta.transdecoder.bed](#output-dipreparedfastatransdecoderbed)
-	- [4A. MIND final step](#4a-mind-final-step)
-- [Final MIND prediction: MIND.loci.gff3](#final-mind-prediction-mindlocigff3)
-	- [4B. BIND final step](#4b-bind-final-step)
-- [Final BND prediction: BIND.loci.gff3](#final-bnd-prediction-bindlocigff3)
+- [Overview of BIND and MIND workflows for gene prediction and optimization](#gene-prediction-and-optimization-using-bind-and-mind-workflows)
 - [Tools list](#prediction-tools-include)
 
 <!-- /TOC -->
 
-# Gene prediction and optimization using BIND and MIND workflows:
-
-## Overview of MIND and BIND:
+# Overview of BIND and MIND workflows for gene prediction and optimization:
 
 **MIND**: _ab initio_ gene predictions by **M**AKER combined with gene predictions **IN**ferred **D**irectly from alignment of RNA-Seq evidence to the genome.
 **BIND**: _ab initio_ gene predictions by **B**RAKER combined with gene predictions **IN**ferred **D**irectly from alignment of RNA-Seq evidence to the genome.
 
-1. Find an Orphan-Enriched RNA-Seq dataset from NCBI-SRA:
+1. [Find an Orphan-Enriched RNA-Seq dataset from NCBI-SRA](scripts/RNA-Seq_prepare):
 	- Search RNA-Seq datasets for your organism on NCBI, filter Runs (SRR) for Illumina, paired-end, HiSeq 2500 or newer.
 	- Download Runs from NCBI (SRA-toolkit)
 	- If existing annotations is available, expression quantification is done against every gene using every SRR with Kallisto.
-	- run phylostratR on current gene models to infer phylostrata of each gene model
+	- run phylostratr on current gene models to infer phylostrata of each gene model
 	- Rank the SRRs with highest number of expressed orphans and select feasible amounts of data to work with.
 
 	If NCBI-SRA has no samples for your organism, and you are relying solely on RNA-Seq that you generate yourself, best practice is to maximize representation of all genes by including conditions like reproductive tissues and stresses in which orphan gene expression is high.
 
- _Pick one of the 2 _ab initio_ predictions below:_
 
-2. A. Run BRAKER
+2. _Ab initio_ gene prediction:
+
+   _Pick one of the 2 _ab initio_ predictions below:_
+
+   2.A. Run BRAKER
 	- Align RNA-Seq with splice aware aligner (STAR or HiSat2 preferred, HiSat2 used here)
 	- Generate BAM file for each SRA-SRR id, merge them to generate a single sorted BAM file
 	- Run BRAKER
 
-2. B. Run MAKER
+   2.B. Run MAKER
 	- Align RNA-Seq with splice aware aligner (STAR or HiSat2 preferred, HiSat2 used here)
 	- Generate BAM file for each SRA-SRR id, merge them to generate a single sorted BAM file
 	- Run Trinity to generate transcriptome assembly using the BAM file
@@ -71,17 +54,19 @@
 	- Predict ORFs on these consolidated transcripts using TransDecoder
 	- Pick best transcripts using all the above information with Miakdo Pick.
 
-_If you ran BRAKER in step 2, run 4a._
+4. Combine _ab initio_ and Direct Inference evidence-based predictions:
+   
+   _If you ran BRAKER in step 2, run 4a._
 
-4. A. Merge BRAKER with Direct Inference (BIND)
+   4.A. Merge BRAKER with Direct Inference (BIND)
 	- Use Mikado to combine BRAKER-generated predictions with Direct Inference evidence-based predictions.
 
-_If you ran MAKER in step 2, run 4b._
+   _If you ran MAKER in step 2, run 4b._
 
-4. B. Merge MAKER with Direct Inference (MIND)
+   4.B. Merge MAKER with Direct Inference (MIND)
 	- Use Mikado to combine MAKER-generated predictions with Direct Inference evidence-based predictions.
 
-6. Evaluate your predictions
+5. Evaluate your predictions
 
    - Run [`BUSCO`](busco.md) to see how well the conserved genes are represented in your final predictions
 	 - Run [`OrthoFinder`](orthofinder.md) to find and annotate orthologs present in your predictions
@@ -89,8 +74,7 @@ _If you ran MAKER in step 2, run 4b._
 	 - Add functional annotation to your genes using homology and `InterProScan`
 
 
-## Steps in detail, with scripts
-All case studies used in the manuscript are listed in the **Table** [**here**](case-studies.md). Additional information can be found by clicking on the case study (methods, parameters and dataset used).  
+# Steps in detail:
 
 ## 1. Finding Orphan Enriched RNAseq dataset form NCBI:
 
