@@ -47,6 +47,9 @@
       - Run second round of MAKER with the above (SNAP, AUGUSTUS, and GeneMark) ab initio predictions plus the results from previous MAKER rounds.
 
 ## 3. Direct Inference evidence-based predictions ([See details here](scripts/DirectInf)):
+
+   **We provide an automated pipeline for evidence-based predictions([See details here](evidence_based_pipeline))**
+   
    - Align RNA-Seq with splice aware aligner (STAR or HiSat2 preferred, HiSat2 used here)
    - Generate BAM file for each SRA-SRR id
    - For each BAM file, use multiple transcript assemblers for genome guided transcript assembly:
@@ -57,6 +60,7 @@
    - Consolidate transcripts and generate a non-redundant set of transcripts using Mikado.
    - Predict ORFs on these consolidated transcripts using TransDecoder
    - Pick best transcripts using all the above information with Miakdo Pick.
+   
 
 ## 4. Combine _ab initio_ and Direct Inference evidence-based predictions:
    
