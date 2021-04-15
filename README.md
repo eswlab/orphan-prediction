@@ -8,7 +8,7 @@
     - [_Ab initio_ gene prediction](#2-ab-initio-gene-prediction)
     - [Direct Inference evidence-based predictions](#3-direct-inference-evidence-based-predictions-see-details-here)
     - [Combine _ab initio_ and Direct Inference evidence-based predictions](#4-combine-ab-initio-and-direct-inference-evidence-based-predictions)
-    - [Evaluate your predictions](#5-evaluate-your-predictions)
+    - [Evaluate your predictions](#5-evaluate-your-predictions-see-details-here)
 - [Tools list](#prediction-tools-include)
 
 <!-- /TOC -->
@@ -42,7 +42,6 @@
       - Generate BAM file for each SRA-SRR id, merge them to generate a single sorted BAM file
       - Run Trinity to generate transcriptome assembly using the BAM file
       - Run TransDecoder on Trinity transcripts to predict ORFs and translate them to protein
-      - Download SwissProt curated proteins (use proteins from Viridiplantae for plants)
       - Run MAKER with transcripts (Trinity), proteins (TransDecoder and SwissProt), in homology-only mode
       - Use the MAKER predictions to train SNAP and AUGUSTUS. Self-train GeneMark
       - Run second round of MAKER with the above (SNAP, AUGUSTUS, and GeneMark) ab initio predictions plus the results from previous MAKER rounds.
@@ -71,11 +70,11 @@
    2. Merge MAKER with Direct Inference (MIND) ([See details here](scripts/MIND)):
 	- Use Mikado to combine MAKER-generated predictions with Direct Inference evidence-based predictions.
 
-## 5. Evaluate your predictions
+## 5. Evaluate your predictions ([See details here](scripts/downstream)):
 
-   - Run [`BUSCO`](busco.md) to see how well the conserved genes are represented in your final predictions
-   - Run [`OrthoFinder`](orthofinder.md) to find and annotate orthologs present in your predictions
-   - Run [`phylostratR`](phylostratr.md) to find orphan genes in your predictions
+   - Run `BUSCO` to see how well the conserved genes are represented in your final predictions
+   - Run `OrthoFinder` to find and annotate orthologs present in your predictions
+   - Run `phylostratR` to find orphan genes in your predictions
    - Add functional annotation to your genes using homology and `InterProScan`
 
 
@@ -84,7 +83,7 @@
 | Tool                                                                                 | Purpose             |
 |--------------------------------------------------------------------------------------|---------------------|
 | [SRA Tools](https://github.com/ncbi/sra-tools) (v. 2.9.6 )                  | SRA access          |
-| [Hisat2](https://ccb.jhu.edu/software/hisat2/index.shtml) (v. 2.2.0)                            | Alignment           |
+| [Hisat2](https://daehwankimlab.github.io/hisat2/) (v. 2.2.0)                            | Alignment           |
 | [STAR](https://github.com/alexdobin/STAR) (v. 2.7.7a)                                           | Alignment           |
 | [Kallisto](https://pachterlab.github.io/kallisto/) (v. 0.46.2)                                  | Quantification      |
 | [Samtools](https://github.com/samtools/samtools) (v. 1.10)                                    | Tools               |
