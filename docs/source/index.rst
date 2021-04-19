@@ -92,14 +92,3 @@ Contents
    4_merge/index.rst
    5_downstream.rst
    
-Indices and tables
-------------------
-
-Contents:
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
-
-References
-----------
