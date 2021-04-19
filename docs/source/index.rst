@@ -15,22 +15,15 @@ evidence to the genome. **BIND**: *ab initio* gene predictions by
 Overview
 #########
 
-1. :ref:`Find an Orphan-Enriched RNA-Seq dataset from NCBI-SRA <1_find_RNA-Seq>`
+1. Find an Orphan-Enriched RNA-Seq dataset from NCBI-SRA
 
-*Note: If NCBI-SRA has no samples for your organism, and you are relying
-solely on RNA-Seq that you generate yourself, best practice is to
-maximize representation of all genes by including conditions like
-reproductive tissues and stresses in which orphan gene expression is
-high.*
+2. *Ab initio* gene prediction (BRAKER or MAKER)
 
-2. :ref:`*Ab initio* gene prediction (BRAKER or MAKER) <2_abinitio>`
+3. Direct Inference evidence-based predictions
 
+4. *Ab initio* and Direct Inference evidence-based predictions
 
-3. :ref:`Direct Inference evidence-based predictions <3_DirInf>`
-
-4. :ref:`Combine *Ab initio* and Direct Inference evidence-based predictions <4_merge>`
-
-5. :ref:`Evaluate your predictions <5_downstream>`
+5. Evaluate your predictions
 
 
 

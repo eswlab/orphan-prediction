@@ -1,7 +1,6 @@
+====================================================================
 Combine *ab initio* and Direct Inference evidence-based predictions
 ====================================================================
-
-.. _4_merge:
 
 *Pick one of the 2 combined predictions below according to your choice in ab initio*
 

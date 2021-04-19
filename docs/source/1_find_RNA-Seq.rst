@@ -1,8 +1,6 @@
-
+======================================================================
 Find an Orphan-Enriched RNA-Seq dataset from NCBI-SRA
 ======================================================================
-
-.. _1_find_RNA-Seq:
 
 `See the scripts used for BRAKER here <https://github.com/eswlab/orphan-prediction/tree/master/scripts/RNA-Seq_data_identification>`
 

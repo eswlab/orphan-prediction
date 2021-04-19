@@ -1,7 +1,6 @@
+======================================================================
 Direct Inference evidence-based predictions
 ======================================================================
-
-.. _3_DirInf:
 
 `See the scripts used for BRAKER here <https://github.com/eswlab/orphan-prediction/tree/master/scripts/DirectInf>`
 

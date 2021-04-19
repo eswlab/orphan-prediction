@@ -1,7 +1,7 @@
+=====================
 Evaluate predictions
 =====================
 
-.. _5_downstream:
 
 `See the scripts used for downstream evaluation here <https://github.com/eswlab/orphan-prediction/tree/master/scripts/downstream>`
 
