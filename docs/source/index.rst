@@ -1,4 +1,4 @@
-BIND and MIND: Gene prediction and optimization 
+BIND and MIND: Gene prediction and optimization
 =====================================================
 
 *************
@@ -32,7 +32,7 @@ high.*
 
 5. :ref:`Evaluate your predictions <5_downstream>`
 
-See the detailed  `scripts <https://github.com/eswlab/orphan-prediction>`_.
+
 
 
 Tools used for prediction
@@ -80,6 +80,12 @@ Tool                          Purpose
 .. _GMAP-GSNAP: http://research-pub.gene.com/gmap/
 .. _GeneMark: http://exon.gatech.edu/GeneMark/
 
+*********
+Tutorial
+*********
+
+See the detailed  `scripts <https://github.com/eswlab/orphan-prediction>`_.
+
 Contents
 --------
 
@@ -91,4 +97,3 @@ Contents
    3_DirInf.rst
    4_merge/index.rst
    5_downstream.rst
-   
