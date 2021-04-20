@@ -16,7 +16,7 @@ Combine *ab initio* and Direct Inference evidence-based predictions
 
 
 .. toctree::
-    :maxdepth: 1
+   :maxdepth: 1
 
-     4.1_BIIND
-     4.2_MIND
+   4.1_BIND
+   4.2_MIND

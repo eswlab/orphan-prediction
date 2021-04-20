@@ -1,63 +1,63 @@
 MIND prediction
 =================
 
-Merge gene predictions of **M**AKER (`Maker-final.gff3`) with gene predictions **IN**ferred **D**irectly (`DI-final.gff3`).
+Merge gene predictions of **M** AKER (``Maker-final.gff3``) with gene predictions **IN** ferred **D** irectly (``DI-final.gff3``).
 
-`See the scripts used for BIND here <https://github.com/eswlab/orphan-prediction/tree/master/scripts/MIND>`
+**See the scripts used for MIND** `here`_ **.**
 
-*Note: See the details to generate these two predictions in `maker` and `DirectInf`.*
+*Note: See the details to generate these two predictions in* ``maker`` *and* ``DirectInf`` *.*
 
 Consolidate all the transcripts from MAKER and DirInf, and predict potential protein coding sequence
 ------------------------------------------------------------------------------------------------------
 
-  1. Make a configure file and prepare transcripts:
+1. Make a configure file and prepare transcripts:
 
-     You should prepare a `list_MIND.txt` as below to include gtf path (1st column), gtf abbrev (2nd column), stranded-specific or not (3rd column):
+   You should prepare a ``list_MIND.txt`` as below to include gtf path (1st column), gtf abbrev (2nd column), stranded-specific or not (3rd column):
 
-     .. code-block:: bash
-         :linenos:
+   .. code-block:: bash
+       :linenos:
 
-         maker-final.gff3    mk    False
-         DI-final.gff3 DI     False
+       maker-final.gff3    mk    False
+       DI-final.gff3 DI     False
 
-     Then run the script as below:
+   Then run the script as below:
 
-     .. code-block:: bash
-         :linenos:
+   .. code-block:: bash
+       :linenos:
 
-         ./01_runMikado_round1.sh TAIR10_chr_all.fas junctions.bed list_MIND.txt MIND
+       ./01_runMikado_round1.sh TAIR10_chr_all.fas junctions.bed list_MIND.txt MIND
 
 
-     This will generate `MIND_prepared.fasta` file that will be used for predicting ORFs in the next step.
+   This will generate `MIND_prepared.fasta` file that will be used for predicting ORFs in the next step.
 
-     *Note: `junctions.bed` is the same file generate from DirectInf step.*
+   *Note:* ``junctions.bed`` *is the same file generate from DirectInf step.*
 
-  2. Predict potential CDS from transcripts:
+| 2. Predict potential CDS from transcripts:
 
-     .. code-block:: bash
-         :linenos:
+   .. code-block:: bash
+       :linenos:
 
-         ./02_runTransDecoder.sh MIND_prepared.fasta
+       ./02_runTransDecoder.sh MIND_prepared.fasta
 
-     We will use `MIND_prepared.fasta.transdecoder.bed` in the next step.
+   We will use `MIND_prepared.fasta.transdecoder.bed` in the next step.
 
-     *Note: Here we only kept complete CDS for next step. You can revise `02_runTransDecoder.sh` to use both incomplete and complete CDS if you need.*
+   *Note: Here we only kept complete CDS for next step. You can revise* ``02_runTransDecoder.sh`` *to use both incomplete and complete CDS if you need.*
 
-  3. Pick best transcripts for each locus and annotate them as gene:
+| 3. Pick best transcripts for each locus and annotate them as gene:
 
-     .. code-block:: bash
-         :linenos:
+   .. code-block:: bash
+       :linenos:
 
-         ./03_runMikado_round2.sh MIND_prepared.fasta.transdecoder.bed MIND
+       ./03_runMikado_round2.sh MIND_prepared.fasta.transdecoder.bed MIND
 
-     This will generate:
+   This will generate:
 
-     .. code-block:: bash
-         :linenos:
+   .. code-block:: bash
+       :linenos:
 
-         mikado.metrics.tsv
-         mikado.scores.tsv
-         MIND.loci.gff3
+       mikado.metrics.tsv
+       mikado.scores.tsv
+       MIND.loci.gff3
 
 
 Optional: Filter out transcripts with redundant CDS
@@ -78,4 +78,6 @@ Optional: Filter out transcripts whose predicted proteins mapped to transposon e
    ./05_TEsorter.sh filter.pep.fa MIND.loci.gff3
 
 
-*Note: `filter.pep.fa` is an output from previous step for removing redundant CDSs. You can also use all protein sequence if you don't want to remove redundant CDSs.*
+*Note:* ``filter.pep.fa`` *is an output from previous step for removing redundant CDSs. You can also use all protein sequence if you don't want to remove redundant CDSs.*
+
+.. _here: https://github.com/eswlab/orphan-prediction/tree/master/scripts/MIND

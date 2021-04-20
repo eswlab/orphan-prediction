@@ -1,7 +1,7 @@
 MAKER prediction
 =================
 
-**See the scripts used for MAKER `here`_.**
+**See the scripts used for MAKER** `here`_ **.**
 
 
 Merge RNA-Seq raw reads
@@ -21,96 +21,96 @@ Run trinity to predict transcripts and their potential proteins
 ----------------------------------------------------------------
 
 
-  1. Run trinity for *de novo* transcriptome assembly:
+1. Run trinity for *de novo* transcriptome assembly:
 
-     .. code-block:: bash
-         :linenos:
+   .. code-block:: bash
+       :linenos:
 
-         ./01_runTrinity.sh forward_reads.fq.gz reverse_reads.fq.gz
+       ./01_runTrinity.sh forward_reads.fq.gz reverse_reads.fq.gz
 
-     *Note: You will get the transcripts fasta file in trinity_run folder.*
+   *Note: You will get the transcripts fasta file in trinity_run folder.*
 
-  2. Predict CDSs from transcriptome:
+| 2. Predict CDSs from transcriptome:
 
-     .. code-block:: bash
-         :linenos:
+   .. code-block:: bash
+       :linenos:
 
-         ./02_runTransDecoder.sh trinity.fasta
+       ./02_runTransDecoder.sh trinity.fasta
 
-     *Note: You will get the protein sequence (* ``trinity.fasta.transdecoder.pep`` *) in working directory.*
+   *Note: You will get the protein sequence (* ``trinity.fasta.transdecoder.pep`` *) in working directory.*
 
 Run maker by five steps
 ------------------------
 
-  1. Generate the CTL files:
+1. Generate the CTL files:
 
-     .. code-block:: bash
-         :linenos:
+   .. code-block:: bash
+       :linenos:
 
-         module load GIF/maker
-         module rm perl/5.22.1
-         maker -CTL
+       module load GIF/maker
+       module rm perl/5.22.1
+       maker -CTL
 
-     This will generate 3 CTL files (``maker_opts.ctl``, ``maker_bopts.ctl`` and ``maker_exe.ctl``), you will need to edit them to make changes to the MAKER run. For the first round, change these lines in ``maker_opts.ctl`` file:
+   This will generate 3 CTL files (``maker_opts.ctl``, ``maker_bopts.ctl`` and ``maker_exe.ctl``), you will need to edit them to make changes to the MAKER run. For the first round, change these lines in ``maker_opts.ctl`` file:
 
-     .. code-block:: bash
-         :linenos:
+   .. code-block:: bash
+       :linenos:
 
-         genome=TAIR10_chr_all.fas
-         est=trinity.fasta
-         protein=trinity-swissprot-pep.fasta
-         est2genome=1
-         protein2genome=1
-         TMP=/dev/shm
+       genome=TAIR10_chr_all.fas
+       est=trinity.fasta
+       protein=trinity-swissprot-pep.fasta
+       est2genome=1
+       protein2genome=1
+       TMP=/dev/shm
 
-  2. Execute MAKER ``03_maker_start.sh`` in a slurm file.  It is essential to request more than 1 node with multiple processors to run this efficiently.
+2. Execute MAKER ``03_maker_start.sh`` in a slurm file.  It is essential to request more than 1 node with multiple processors to run this efficiently.
 
-     .. code-block:: bash
-         :linenos:
+   .. code-block:: bash
+       :linenos:
 
-         # Define a base name for maker output folder as the first argument.
-         ./03_maker_start.sh maker_case
+       # Define a base name for maker output folder as the first argument.
+       ./03_maker_start.sh maker_case
 
-  3. Upon completion, train SNAP and AUGUSTUS:
+3. Upon completion, train SNAP and AUGUSTUS:
 
-     .. code-block:: bash
-         :linenos:
+   .. code-block:: bash
+       :linenos:
 
-          Use the same base name as previous step for first argument.
-          ./04_maker_process.sh maker_case
+       #Use the same base name as previous step for first argument.
+       ./04_maker_process.sh maker_case
 
-  4. Train GeneMark with genome sequence:
+4. Train GeneMark with genome sequence:
 
-      .. code-block:: bash
-          :linenos:
+   .. code-block:: bash
+       :linenos:
 
-          ./05_runGeneMark.sh TAIR10_chr_all.fas
+       ./05_runGeneMark.sh TAIR10_chr_all.fas
 
-  5. Once complete, modify the following lines in ``maker_opts.ctl`` file:
+5. Once complete, modify the following lines in ``maker_opts.ctl`` file:
 
-      .. code-block:: bash
-          :linenos:
+   .. code-block:: bash
+       :linenos:
 
-          snaphmm=maker.snap.hmm
-          gmhmm=gmhmm.mod
-          # Define a species as you want, but the name should not be existing in the augustus/config/species folder.
-          augustus_species=maker_20171103
+       snaphmm=maker.snap.hmm
+       gmhmm=gmhmm.mod
+       # Define a species as you want, but the name should not be existing in the augustus/config/species folder.
+       augustus_species=maker_20171103
 
-     Then, ``03_maker_start.sh`` again:
+   Then, ``03_maker_start.sh`` again:
 
-     .. code-block:: bash
-         :linenos:
+   .. code-block:: bash
+       :linenos:
 
-         # Use the same base name as previous step for first argument.
-         ./03_maker_start.sh maker_case
+       # Use the same base name as previous step for first argument.
+       ./03_maker_start.sh maker_case
 
-  6. Finalize predictions:
+6. Finalize predictions:
 
-     .. code-block:: bash
-         :linenos:
+   .. code-block:: bash
+       :linenos:
 
-         06_maker_finalize.sh maker_case
+       ./06_maker_finalize.sh maker_case
 
-      You will get the predicted gene models (``maker_case.gff``), protein sequences (``maker_case.maker.proteins.fasta``) and transcript sequence (``maker_case.maker.transcripts.fasta``) in the working directory.
+   You will get the predicted gene models (``maker_case.gff``), protein sequences (``maker_case.maker.proteins.fasta``) and transcript sequence (``maker_case.maker.transcripts.fasta``) in the working directory.
 
-:: _here: https://github.com/eswlab/orphan-prediction/tree/master/scripts/maker
+.. _here: https://github.com/eswlab/orphan-prediction/tree/master/scripts/maker

@@ -1,7 +1,7 @@
 BRAKER prediction
 ===================
 
-**See the scripts used for BRAKER `here`_.**
+**See the scripts used for BRAKER** `here`_ **.**
 
 
 
@@ -32,7 +32,7 @@ BRAKER prediction
 
 - Run BRAKER by singularity comtainer:
 
-  **If you have difficulty to install BRAKER, we suggest you to download the `singularity container`_ for this step.**
+  **If you have difficulty to install BRAKER, we suggest you to download the** `singularity container`_ **for this step.**
 
   To use the container, follow the instruction of the container to install and copy directory.
 
@@ -42,9 +42,9 @@ BRAKER prediction
       ./02_runBraker_singularity.sh TAIR10_chr_all.fas TAIR10_rnaseq.bam
 
 
-*Note: We only used RNA-Seq as evidence in our cases. BRAKER also accept protein evidence in different prediction mode. However, It is not always best to use all evidence. You can test and determine which one is best for the species you are working on. See the difference among BRAKER modes on their `main page`_.
+*Note: We only used RNA-Seq as evidence in our cases. BRAKER also accept protein evidence in different prediction mode. However, It is not always best to use all evidence. You can test and determine which one is best for the species you are working on. See the difference among BRAKER modes on their* `main page`_.
 
 
-:: _here: https://github.com/eswlab/orphan-prediction/tree/master/scripts/braker
-:: _main page: https://github.com/Gaius-Augustus/BRAKER#running-braker
-:: _singularity container: https://github.com/aseetharam/braker
+.. _here: https://github.com/eswlab/orphan-prediction/tree/master/scripts/braker
+.. _main page: https://github.com/Gaius-Augustus/BRAKER#running-braker
+.. _singularity container: https://github.com/aseetharam/braker

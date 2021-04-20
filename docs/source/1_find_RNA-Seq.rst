@@ -40,15 +40,12 @@ Download RNA-Seq raw reads:
 .. code-block:: bash
     :linenos:
 
-   while read line; do
-       01_runSRAdownload.sh $line;
-   done<SRR_Acc_List.txt
+     while read line; do
+        ./01_runSRAdownload.sh ${line};
+     done < SRR_Acc_List.txt
 
-*Note: depending on how much data you find, this can take a lot of time
-and resources (disk usage). You may need to narrow down and select only
-a subset of total datasets. One way to choose datasets with maximal
-orphan representation is to select SRRs most likely to be diverse (eg:
-stress response, flowering tissue, or SRRs with very deep coverage).*
+*Note: depending on how much data you find, this can take a lot of time and resources (disk usage). You may need to narrow down and select only a subset of total datasets. One way to choose datasets with maximal orphan representation is to select SRRs most likely to be diverse (eg: stress response, flowering tissue, or SRRs with very deep coverage).*
+
 
 Download the CDS sequences for your organism, and build transcriptome for kallisto index:
 ----------------------------------------------------------------------------------------------
@@ -56,9 +53,10 @@ Download the CDS sequences for your organism, and build transcriptome for kallis
 .. code-block:: bash
     :linenos:
 
-   wget https://www.arabidopsis.org/download_files/Genes/Araport11_genome_release/Araport11_blastsets/Araport11_genes.201606.cds.fasta.gz
-   gunzip Araport11_genes.201606.cds.fasta.gz
-   kallisto index -i ARAPORT11cds Araport11_genes.201606.cds.fasta
+    wget https://www.arabidopsis.org/download_files/Genes/Araport11_genome_release/Araport11_blastsets/Araport11_genes.201606.cds.fasta.gz
+    gunzip Araport11_genes.201606.cds.fasta.gz
+    kallisto index -i ARAPORT11cds Araport11_genes.201606.cds.fasta
+
 
 For each SRR ID, run the Kallisto qualitification:
 ---------------------------------------------------
@@ -66,9 +64,9 @@ For each SRR ID, run the Kallisto qualitification:
 .. code-block:: bash
     :linenos:
 
-   while read line; do
-       02_runKallisto.sh ARAPORT11cds $line;
-   done<SRR_Acc_List.txt
+    while read line; do
+       02_runKallisto.sh ARAPORT11cds ${line};
+    done < SRR_Acc_List.txt
 
 Merge the tsv files containing counts and TPM:
 -------------------------------------------------
@@ -76,37 +74,37 @@ Merge the tsv files containing counts and TPM:
 .. code-block:: bash
     :linenos:
 
-   03_joinr.sh *.tsv >> kallisto_out_tair10.txt
+    03_joinr.sh *.tsv >> kallisto_out_tair10.txt
 
 *Note: For every SRR id, the file contains 3 columns,* ``effective length`` *,* ``estimated counts`` *and* ``transcript per million`` *.*
 
 Run phylostratr to infer phylostrata of genes, and identify orphan genes:
 --------------------------------------------------------------------------
 
-   1. Build a phylogenic tree for your species, and download proteins sequences for target species:
+1. Build a phylogenic tree for your species, and download proteins sequences for target species:
 
    .. code-block:: bash
        :linenos:
 
-      ./04_runPhylostratRa.R
+       ./04_runPhylostratRa.R
 
-   2. Run Blast to compare query proteins and target proteins:
-
-   .. code-block:: bash
-       :linenos:
-
-      while read line; do
-      # 3702 is taxid for our focal species A.thaliana.
-      # You can replace your own protein sequences for your focal species if protein downloaded from uniprot is not your desired version.
-        05_runBLASTp.sh $line 3702.faa;
-      done<uniprot_list.txt
-
-   3. Process Blast output and stratify phylostrata level for each query gene:
+2. Run Blast to compare query proteins and target proteins:
 
    .. code-block:: bash
        :linenos:
 
-      ./06_runPhylostratRb.R
+       while read line; do
+       # 3702 is taxid for our focal species A.thaliana.
+       # You can replace your own protein sequences for your focal species if protein downloaded from uniprot is not your desired version.
+           05_runBLASTp.sh ${line} 3702.faa;
+       done < uniprot_list.txt
+
+3. Process Blast output and stratify phylostrata level for each query gene:
+
+   .. code-block:: bash
+       :linenos:
+
+       ./06_runPhylostratRb.R
 
    *Note: Phylostratr will run protein blast automatically if it doesn't detect blast database and output files in working directory, so you can skip step2 to obtain blast output.   However, it may takes a long time depend on the number of species and the size of your query genes. You can also use* ``strata_diamond`` *instead of* ``strata`` *in* ``06_runPhylostratRb.R`` *, it will use Diamond Blast instead of Blast-plus. Diamond blast is much faster than Blast-plus, but may not sensitive as Blast-plus.*
 
