@@ -2,18 +2,18 @@
 *Ab initio* predictions
 =========================
 
-**Pick one of the 2** *ab initio* **predictions below:**
+**Pick one of the 2** *ab initio* **prediction methods below:**
 
 **Run BRAKER**
 
 
-   - Align RNA-Seq with splice aware aligner (STAR or HiSat2 preferred, HiSat2 used here)
+   - Align RNA-Seq with splice aware aligner (STAR or HiSat2 preferred; HiSat2 used here)
    - Generate BAM file for each SRA-SRR id, merge them to generate a single sorted BAM file
    - Run BRAKER
 
 **Run MAKER**
 
-   - Align RNA-Seq with splice aware aligner (STAR or HiSat2 preferred, HiSat2 used here)
+   - Align RNA-Seq with splice aware aligner (STAR or HiSat2 preferred; HiSat2 used here)
    - Generate BAM file for each SRA-SRR id, merge them to generate a single sorted BAM file
    - Run Trinity to generate transcriptome assembly using the BAM file
    - Run TransDecoder on Trinity transcripts to predict ORFs and translate them to protein
