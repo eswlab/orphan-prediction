@@ -78,7 +78,7 @@ Merge the tsv files containing counts and TPM:
 
    03_joinr.sh *.tsv >> kallisto_out_tair10.txt
 
-*Note: For every SRR id, the file contains 3 columns,* ``effective length``*,* ``estimated counts`` *and* ``transcript per million``*.*
+*Note: For every SRR id, the file contains 3 columns,* ``effective length`` *,* ``estimated counts`` *and* ``transcript per million`` *.*
 
 Run phylostratr to infer phylostrata of genes, and identify orphan genes:
 ===========================================================================
@@ -108,7 +108,7 @@ Run phylostratr to infer phylostrata of genes, and identify orphan genes:
 
       ./06_runPhylostratRb.R
 
-   *Note: Phylostratr will run protein blast automatically if it doesn't detect blast database and output files in working directory, so you can skip step2 to obtain blast output.   However, it may takes a long time depend on the number of species and the size of your query genes. You can also use* ``strata_diamond`` *instead of* ``strata`` *in* ```06_runPhylostratRb.R`` *, it will use Diamond Blast instead of Blast-plus. Diamond blast is much faster than Blast-plus, but may not sensitive as Blast-plus.*
+   *Note: Phylostratr will run protein blast automatically if it doesn't detect blast database and output files in working directory, so you can skip step2 to obtain blast output.   However, it may takes a long time depend on the number of species and the size of your query genes. You can also use* ``strata_diamond`` *instead of* ``strata`` *in* ``06_runPhylostratRb.R`` *, it will use Diamond Blast instead of Blast-plus. Diamond blast is much faster than Blast-plus, but may not sensitive as Blast-plus.*
 
 Select Orphan-rich RNA-Seq data:
 =================================

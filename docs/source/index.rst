@@ -30,7 +30,7 @@ Overview
 Tutorial
 *********
 
-**See the detailed scripts `here`_.**
+**See the detailed scripts** `here`_ **.**
 
 Contents
 --------

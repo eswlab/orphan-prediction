@@ -2,12 +2,12 @@
 Direct Inference evidence-based predictions
 ======================================================================
 
-`See the scripts used for BRAKER here <https://github.com/eswlab/orphan-prediction/tree/master/scripts/DirectInf>`
+**See the scripts used for BRAKER `here`_.**
 
 
-**If you have difficulty to install any software for Direct inference prediction, we suggest you to download the singularity container for this step at [here](https://github.com/aseetharam/transcript-assemblers). This container includes all tools required to run the pipeline.**
+**If you have difficulty to install any software for Direct inference prediction, we suggest you to download the `singularity container`_ for this step. This container includes all tools required to run the pipeline.**
 
-To use the container, add `singularity run --cleanenv evidence.sif` before the tools in each script. For example:
+To use the container, add ``singularity run --cleanenv evidence.sif`` before the tools in each script. For example:
 
 .. code-block:: bash
     :linenos:
@@ -18,7 +18,6 @@ To use the container, add `singularity run --cleanenv evidence.sif` before the t
 Do RNA-Seq alignment by Hisat2
 -------------------------------
 
-
 .. code-block:: bash
     :linenos:
 
@@ -26,7 +25,7 @@ Do RNA-Seq alignment by Hisat2
 	  ./01_runHisat2.sh ${line} TAIR10_chr_all.fas;
     done < SRR_Acc_List.txt
 
-  *Note: Cufflinks and Class2 may takes a long time to process BAM file with deep depth region. Better to generate single bam file for each RNA-Seq data for next step.*
+*Note: Cufflinks and Class2 may takes a long time to process BAM file with deep depth region. Better to generate single bam file for each RNA-Seq data for next step.*
 
 Run Transcriptome assemblies using Class2, Cufflinks and Stringtie
 -------------------------------------------------------------------
@@ -127,3 +126,6 @@ Optional: Filter out transcripts whose predicted proteins mapped to transposon e
 
 
 *Note: `filter.pep.fa` is an output from previous step for removing redundant CDSs. You can also use all protein sequence if you don't want to remove redundant CDSs.*
+
+:: _here: https://github.com/eswlab/orphan-prediction/tree/master/scripts/DirectInf
+:: _singularity container: https://github.com/aseetharam/transcript-assemblers

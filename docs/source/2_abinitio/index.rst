@@ -2,7 +2,7 @@
 *Ab initio* predictions
 =========================
 
-**Pick one of the 2 *ab initio* predictions below:**
+**Pick one of the 2** *ab initio* **predictions below:**
 
 **Run BRAKER**
 
