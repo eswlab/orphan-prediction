@@ -2,7 +2,7 @@
 Find an Orphan-Enriched RNA-Seq dataset from NCBI-SRA
 ======================================================================
 
-`See the scripts used for BRAKER here <https://github.com/eswlab/orphan-prediction/tree/master/scripts/RNA-Seq_data_identification>`
+**See the scripts used for BRAKER `here`_.**
 
 
 Select RNA-Seq SRR ID from NCBI-SRA website for your desired species:
@@ -24,20 +24,20 @@ certain requirements. For example:
 Then export the results to “Run Selector” as follows:
 
 .. image:: ncbi-sra-1.png
-   :width: 100pt
+   :width: 500pt
 
 
 Clicking the “Accession List” allows you to download all the SRR IDs in
 a text file format.
 
 .. image:: ncbi-sra-2.png
-   :width: 100pt
+   :width: 500pt
 
 
 Download RNA-Seq raw reads:
 ===========================
 
-.. code:: bash
+.. code-block:: bash
     :linenos:
 
    while read line; do
@@ -52,7 +52,7 @@ stress response, flowering tissue, or SRRs with very deep coverage).*
 
 Download the CDS sequences for your organism, and build transcriptome for kallisto index:
 =========================================================================================
-.. code:: bash
+.. code-block:: bash
     :linenos:
 
    #CDS
@@ -63,7 +63,7 @@ Download the CDS sequences for your organism, and build transcriptome for kallis
 For each SRR ID, run the Kallisto qualitification:
 ==================================================
 
-.. code:: bash
+.. code-block:: bash
     :linenos:
 
    while read line; do
@@ -73,26 +73,26 @@ For each SRR ID, run the Kallisto qualitification:
 Merge the tsv files containing counts and TPM:
 ==============================================
 
-.. code:: bash
+.. code-block:: bash
     :linenos:
 
    03_joinr.sh *.tsv >> kallisto_out_tair10.txt
 
-*Note: For every SRR id, the file contains 3 columns, ``effective length``, ``estimated counts`` and ``transcript per million``.*
+*Note: For every SRR id, the file contains 3 columns,* ``effective length``*,* ``estimated counts`` *and* ``transcript per million``*.*
 
 Run phylostratr to infer phylostrata of genes, and identify orphan genes:
 ===========================================================================
 
    1. Build a phylogenic tree for your species, and download proteins sequences for target species:
 
-   .. code:: bash
+   .. code-block:: bash
        :linenos:
 
       ./04_runPhylostratRa.R
 
    2. Run Blast to compare query proteins and target proteins:
 
-   .. code:: bash
+   .. code-block:: bash
        :linenos:
 
       while read line; do
@@ -103,12 +103,12 @@ Run phylostratr to infer phylostrata of genes, and identify orphan genes:
 
    3. Process Blast output and stratify phylostrata level for each query gene:
 
-   .. code:: bash
+   .. code-block:: bash
        :linenos:
 
       ./06_runPhylostratRb.R
 
-   *Note: Phylostratr will run protein blast automatically if it doesn't detect blast database and output files in working directory, so you can skip step2 to obtain blast output.   However, it may takes a long time depend on the number of species and the size of your query genes. You can also use `strata_diamond` instead of `strata` in `06_runPhylostratRb.R`, it will use Diamond Blast instead of Blast-plus. Diamond blast is much faster than Blast-plus, but may not sensitive as Blast-plus.*
+   *Note: Phylostratr will run protein blast automatically if it doesn't detect blast database and output files in working directory, so you can skip step2 to obtain blast output.   However, it may takes a long time depend on the number of species and the size of your query genes. You can also use* ``strata_diamond`` *instead of* ``strata`` *in* ```06_runPhylostratRb.R`` *, it will use Diamond Blast instead of Blast-plus. Diamond blast is much faster than Blast-plus, but may not sensitive as Blast-plus.*
 
 Select Orphan-rich RNA-Seq data:
 =================================
@@ -120,5 +120,5 @@ Once the orphan (species-specific) genes are identified, count the total number 
 
 **Note: If you are relying solely on RNA-Seq that you generate yourself, best practice is to maximize representation of all genes by including conditions like reproductive tissues and stresses, in which orphan gene expression is high. You can skip this step if you have your own RNA-Seq dataset.**
 
-
+.. _here: https://github.com/eswlab/orphan-prediction/tree/master/scripts/RNA-Seq_data_identification
 .. _NCBI SRA: https://www.ncbi.nlm.nih.gov/sra

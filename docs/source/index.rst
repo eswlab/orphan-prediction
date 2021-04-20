@@ -26,6 +26,23 @@ Overview
 5. Evaluate your predictions
 
 
+*********
+Tutorial
+*********
+
+**See the detailed scripts `here`_.**
+
+Contents
+--------
+
+.. toctree::
+   :maxdepth: 2
+
+   1_find_RNA-Seq.rst
+   2_abinitio/index.rst
+   3_DirInf.rst
+   4_merge/index.rst
+   5_downstream.rst
 
 
 Tools used for prediction
@@ -54,6 +71,7 @@ Tool                          Purpose
 `GeneMark`_ (v. 4.83)         *Ab initio* Prediction
 ============================= ===========================
 
+.. _here: https://github.com/eswlab/orphan-prediction
 .. _SRA Tools: https://github.com/ncbi/sra-tools
 .. _Hisat2: https://daehwankimlab.github.io/hisat2/
 .. _STAR: https://github.com/alexdobin/STAR
@@ -72,21 +90,3 @@ Tool                          Purpose
 .. _Maker: http://www.yandell-lab.org/software/maker-p.html
 .. _GMAP-GSNAP: http://research-pub.gene.com/gmap/
 .. _GeneMark: http://exon.gatech.edu/GeneMark/
-
-*********
-Tutorial
-*********
-
-See the detailed  `scripts <https://github.com/eswlab/orphan-prediction>`_.
-
-Contents
---------
-
-.. toctree::
-   :maxdepth: 2
-
-   1_find_RNA-Seq.rst
-   2_abinitio/index.rst
-   3_DirInf.rst
-   4_merge/index.rst
-   5_downstream.rst
