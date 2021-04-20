@@ -5,6 +5,15 @@ Find an Orphan-Enriched RNA-Seq dataset from NCBI-SRA
 **See the detailed scripts** `here`_ **.**
 
 
+**Notes:** 
+
+**This step is optional, and applies to species with >40 available SRA RNA-Seq runs.  It is designed to provide a diverse dataset, rich in representation of all genes including orphan genes.**
+
+**If the species you are annotating has fewer than ~40 SRA RNA-Seq runs, download it all and go on to one of the ab initio prediction methods.**
+
+**If you are relying solely on RNA-Seq data that you generate yourself, *maximize* representation of genes by including diverse conditions like reproductive tissues, biotic and abiotic stresses, and a variety of other tissue and organ types.**
+
+
 Select RNA-Seq SRR ID from NCBI-SRA website for your desired species:
 -----------------------------------------------------------------------
 
@@ -44,10 +53,10 @@ Download RNA-Seq raw reads:
         ./01_runSRAdownload.sh ${line};
      done < SRR_Acc_List.txt
 
-*Note: depending on how much data you find, this can take a lot of time and resources (disk usage). You may need to narrow down and select only a subset of total datasets. One way to choose datasets with maximal orphan representation is to select SRRs most likely to be diverse (eg: stress response, flowering tissue, or SRRs with very deep coverage).*
+*Note: depending on how much data you find, this can take a lot of time and resources (disk usage). You may need to narrow down and select only a subset of total SRA runs. Another way to choose datasets with maximal orphan representation is to select SRRs most likely to be diverse (eg: stress response, flowering tissue, or SRRs with very deep coverage).*
 
 
-Download the CDS sequences for your organism, and build transcriptome for kallisto index:
+Download the CDS sequences for the organism you are annotating, and build transcriptome for kallisto index:
 ----------------------------------------------------------------------------------------------
 
 .. code-block:: bash
@@ -116,7 +125,7 @@ Once the orphan (species-specific) genes are identified, count the total number 
 *Note: for Arabidopsis thaliana, we used all of the SRRs that expressed over 60% of the orphan genes (=38 SSRs).*
 
 
-**Note: If you are relying solely on RNA-Seq that you generate yourself, best practice is to maximize representation of all genes by including conditions like reproductive tissues and stresses, in which orphan gene expression is high. You can skip this step if you have your own RNA-Seq dataset.**
+
 
 .. _here: https://github.com/eswlab/orphan-prediction/tree/master/scripts/RNA-Seq_data_identification
 .. _NCBI SRA: https://www.ncbi.nlm.nih.gov/sra
