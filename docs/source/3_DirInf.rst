@@ -2,8 +2,9 @@
 Direct Inference evidence-based predictions
 ======================================================================
 
-**See the scripts used for BRAKER** `here`_ **.**
+**See the scripts used for Direct Inference prediction** `here`_ **.**
 
+**We provide an** `automated pipeline`_ **using snakemaker and pyrpipe.**
 
 **If you have difficulty to install any software for Direct inference prediction, we suggest you to download the** `singularity container`_ **for this step. This container includes all tools required to run the pipeline.**
 
@@ -131,3 +132,4 @@ Optional: Filter out transcripts whose predicted proteins mapped to transposon e
 
 .. _here: https://github.com/eswlab/orphan-prediction/tree/master/scripts/DirectInf
 .. _singularity container: https://github.com/aseetharam/transcript-assemblers
+.. _automated pipeline: https://github.com/eswlab/orphan-prediction/tree/master/evidence_based_pipeline
