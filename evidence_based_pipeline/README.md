@@ -2,7 +2,7 @@
 
 This repository contains the evidence-based, Direct Inference pipeline for transcript assembly.
 The whole pipeline is fully automated and the user only needs to provide a list of NCBI-SRA Run Accessions.
-The pipeline directly infers genes from transcript evidence. (Neither ab initio preditions nor homology are incorporated.)
+The pipeline directly infers genes from transcript evidence. (Neither ab initio predictions nor homology information are incorporated.)
 The pipeline steps are:
 
 1. Download raw RNA-Seq data from NCBI-SRA
