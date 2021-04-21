@@ -40,7 +40,7 @@ Contents
 
    1_find_RNA-Seq.rst
    2_abinitio/index.rst
-   3_DirInf/index.rst
+   DirInf/index.rst
    4_merge/index.rst
    5_downstream.rst
 
