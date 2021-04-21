@@ -1,14 +1,16 @@
 # Introduction
 
-This repository contains the evidence-based, Direct Inference pipeline for transcript assembly.
+This repository contains the **evidence-based**, Direct Inference pipeline for transcript assembly.
 The whole pipeline is fully automated and the user only needs to provide a list of NCBI-SRA Run Accessions.
-The pipeline directly infers genes from transcript evidence. (Neither ab initio predictions nor homology information are incorporated.)
+The pipeline directly infers genes from RNA-Seq evidence. (Neither ab initio predictions nor homology information are considered.) The pipeline can be fexibly modified and shared.
+
 The pipeline steps are:
 
-1. Download raw RNA-Seq data from NCBI-SRA
+1. Download raw RNA-Seq data from NCBI-SRA by providing a list of NCBI-SRA Run Accessions.
 2. Perform transcript assembly using a choice of tools
 3. Obtain splice-junctions using portcullis
-4. Perform meta-assembly using mikado and use orfipy for identification of ORFs
+4. Perform meta-assembly using mikado 
+5. Use orfipy for identification of ORFs
 
 Steps 1 and 2 are implemented with [pyrpipe](https://github.com/urmi-21/pyrpipe). 
 The whole pipline is implemented in snakemake in order to be *parallelized over samples*.
@@ -24,7 +26,7 @@ Please follow this section to correctly setup an environment to execute the pipe
 
 ## Setting up conda
 
-1. The pipeline dependencies are available via the [bioconda]() channel. Please install [conda]() if not already present.
+1. The pipeline dependencies are available via the [bioconda]() channel. Please install [conda]() if not already present. 
 2. Make sure conda channels are set up correctly:
 
 ```
@@ -39,7 +41,7 @@ conda config --add channels conda-forge
 conda env create -f environment.yaml
 ``` 
 
-   _Note: Install portcullis seperately if you cannot install it successfully._
+   _Note: Install portcullis separately if you cannot install it successfully._
     
 ```
 conda install -c bioconda portcullis
@@ -48,14 +50,14 @@ conda install -c bioconda portcullis
 
 4. If using `class2` please execute the instructions in the `class2_instructions.sh` to setup `class2`
 
-5. Mikado and orfipy steps are executed in a separate conda environment. This conda environment file is located in the `envs/` directory.
+5. Mikado and orfipy steps are executed in a separate conda environment. This conda environment file is located in the `envs/` directory.  
 
 ## Setting up pipeline
 
 The main pipeline configuration file is `config.yaml`. Edit this file to change the pipeline behaviour such as reference genome, hisat2 index, output directoy, mikado and orfipy options.
 
-### Prepare Arabidopsis thaliana reference data
-If working with Arabidopsis thaliana, execute the script `prepare_data.sh` to download the reference genome and build a hisat2 index:
+### Prepare reference genome data
+**To test pipeline with* *Arabidopsis thaliana**, execute the script `prepare_data.sh` to download the reference genome and build a hisat2 index:
 
 ```
 conda activate orphan_prediction
@@ -64,7 +66,7 @@ bash prepare_data.sh
 
 Above command will create a directory, `reference_data`
 
-Alternatively, you can download genome of your choice and build a hisat2 index. You need to edit `config.yaml` to specify which genome and index to use.
+**To generate annotations on species of your choice.** Download the genome and build a hisat2 index. You need to edit `config.yaml` to specify which genome and index to use.
 
 ### Tool parameters
 Edit the files under `params` directory to specify tools parameters. These files are automatically parsed by `pyrpipe`.
