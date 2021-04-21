@@ -1,11 +1,13 @@
-======================================================================
+m======================================================================
 Direct Inference evidence-based predictions
 ======================================================================
 
-**We provide an** `automated pipeline`_ **using** `pyrpipe`_ **and** `snakemake`_. This pipeline could be easily configured and executed in an automated manner.
-This pipeline could be easily scaled on an HPC by executing multiple samples in parallel. We recommend using this implementation of the pipeline for best reproducible results.
+We provide an **`automated pipeline`_** using  **`pyrpipe`**. and **`snakemake`**. This pipeline can be easily configured and executed in an automated manner.  **HIGHLY RECOMMENDED**
+The automated pipeline can be easily scaled on an HPC by executing multiple samples in parallel. 
+We recommend using this implementation of the pipeline for best reproducible results.
 
-Running individual steps of the Direct Inference pipeline are explained below.
+
+The individual steps of the Direct Inference pipeline are explained below.
 
 **See the scripts used for Direct Inference prediction** `here`_ **.**
 
