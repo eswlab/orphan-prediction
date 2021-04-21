@@ -1,8 +1,14 @@
 BRAKER prediction
-===================
+==================
 
 **See the scripts used for BRAKER** `here`_ **.**
 
+- Input files for Braker
+
+  .. code-block:: yaml
+
+      RNA-Seq raw reads fastq files: *_1.fastq.gz, *_2.fastq.gz
+      reference genome fasta file: TAIR10_chr_all.fas
 
 
 - To simplify handling of files, combine all the forward reads to one file and all the reverse reads to another.

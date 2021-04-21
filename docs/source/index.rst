@@ -36,11 +36,11 @@ Contents
 --------
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    1_find_RNA-Seq.rst
    2_abinitio/index.rst
-   3_DirInf.rst
+   3_DirInf/index.rst
    4_merge/index.rst
    5_downstream.rst
 

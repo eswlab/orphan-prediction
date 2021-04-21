@@ -3,6 +3,15 @@ MAKER prediction
 
 **See the scripts used for MAKER** `here`_ **.**
 
+Input files for Maker
+------------------------
+
+.. code-block:: yaml
+
+    RNA-Seq raw reads fastq files: *_1.fastq.gz, *_2.fastq.gz
+    reference genome fasta file: TAIR10_chr_all.fas
+
+
 
 Merge RNA-Seq raw reads
 -----------------------
@@ -58,7 +67,7 @@ Run maker by five steps
 
        genome=TAIR10_chr_all.fas
        est=trinity.fasta
-       protein=trinity-swissprot-pep.fasta
+       protein=trinity.fasta.transdecoder.pep
        est2genome=1
        protein2genome=1
        TMP=/dev/shm

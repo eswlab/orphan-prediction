@@ -1,17 +1,14 @@
-m======================================================================
-Direct Inference evidence-based predictions
 ======================================================================
-
-We provide an **`automated pipeline`_** using  **`pyrpipe`**. and **`snakemake`**. This pipeline can be easily configured and executed in an automated manner.  **HIGHLY RECOMMENDED**
-The automated pipeline can be easily scaled on an HPC by executing multiple samples in parallel. 
-We recommend using this implementation of the pipeline for best reproducible results.
-
-
-The individual steps of the Direct Inference pipeline are explained below.
+Direct Inference predictions by steps
+======================================================================
 
 **See the scripts used for Direct Inference prediction** `here`_ **.**
 
-**For installation, we suggest that you to download the  ** `singularity container`_ ** . This container includes all tools required to run the pipeline.**
+
+Singularity container
+----------------------
+
+**For installation, we suggest that you to download the  ** `singularity container`_ **. This container includes all tools required to run the pipeline.**
 
 To use the container, add ``singularity run --cleanenv evidence.sif`` before the tools in each script. For example:
 
@@ -19,6 +16,16 @@ To use the container, add ``singularity run --cleanenv evidence.sif`` before the
     :linenos:
 
     singularity run --cleanenv evidence.sif hisat2
+
+
+Input files for DirectInf
+--------------------------
+
+.. code-block:: yaml
+
+    RNA-Seq raw reads fastq files: *_1.fastq.gz, *_2.fastq.gz
+    reference genome fasta file: TAIR10_chr_all.fas
+    list of input prediction: list.txt
 
 
 Do RNA-Seq alignment by Hisat2
@@ -137,6 +144,3 @@ Optional: Filter out transcripts whose predicted proteins mapped to transposon e
 
 .. _here: https://github.com/eswlab/orphan-prediction/tree/master/scripts/DirectInf
 .. _singularity container: https://github.com/aseetharam/transcript-assemblers
-.. _automated pipeline: https://github.com/eswlab/orphan-prediction/tree/master/evidence_based_pipeline
-.. _pyrpipe: https://github.com/urmi-21/pyrpipe
-.. _snakemake: https://snakemake.github.io/

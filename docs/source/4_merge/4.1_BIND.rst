@@ -7,6 +7,18 @@ Merge gene predictions of **B** RAKER (``braker-final.gff3``) with gene predicti
 
 *Note: See the details to generate these two predictions in* ``braker`` *and* ``DirectInf`` *.*
 
+Input files for BIND
+------------------------
+    
+.. code-block:: yaml
+
+    BRAKER prediction: braker-final.gff3
+    Direct Inference prediction: DI-final.gff3
+    reference genome fasta file: TAIR10_chr_all.fas
+    splice junction file: junctions.bed # from DirectInf step
+    list of input prediction: list_BIND.txt
+
+
 Consolidate all the transcripts from BRAKER and DirInf, and predict potential protein coding sequence
 ------------------------------------------------------------------------------------------------------
 
