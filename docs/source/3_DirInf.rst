@@ -11,7 +11,7 @@ The individual steps of the Direct Inference pipeline are explained below.
 
 **See the scripts used for Direct Inference prediction** `here`_ **.**
 
-**If you have difficulty to install any software for Direct inference prediction, we suggest you to download the** `singularity container`_ **for this step. This container includes all tools required to run the pipeline.**
+**For installation, we suggest that you to download the  ** `singularity container`_ ** . This container includes all tools required to run the pipeline.**
 
 To use the container, add ``singularity run --cleanenv evidence.sif`` before the tools in each script. For example:
 
