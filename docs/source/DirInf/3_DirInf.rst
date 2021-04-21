@@ -8,7 +8,7 @@ Direct Inference predictions by steps
 Singularity container
 ----------------------
 
-**For installation, we suggest that you to download the  ** `singularity container`_ **. This container includes all tools required to run the pipeline.**
+**For installation, we suggest that you to download the** `singularity container`_ **. This container includes all tools required to run the pipeline.**
 
 To use the container, add ``singularity run --cleanenv evidence.sif`` before the tools in each script. For example:
 
