@@ -9,7 +9,7 @@ Evaluate predictions
 
 | 2. Run ``OrthoFinder`` to find and annotate orthologs present in your predictions.
 
-| 3. Run ``phylostratR`` to infer the phylostratra of the genes in your predictions. More information at: https://doi.org/10.1093/bioinformatics/btz171
+| 3. Run ``phylostratR`` to infer the phylostratra of the genes in your predictions.  [For theory and details, see: https://doi.org/10.1093/bioinformatics/btz171]
 
 | 4. Add functional annotation to your genes using homology and ``InterProScan``.
 
