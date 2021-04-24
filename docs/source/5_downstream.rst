@@ -13,7 +13,7 @@ Evaluate predictions
 
 | 4. Add functional annotation to your genes using homology and ``InterProScan``.
 
-  5. Evaluate transcription evidence using Ribo-Seq data.
+5. Evaluate transcription evidence using Ribo-Seq data.
 
 
 .. _here: https://github.com/eswlab/orphan-prediction/tree/master/scripts/downstream
