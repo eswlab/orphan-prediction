@@ -1,4 +1,4 @@
-MAKER prediction
+MAKER predictions
 =================
 
 **See the scripts used for MAKER** `here`_ **.**
@@ -26,7 +26,7 @@ To simplify handling of files, combine all the forward reads to one file and all
 
 
 
-Run trinity to predict transcripts and their potential proteins
+Run trinity to predict transcripts and their inferred proteins
 ----------------------------------------------------------------
 
 
@@ -48,8 +48,8 @@ Run trinity to predict transcripts and their potential proteins
 
    *Note: You will get the protein sequence (* ``trinity.fasta.transdecoder.pep`` *) in working directory.*
 
-Run maker by five steps
-------------------------
+MAKER requires five (non-automated) steps
+-----------------------------------------
 
 1. Generate the CTL files:
 
