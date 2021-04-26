@@ -15,7 +15,7 @@ Downstream analysis for Evaluating predictions
 
 | 5. Run ``OrthoFinder`` to find and annotate orthologs present in your predictions
 
-| 6. Run ``phylostratR`` to find orphan genes in your predictions
+| 6. Run ``phylostratR`` to find orphan genes in your predictions [For theory and details, see: https://doi.org/10.1093/bioinformatics/btz171]
 
 | 7. You can also add functional annotation to your genes using homology and ``InterProScan`` (We didn't have this step in our paper).
 
