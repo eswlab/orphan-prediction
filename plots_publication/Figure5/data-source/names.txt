@@ -1,9 +1,0 @@
-ARAPORT	Araport11
-braker38-mikado38	BIND-orph
-brakerS	Brake-small
-brakerX	Brake-pool
-maker38-mikado38	MIND-orph
-makerC5	Make-pool+trans
-makerC6 Make-small+trans
-mikado38	DirInf-orph
-mikadoX	DirInf-pool

@@ -1,5 +1,0 @@
-Absent	brakerS	1790
-1-25	brakerS	287
-26-50	brakerS	1873
-51-75	brakerS	11517
-76-100	brakerS	32628

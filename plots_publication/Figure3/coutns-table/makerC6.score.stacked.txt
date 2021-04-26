@@ -1,5 +1,0 @@
-Absent	makerC6	5348
-1-25	makerC6	465
-26-50	makerC6	1683
-51-75	makerC6	4548
-76-100	makerC6	15362

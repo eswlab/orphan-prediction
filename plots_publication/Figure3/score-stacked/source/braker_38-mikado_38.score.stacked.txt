@@ -1,5 +1,0 @@
-Absent	braker_38-mikado_38	605
-1-25	braker_38-mikado_38	823
-26-50	braker_38-mikado_38	1961
-51-75	braker_38-mikado_38	6257
-76-100	braker_38-mikado_38	38449

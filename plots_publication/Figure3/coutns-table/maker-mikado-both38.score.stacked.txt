@@ -1,5 +1,0 @@
-Absent	maker-mikado-both38	579
-1-25	maker-mikado-both38	625
-26-50	maker-mikado-both38	1497
-51-75	maker-mikado-both38	3467
-76-100	maker-mikado-both38	21238

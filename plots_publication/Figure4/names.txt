@@ -1,8 +1,0 @@
-brakerS	Brake-small
-brakerX	Brake-large
-braker_38-mikado_38	BIND-orph
-makerC5	Make-pool+trans
-makerC6	Make-small+trans
-maker_38-mikado_38	MIND-orph
-mikado_38	DirInf-orph
-mikado_X	DirInf-pool

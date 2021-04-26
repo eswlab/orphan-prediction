@@ -1,5 +1,0 @@
-Absent	mikado_38	710
-1-25	mikado_38	702
-26-50	mikado_38	1729
-51-75	mikado_38	5354
-76-100	mikado_38	39600
