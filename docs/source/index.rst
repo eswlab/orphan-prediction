@@ -7,18 +7,18 @@ Introduction
 
 **MIND**: *ab initio* gene predictions by **M**\ AKER combined with gene
 predictions **IN**\ ferred **D**\ irectly from alignment of RNA-Seq
-evidence to the genome. 
+evidence to the genome.
 
 **BIND**: *ab initio* gene predictions by
 **B**\ RAKER combined with gene predictions **IN**\ ferred
 **D**\ irectly from alignment of RNA-Seq evidence to the genome.
 
 
-***Overview***
+**Overview**
 
-You will need an diverse, orphan-enriched RNA-Seq dataset from NCBI-SRA (as available) and the genome sequence of your species of interest.  
-Run an *ab initio* prediction either by BRAKER or by MAKER (we provide Singularity containers to facilitate installation of these pipelines).  
-Run the evidenced-based Direct Inference pipeine. Combine the *ab initio* predictions with the Direct Inference predictions using Mikado. Evaluate your predictions 
+You will need an diverse, orphan-enriched RNA-Seq dataset from NCBI-SRA (as available) and the genome sequence of your species of interest.
+Run an *ab initio* prediction either by BRAKER or by MAKER (we provide Singularity containers to facilitate installation of these pipelines).
+Run the evidenced-based Direct Inference pipeine. Combine the *ab initio* predictions with the Direct Inference predictions using Mikado. Evaluate your predictions
 
 
 *********

@@ -1,3 +1,5 @@
+See documentation here: [![Documentation Status](https://readthedocs.org/projects/orphan-prediction/badge/?version=latest)](https://orphan-prediction.readthedocs.io/en/latest/)
+
 # Run BRAKER
 
 

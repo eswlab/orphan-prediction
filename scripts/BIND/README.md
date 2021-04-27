@@ -1,3 +1,5 @@
+See documentation here: [![Documentation Status](https://readthedocs.org/projects/orphan-prediction/badge/?version=latest)](https://orphan-prediction.readthedocs.io/en/latest/)
+
 # BIND Prediction
 
 Merge gene predictions of **B**RAKER (`braker-final.gff3`) with gene predictions **IN**ferred **D**irectly (`DI-final.gff3`).

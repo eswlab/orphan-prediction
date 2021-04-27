@@ -1,6 +1,10 @@
-[![Documentation Status](https://readthedocs.org/projects/orphan-prediction/badge/?version=latest)](https://orphan-prediction.readthedocs.io/en/latest/)
+See documentation here: [![Documentation Status](https://readthedocs.org/projects/orphan-prediction/badge/?version=latest)](https://orphan-prediction.readthedocs.io/en/latest/)
 
-# Table of Contents
+# **Maximizing prediction of orphan genes in assembled genomes**
+
+
+
+## Table of Contents
 <!-- TOC depthFrom:1 depthTo:6 withLinks:1 updateOnSave:1 orderedList:0 -->
 
 - [Table of Contents](#table-of-contents)
@@ -14,12 +18,12 @@
 
 <!-- /TOC -->
 
-# Gene prediction and optimization using BIND and MIND workflows:
+## Gene prediction and optimization using BIND and MIND workflows:
 
 **MIND**: _ab initio_ gene predictions by **M**AKER combined with gene predictions **IN**ferred **D**irectly from alignment of RNA-Seq evidence to the genome.
 **BIND**: _ab initio_ gene predictions by **B**RAKER combined with gene predictions **IN**ferred **D**irectly from alignment of RNA-Seq evidence to the genome.
 
-## 1. Find an Orphan-Enriched RNA-Seq dataset from NCBI-SRA ([See details here](scripts/RNA-Seq_prepare)):
+### 1. Find an Orphan-Enriched RNA-Seq dataset from NCBI-SRA ([See details here](scripts/RNA-Seq_prepare)):
    - Search RNA-Seq datasets for your organism on NCBI, filter Runs (SRR) for Illumina, paired-end, HiSeq 2500 or newer.
    - Download Runs from NCBI (SRA-toolkit)
    - If existing annotations is available, expression quantification is done against every gene using every SRR with Kallisto.
@@ -28,13 +32,13 @@
 
    _Note: If NCBI-SRA has no samples for your organism, and you are relying solely on RNA-Seq that you generate yourself, best practice is to maximize representation of all genes by including conditions like reproductive tissues and stresses in which orphan gene expression is high._
 
-## 2. _Ab initio_ gene prediction:
+### 2. _Ab initio_ gene prediction:
 
    _Pick one of the 2 _ab initio_ predictions below:_
 
    1. Run BRAKER ([See details here](scripts/braker)):
-   
-      - Align RNA-Seq with splice aware aligner (STAR or HiSat2 preferred, HiSat2 used here) 
+
+      - Align RNA-Seq with splice aware aligner (STAR or HiSat2 preferred, HiSat2 used here)
       - Generate BAM file for each SRA-SRR id, merge them to generate a single sorted BAM file
       - Run BRAKER
 
@@ -47,10 +51,10 @@
       - Use the MAKER predictions to train SNAP and AUGUSTUS. Self-train GeneMark
       - Run second round of MAKER with the above (SNAP, AUGUSTUS, and GeneMark) ab initio predictions plus the results from previous MAKER rounds.
 
-## 3. Direct Inference evidence-based predictions ([See details here](scripts/DirectInf)):
+### 3. Direct Inference evidence-based predictions ([See details here](scripts/DirectInf)):
 
    ### We provide an automated pipeline for evidence-based predictions ([See details here](evidence_based_pipeline))
-   
+
    - Align RNA-Seq with splice aware aligner (STAR or HiSat2 preferred, HiSat2 used here)
    - Generate BAM file for each SRA-SRR id
    - For each BAM file, use multiple transcript assemblers for genome guided transcript assembly:
@@ -61,23 +65,23 @@
    - Consolidate transcripts and generate a non-redundant set of transcripts using Mikado.
    - Predict ORFs on these consolidated transcripts using TransDecoder
    - Pick best transcripts using all the above information with Miakdo Pick.
-   
 
-## 4. Combine _ab initio_ and Direct Inference evidence-based predictions:
-   
+
+### 4. Combine _ab initio_ and Direct Inference evidence-based predictions:
+
    _If you ran BRAKER in step 2, run 4.1_
 
    1. Merge BRAKER with Direct Inference (BIND) ([See details here](scripts/BIND)):
-   
+
    - Use Mikado to combine BRAKER-generated predictions with Direct Inference evidence-based predictions.
 
    _If you ran MAKER in step 2, run 4.2_
 
    2. Merge MAKER with Direct Inference (MIND) ([See details here](scripts/MIND)):
-	
+
    - Use Mikado to combine MAKER-generated predictions with Direct Inference evidence-based predictions.
 
-## 5. Evaluate your predictions ([See details here](scripts/downstream)):
+### 5. Evaluate your predictions ([See details here](scripts/downstream)):
 
    - Run `BUSCO` to see how well the conserved genes are represented in your final predictions
    - Run `OrthoFinder` to find and annotate orthologs present in your predictions
@@ -85,7 +89,7 @@
    - Add functional annotation to your genes using homology and `InterProScan`
 
 
-## Prediction tools include:
+### Prediction tools include:
 
 | Tool                                                                                 | Purpose             |
 |--------------------------------------------------------------------------------------|---------------------|
@@ -107,4 +111,3 @@
 | [Maker](http://www.yandell-lab.org/software/maker-p.html) (v. 2.31.10)                                    | _Ab initio_ prediction               |
 | [GMAP-GSNAP](http://research-pub.gene.com/gmap/) (v. 2019-05-12)                                    | Alignment               |
 | [GeneMark](http://exon.gatech.edu/GeneMark/) (v. 4.83)                                    | _Ab initio_ Prediction               |
-
