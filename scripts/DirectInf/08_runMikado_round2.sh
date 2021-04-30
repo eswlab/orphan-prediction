@@ -19,7 +19,7 @@ mikado serialise \
 # Pick
 # The final gene model is ${prefix}.loci.gff3
 mikado pick \
-   --loci_out ${prefix}.loci.gff3
+   --loci_out ${prefix}.loci.gff3 \
    --start-method spawn \
    --procs 28 \
    --json-conf configuration.yaml \
