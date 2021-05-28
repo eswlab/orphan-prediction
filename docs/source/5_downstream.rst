@@ -1,5 +1,5 @@
 ===============================================================
-Downstream analysis for Evaluating predictions
+Downstream analysis to evaluate and annnotate gene predictions
 ===============================================================
 
 

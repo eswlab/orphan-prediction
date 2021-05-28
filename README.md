@@ -1,4 +1,4 @@
-See documentation here: [![Documentation Status](https://readthedocs.org/projects/orphan-prediction/badge/?version=latest)](https://orphan-prediction.readthedocs.io/en/latest/)
+**See overview and documentation:** [![Documentation Status](https://readthedocs.org/projects/orphan-prediction/badge/?version=latest)](https://orphan-prediction.readthedocs.io/en/latest/)
 
 # **Maximizing prediction of orphan genes in assembled genomes**
 
@@ -23,7 +23,7 @@ See documentation here: [![Documentation Status](https://readthedocs.org/project
 **MIND**: _ab initio_ gene predictions by **M**AKER combined with gene predictions **IN**ferred **D**irectly from alignment of RNA-Seq evidence to the genome.
 **BIND**: _ab initio_ gene predictions by **B**RAKER combined with gene predictions **IN**ferred **D**irectly from alignment of RNA-Seq evidence to the genome.
 
-### 1. Find an Orphan-Enriched RNA-Seq dataset from NCBI-SRA ([See details here](scripts/RNA-Seq_prepare)):
+### 1. Find an Orphan-Enriched RNA-Seq dataset from NCBI-SRA ([See details here](scripts/RNA-Seq_data_identification)):
    - Search RNA-Seq datasets for your organism on NCBI, filter Runs (SRR) for Illumina, paired-end, HiSeq 2500 or newer.
    - Download Runs from NCBI (SRA-toolkit)
    - If existing annotations is available, expression quantification is done against every gene using every SRR with Kallisto.
