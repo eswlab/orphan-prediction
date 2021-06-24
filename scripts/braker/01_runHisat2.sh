@@ -17,4 +17,4 @@ hisat2 -p 16 -x ${GENOME%.*} -1 ${R1} -2 ${R2} > ${GENOME%.*}_rnaseq.sam
 
 # Convert sam to bam, and sort bam file.
 samtools view --threads 16 -b -o ${GENOME%.*}_rnaseq.bam ${GENOME%.*}_rnaseq.sam
-samtools sort -m 5G -o ${BASE}_rnaseq_sorted.bam -T ${BASE}_temp --threads 16 ${BASE}_rnaseq.bam
+samtools sort -m 5G -o ${GENOME%.*}_rnaseq_sorted.bam -T ${GENOME%.*}_temp --threads 16 ${GENOME%.*}_rnaseq.bam
