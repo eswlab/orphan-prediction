@@ -24,7 +24,7 @@ Execute MAKER in a slurm file as shown [here](case1-maker.slurm).
 /work/GIF/software/programs/mpich2/3.2/bin/mpiexec -n 64 /work/GIF/software/programs/maker/2.31.9/bin/maker -base case1 -fix_nucleotides
 ```
 
-Upon completion, train SNAP, AUGUSUTS and Pre-trained GeneMark to run the second round using [script](../scripts/maker_process.sh)
+Upon completion, train SNAP, AUGUSUTS and Pre-trained GeneMark to run the second round using [script](../../scripts/maker/04_maker_process.sh)
 
 
 Once compelte, second round MAKER is run by modifying these lines in `maker_opts.ctl` file:
@@ -43,6 +43,6 @@ and run MAKER as:
 /work/GIF/software/programs/mpich2/3.2/bin/mpiexec -n 64 /work/GIF/software/programs/maker/2.31.9/bin/maker -base case1 -fix_nucleotides
 ```
 
-finalize perdictions using [`maker_finalize.sh`](../scripts/maker_finalize.sh) script.
+finalize perdictions using [`maker_finalize.sh`](../../scripts/maker/06_maker_finalize.sh) script.
 
 
