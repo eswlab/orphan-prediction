@@ -1,4 +1,4 @@
-# Braker for "large" dataset
+# Braker for "typical" dataset
 
 
 Forward reads is named `forward_reads.fq.gz` and it is single end dataset. The `runBraker.sh` script is run providing reads and genome as arguments
