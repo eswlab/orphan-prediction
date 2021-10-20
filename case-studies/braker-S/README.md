@@ -1,12 +1,22 @@
-# Braker for "typical" dataset
+# BRAKER for "typical" dataset
 
+- Download RNA-Seq raw reads:
+```bash
+while read line; do
+	01_runSRAdownload.sh $line;
+done<SRR_Acc_List.txt
+```
 
-Forward reads is named `forward_reads.fq.gz` and it is single end dataset. The `runBraker.sh` script is run providing reads and genome as arguments
+- To simplify handling of files, combine all the forward reads to one file and all the reverse reads to another.
+```bash
+cat *_1.fastq.gz >> forward_reads.fq.gz
+cat *_2.fastq.gz >> reverse_reads.fq.gz
+```
 
+- Run BRAKER:
 ```bash
 runBrakerS.sh forward_reads.fq.gz TAIR10_chr_all.fas
 ```
-
 
 where the runBraker.sh script is:
 
