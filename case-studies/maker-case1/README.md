@@ -6,17 +6,16 @@ while read line; do
 	01_runSRAdownload.sh $line;
 done<SRR_Acc_List.txt
 ```
-- To simplify handling of files, combine all the forward reads to one file and all the reverse reads to another.
+- To simplify handling of files, combine all the forward reads to one file.
 ```bash
-cat *_1.fastq.gz >> forward_reads.fq.gz
-cat *_2.fastq.gz >> reverse_reads.fq.gz
+cat *.fastq.gz >> forward_reads.fq.gz
 ```
 
 - Run trinity to predict transcripts and their potential proteins from RNA-Seq alignment:
 
   1. Run trinity for _de novo_ transcriptome assembly:
      ```bash
-     ./01_runTrinity.sh forward_reads.fq.gz reverse_reads.fq.gz
+     ./runTrinity.sh forward_reads.fq.gz 
      ```
      _Note: You will get the transcripts fasta file in trinity_run folder._
 
