@@ -9,8 +9,7 @@ done<SRR_Acc_List.txt
 
 - To simplify handling of files, combine all the forward reads to one file and all the reverse reads to another.
 ```bash
-cat *_1.fastq.gz >> forward_reads.fq.gz
-cat *_2.fastq.gz >> reverse_reads.fq.gz
+cat *.fastq.gz >> forward_reads.fq.gz
 ```
 
 - Run BRAKER:
