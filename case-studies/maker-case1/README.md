@@ -1,5 +1,32 @@
 # Running MAKER
 
+- Download RNA-Seq raw reads:
+```bash
+while read line; do
+	01_runSRAdownload.sh $line;
+done<SRR_Acc_List.txt
+```
+- To simplify handling of files, combine all the forward reads to one file and all the reverse reads to another.
+```bash
+cat *_1.fastq.gz >> forward_reads.fq.gz
+cat *_2.fastq.gz >> reverse_reads.fq.gz
+```
+
+- Run trinity to predict transcripts and their potential proteins from RNA-Seq alignment:
+
+  1. Run trinity for _de novo_ transcriptome assembly:
+     ```bash
+     ./01_runTrinity.sh forward_reads.fq.gz reverse_reads.fq.gz
+     ```
+     _Note: You will get the transcripts fasta file in trinity_run folder._
+
+  2. Predict CDSs from transcriptome:
+     ```bash
+     ./02_runTransDecoder.sh trinity.fasta
+     ```
+     _Note: You will get the protein sequence (trinity.fasta.transdecoder.pep) in working directory._
+     
+- Run maker step by step:
 
 Generate the CTL files:
 
@@ -13,7 +40,8 @@ Edit them to make changes. For the first round, change these lines in `maker_opt
 
 ```
 genome=TAIR10_chr_all.fas #genome sequence (fasta file or fasta embeded in GFF3 file)
-est=pooled_dataset_trinity.fasta
+est=trinity.fasta
+protein=trinity.fasta.transdecoder.pep
 est2genome=1 #infer gene predictions directly from ESTs, 1 = yes, 0 = no
 TMP=/dev/shm #specify a directory other than the system default temporary directory for temporary files
 ```
