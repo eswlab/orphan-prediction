@@ -1,4 +1,4 @@
-# Running MAKER
+# MAKER for "Typical" dataset
 
 - Download RNA-Seq raw reads:
 ```bash
