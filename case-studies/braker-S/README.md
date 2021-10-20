@@ -7,7 +7,7 @@ while read line; do
 done<SRR_Acc_List.txt
 ```
 
-- To simplify handling of files, combine all the forward reads to one file and all the reverse reads to another.
+- To simplify handling of files, combine all the forward reads to one file.
 ```bash
 cat *.fastq.gz >> forward_reads.fq.gz
 ```
