@@ -1,4 +1,4 @@
-# BRAKER for "typical" dataset
+# BRAKER for "Typical" dataset
 
 - Download RNA-Seq raw reads:
 ```bash
