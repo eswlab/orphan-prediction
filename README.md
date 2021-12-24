@@ -1,6 +1,6 @@
-**See overview and documentation:** [![Documentation Status](https://readthedocs.org/projects/orphan-prediction/badge/?version=latest)](https://orphan-prediction.readthedocs.io/en/latest/)
+**See overview and documentation:** [![Documentation Status](https://readthedocs.org/projects/orphan-prediction/badge/?version=latest)](https://orphan-prediction.readthedocs.io/en/latest/) [![publication](https://img.shields.io/badge/publication-NAR-blue)](https://doi.org/10.1093/nar/gkab1238)
 
-# **Maximizing prediction of orphan genes in assembled genomes**
+# **Enhanced prediction of orphan genes in assembled genomes**
 
 
 
